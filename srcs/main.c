@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/20 18:52:13 by hberger          ###   ########.fr       */
+/*   Updated: 2019/11/21 00:34:35 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ t_vector3 compute_ray(const t_data *data, const int x, const int y)
     return (ray_vector);
 }
 
+
+// TODO : APPROFONDIR CE LIEN : https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-generating-camera-rays/generating-camera-rays
 
 int main(int ac, char **av)
 {

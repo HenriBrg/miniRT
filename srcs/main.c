@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/20 14:49:04 by hberger          ###   ########.fr       */
+/*   Updated: 2019/11/20 18:52:13 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int init(t_data *tab)
 		while (j < 100)
 		{
 			pixtab[j * 4] = c[0]; //blue
-			pixtab[1 + j * 4] = c[3];//green
+			pixtab[1 + j * 4] = c[3]; //green
 			pixtab[2 + j * 4] = c[2]; //red
 			j++;
 		}
@@ -109,6 +109,23 @@ int	raytrace(t_data *tab)
 	return (0);
 }
 
+t_vector3 compute_ray(const t_data *data, const int x, const int y)
+{
+    double angle_h;
+    double angle_v;
+    t_vector3 ray_vector;
+
+    angle_h = (1 - x / (data->res.x / 2)) * data->cameras->fov;
+    angle_v = (1 - y / (data->res.y / 2)) * 40;
+    ray_vector.x = data->cameras->vector.x * cos(angle_h) + data->cameras->vector.z * sin(angle_h);
+    ray_vector.y = data->cameras->vector.y;
+    ray_vector.z = -data->cameras->vector.x * sin(angle_h) + data->cameras->vector.z * cos(angle_h);
+    ray_vector.y = ray_vector.y * cos(angle_v) - ray_vector.z * sin(angle_v);
+    ray_vector.z = ray_vector.y * sin(angle_v) + ray_vector.z * cos(angle_v);
+    return (ray_vector);
+}
+
+
 int main(int ac, char **av)
 {
 	t_data *tab;
@@ -122,6 +139,10 @@ int main(int ac, char **av)
 		return (-1);
 	tab->res->x = 1000;
 	tab->res->y = 1000;
+	tab->cameras->vector.x = 0.5;
+	tab->cameras->vector.y = 0.5;
+	tab->cameras->vector.y = 0.5;
+
 	init(tab);
     return (0);
 }

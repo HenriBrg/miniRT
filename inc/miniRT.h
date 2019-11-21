@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/11/20 14:36:28 by hberger          ###   ########.fr       */
+/*   Updated: 2019/11/21 16:38:34 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 
 typedef struct	s_resolution
 {
-	int			x;
-	int 		y;
+	int			width;
+	int 		height;
 }				t_resolution;
 
 typedef struct	s_vector3
@@ -101,8 +101,8 @@ typedef struct	s_data
 	int				endian;
 	char 			*pixtab;
 
-	t_resolution	*res;
-	t_ambiant_light	*amb;
+	t_resolution	res;
+	t_ambiant_light	amb;
 	t_light			*lights;
 	t_camera		*cameras;
 	t_sphere		*spheres;

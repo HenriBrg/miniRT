@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/11/21 16:38:34 by hberger          ###   ########.fr       */
+/*   Updated: 2019/11/22 23:54:58 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,13 @@ typedef struct	s_data
 	t_triangle		*triangles;
 }				t_data;
 
+double		veclen(t_vector3 vec);
+double		rad(double degree);
+double		dot(t_vector3 vec1, t_vector3 vec2);
+
+t_vector3	newvec(double x, double y, double z);
+t_vector3	norm(t_vector3 vec);
+t_vector3	multvec(t_vector3 vec1, t_vector3 vec2);
+t_vector3	subvec(t_vector3 vec1, t_vector3 vec2);
 
 # endif

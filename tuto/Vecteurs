@@ -1,0 +1,31 @@
+
+-------------------------------- Trigonométrie ---------------------------------
+
+x = abscisse
+y = ordonnée
+z = côté (aussi appelé longueur ou distance non ?)
+
+Addition :
+
+Soustraction :
+
+Multiplication :
+
+Division :
+
+Longueur :
+
+Normalisation :
+	Avec la normalisation d'un vecteur, on se déplace toujours de 1.
+	Si on défini 1 comme étant 1 mètre, alors vous êtes sûrs qu'en additionnant
+	un vecteur normalisé à un point celui-ci se déplacera d'un mètre dans la
+	direction indiquée par le vecteur.
+
+Radian :
+	C'est une nouvelle mesure d'angle. 1 radian = 180 degré
+	Il permet d'exprimer la valeur d'un angle dans le range [0;2]
+	2 valant 360°
+
+Cosinus d'un angle :
+
+Sinus d'un angle :

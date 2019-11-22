@@ -6,13 +6,13 @@
 #    By: henri <henri@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/28 00:56:29 by henri             #+#    #+#              #
-#    Updated: 2019/11/20 14:40:10 by hberger          ###   ########.fr        #
+#    Updated: 2019/11/22 17:53:07 by henri            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
 
-SRCS = srcs/main.c
+SRCS = srcs/main.c srcs/vec.c
 
 OBJS = ${SRCS:.c=.o}
 

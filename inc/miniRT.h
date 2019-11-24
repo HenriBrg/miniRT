@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/11/22 23:54:58 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/23 15:13:22 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ typedef struct	s_camera
 
 typedef struct	s_phere
 {
-	t_vector3	centre;
-	double		diametre;
+	t_vector3	center;
+	double		diameter;
 	int			colour;
 }				t_sphere;
 

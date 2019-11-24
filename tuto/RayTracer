@@ -1,0 +1,5 @@
+Soit "0" les coordonnées de la caméra
+Soit "t" le nombre de période
+Soit "D" le vecteur d'orientation normalisé du rayon
+
+Alors, un rayon peut s'exprimer par l'équation : R = O + Dt

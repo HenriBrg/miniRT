@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/23 00:26:51 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/24 01:18:23 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,19 @@ static int init(t_data *data)
 }
 */
 
+
+/*
+** 1) On détermine les angles par rapport au vecteur de direction de la camera
+**	  qui pointe par défaut au centre du plan
+**    Un angle H de -20 signifie que par rapport au du "X" vecteur de direction
+**	  de la camera, on élargit de 20° à gauche
+**    Un angle V de -20 signifie que par rapport au "Y" vecteur de direction
+** 	  de la camera, on descend de 20° en bas
+
+** 2) ... après c'est complexe
+** printf("Angle H = %lf et Angle V = %lf\n", h, v);
+*/
+
 t_vector3	getray(t_data *data, t_camera *cam, double x, double y)
 {
 	double		h;
@@ -76,9 +89,9 @@ t_vector3	getray(t_data *data, t_camera *cam, double x, double y)
 	double		tmp;
 	t_vector3	ray;
 
-	h = (1.0 - x / (((double)data->res.width - 1.0) /  2.0)) * cam->fov / 2.0;
-	v = (1.0 - y / (((double)data->res.height - 1.0) / 2.0)) * cam->fov / 2.0 * ((double)data->res.height / (double)data->res.width);
-	// printf("Angle H = %lf et Angle V = %lf\n", h, v);
+	h = (1.0 - x / ((data->res.width - 1.0) /  2.0)) * cam->fov / 2.0;
+	v = (1.0 - y / ((data->res.height - 1.0) / 2.0)) * cam->fov / 2.0 *
+		(data->res.height / data->res.width);
 	tmp = cam->vector.x;
 	ray.x = tmp * cos(rad(h)) + cam->vector.z * sin(rad(h));
 	ray.y = cam->vector.y;
@@ -88,35 +101,6 @@ t_vector3	getray(t_data *data, t_camera *cam, double x, double y)
 	ray.y = tmp * sin(rad(v)) + ray.y * cos(rad(v));
 	return (norm(ray));
 }
-
-/*
-t_vector3 compute_ray(const t_data *data, const double x, const double y)
-{
-	double angle_h;
-	double angle_v;
-	t_vector3 ray;
-	double temp;
-
-	//printf("After Y axis rotation initia is      |%10.7g|%10.7g|%10.7g|\n", data->cameras->vector.x, data->cameras->vector.y, data->cameras->vector.z);
-	angle_h = (1.0 - x / (((double)data->res.x - 1.0)/ 2.0)) * data->cameras->fov / 2.0;
-	//printf("\nangle is %8.5g ", angle_h);
-	angle_v = (1.0 - y / (((double)data->res.y - 1.0)/ 2.0)) * data->cameras->fov / 2.0 * ((double)data->res.y /(double)data->res.x);
-	temp = data->cameras->vector.x;
-	ray.x = temp * cos(to_rad(angle_h)) + data->cameras->vector.z * sin(to_rad(angle_h));
-	ray.y = data->cameras->vector.y;
-	ray.z = -temp * sin(to_rad(angle_h)) + data->cameras->vector.z * cos(to_rad(angle_h));
-	//printf("x rot for %3g;%3g is |%10.7g|%10.7g|%10.7g|\n", x, y, ray.x, ray.y, ray.z);
-	// temp = ray.y;
-	// ray.y = ray.y * cos(to_rad(angle_v)) - ray.z * sin(to_rad(angle_v));
-	// ray.z = temp * sin(to_rad(angle_v)) + ray.z * cos(to_rad(angle_v));
-	temp = ray.x;
-	ray.x = ray.x * cos(to_rad(angle_v)) - ray.y * sin(to_rad(angle_v));
-	ray.y = temp * sin(to_rad(angle_v)) + ray.y * cos(to_rad(angle_v));
-	//printf("angle is %8.5g", angle_v);
-	//printf("y rot for %3g;%3g is |%10.7g,%10.7g,%10.7g|\n", x, y, ray.x, ray.y, ray.z);
-	return (normalise_vector(ray));
-}
-*/
 
 int	raytrace(t_data *data)
 {
@@ -132,17 +116,28 @@ int	raytrace(t_data *data)
 		y = -1;
 		while (++y < data->res.height)
 		{
-			// printf("--------------------------------------------------------\n");
-			// printf("Ray en X = %d et Y = %d\n", x, y);
-			ray = getray(data, data->cameras, x, y);
-			// printf("Ray --> (%lf, %lf, %lf)\n", ray.x, ray.y, ray.z);
-			// printf("--------------------------------------------------------\n");
-			// printf("\n\n");
-			i++;
+			if (x == 0 || y == 0)
+			{
+				ray = getray(data, data->cameras, x, y);
+
+				printf("--------------------------------------------------------\n");
+				printf("Ray en X = %d et Y = %d\n", x, y);
+				printf("Ray[%d] --> (%lf, %lf, %lf)\n", i, ray.x, ray.y, ray.z);
+				printf("--------------------------------------------------------\n");
+				printf("\n\n");
+				i++;
+
+			}
 		}
 	}
 	return (0);
 }
+
+int rgbtoi(int red, int green, int blue)
+{
+	return ((((red << 8) + green) << 8) + blue);
+}
+
 
 
 static int compute(t_data *data)
@@ -176,6 +171,12 @@ int main(int ac, char **av)
 	data->cameras->fov = 40;
 	data->cameras->pos = newvec(0, 5, 0);
 	data->cameras->vector = norm(newvec(1, 0, 0));
+
+	t_sphere *sphere;
+	sphere = malloc(sizeof(t_sphere));
+	sphere->center = newvec(10, 5, 3);
+	sphere->colour = rgbtoi(255, 255, 0);
+	sphere->diameter = 0.75;
 
 	compute(data);
     return (0);

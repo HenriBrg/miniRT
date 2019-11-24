@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/24 01:18:23 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/24 23:01:15 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,8 @@ static int init(t_data *data)
 **	  de la camera, on élargit de 20° à gauche
 **    Un angle V de -20 signifie que par rapport au "Y" vecteur de direction
 ** 	  de la camera, on descend de 20° en bas
-
-** 2) ... après c'est complexe
-** printf("Angle H = %lf et Angle V = %lf\n", h, v);
+**
+** 2) ... après faudrait quelques explications sur le combo cos & rad
 */
 
 t_vector3	getray(t_data *data, t_camera *cam, double x, double y)
@@ -99,6 +98,10 @@ t_vector3	getray(t_data *data, t_camera *cam, double x, double y)
 	tmp = ray.x;
 	ray.x = ray.x * cos(rad(v)) - ray.y * sin(rad(v));
 	ray.y = tmp * sin(rad(v)) + ray.y * cos(rad(v));
+	# if DEBUG == 1
+		printf("--------------------------------------------------------\n");
+		printf("Angle H = %lf et Angle V = %lf\n", h, v);
+	# endif
 	return (norm(ray));
 }
 
@@ -119,26 +122,18 @@ int	raytrace(t_data *data)
 			if (x == 0 || y == 0)
 			{
 				ray = getray(data, data->cameras, x, y);
-
-				printf("--------------------------------------------------------\n");
-				printf("Ray en X = %d et Y = %d\n", x, y);
-				printf("Ray[%d] --> (%lf, %lf, %lf)\n", i, ray.x, ray.y, ray.z);
-				printf("--------------------------------------------------------\n");
-				printf("\n\n");
-				i++;
-
+				# if DEBUG == 1
+					printf("Ray en X = %d et Y = %d\n", x, y);
+					printf("Ray[%d] --> (%lf, %lf, %lf)\n", i, ray.x, ray.y, ray.z);
+					printf("--------------------------------------------------------\n");
+					printf("\n\n");
+					i++;
+				#endif
 			}
 		}
 	}
 	return (0);
 }
-
-int rgbtoi(int red, int green, int blue)
-{
-	return ((((red << 8) + green) << 8) + blue);
-}
-
-
 
 static int compute(t_data *data)
 {

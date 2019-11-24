@@ -30,11 +30,28 @@ ________________________________________________________________________________
 Produit Scalaire :
 	Il permet de déterminer le caractère perpendiculaire de deux droites ou
 	d'une droite et d'un plan.
+
+	Il permet aussi de trouver l'angle entre deux vecteurs (mais comment
+	un tel angle est-il possible ? voir http://spiff.rit.edu/classes/phys311.old/lectures/dot/dot.html)
+
 	Le produit scalaire est le produit de deux vecteurs entre eux.
+
 	Le produit scalaire permet de calculer des équations de droites, de plans,
 	de définir l'orthogonalité de vecteurs
 
+	Deux vecteurs sont orthogonaux si leur produit scalaire est nul.
 	To Check : https://www.cmath.fr/1ere/produitscalaire/cours.php
+
+	Bonne explication : http://spiff.rit.edu/classes/phys311.old/lectures/dot/dot.html
+
+
+
+	A RETENIR !
+	We also know that the dot (or scalar) product of a vector b →  and a → ,
+	corresponds to projecting b →  onto the line defined by the vector a → ,
+	and the result of this projection is the length of the segment AB as shown in figure 2
+	Concrètement sur une sphère : https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
+
 ________________________________________________________________________________
 
 Normalisation :

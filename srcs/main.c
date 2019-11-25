@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/25 13:57:46 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/25 17:40:30 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,11 @@ int	raytrace(t_data *data)
 		while (++y < data->res.height)
 		{
 			ray = getray(data, data->cameras, x, y);
-			// if (intersphere(data, data->cameras, ray) == 1)
-			// 	mlx_pixel_put(data->ptr, data->win, x, y, data->spheres->colour);
+			 if (intersphere(data, data->cameras, ray) == 1)
+			 	mlx_pixel_put(data->ptr, data->win, x, y, data->spheres->colour);
 			# if DEBUG == 1
-				if ((x == 0 && y == 0) || (x == 0 && y == data->res.height - 1) || (x == data->res.height - 1 && y == 0) || (x == data->res.width - 1 && y == data->res.height - 1))
+				if ((x == 0 && y == 0) || (x == 0 && y == data->res.height - 1) ||
+					(x == data->res.width - 1 && y == 0) || (x == data->res.width - 1 && y == data->res.height - 1))
 				{
 					printf("Ray en X = %d et Y = %d\n", x, y);
 					printf("Ray[%d] --> (%lf, %lf, %lf)\n", i, ray.x, ray.y, ray.z);
@@ -137,7 +138,6 @@ int	raytrace(t_data *data)
 	}
 	return (0);
 }
-
 
 static int compute(t_data *data)
 {
@@ -166,7 +166,7 @@ int main(int ac, char **av)
 	data->cameras = malloc(sizeof(t_camera));
 
 	data->res.width = 500;
-	data->res.height = 250;
+	data->res.height = 500;
 	data->cameras->fov = 40;
 	data->cameras->pos = newvec(0, 5, 0);
 	data->cameras->vector = norm(newvec(1, 0, 0));

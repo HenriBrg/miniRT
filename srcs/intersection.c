@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 23:01:44 by henri             #+#    #+#             */
-/*   Updated: 2019/11/25 13:34:59 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/25 17:40:15 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ int	intersphere(t_data *data, t_camera *cam, t_vector3 ray)
 
 	a = scalar(ray, ray);
 	b = 2 * scalar(ray, subvec(cam->pos, data->spheres->center));
-	c = scalar(cam->pos, cam->pos) - pow(data->spheres->radius, 2);
-
+	// Tutorial : c = scalar(cam->pos, cam->pos) - pow(data->spheres->radius, 2);
+	c = scalar(subvec(cam->pos, data->spheres->center), subvec(cam->pos, data->spheres->center))
+	- (data->spheres->radius * (data->spheres->radius / 4));
 	delta = pow(b, 2) - 4 * a * c;
 	if (delta < 0)
 		return (0);

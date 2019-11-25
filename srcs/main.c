@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/24 23:01:15 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/25 13:57:46 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,13 @@ t_vector3	getray(t_data *data, t_camera *cam, double x, double y)
 	tmp = ray.x;
 	ray.x = ray.x * cos(rad(v)) - ray.y * sin(rad(v));
 	ray.y = tmp * sin(rad(v)) + ray.y * cos(rad(v));
-	# if DEBUG == 1
-		printf("--------------------------------------------------------\n");
-		printf("Angle H = %lf et Angle V = %lf\n", h, v);
-	# endif
 	return (norm(ray));
 }
+
+/*
+** Un ray peut s'exprimer par la formule : OrigineCam + t*RayVector
+** avec t le nombre de période ray(t) = OrigineCam + t*RayVector
+*/
 
 int	raytrace(t_data *data)
 {
@@ -119,32 +120,35 @@ int	raytrace(t_data *data)
 		y = -1;
 		while (++y < data->res.height)
 		{
-			if (x == 0 || y == 0)
-			{
-				ray = getray(data, data->cameras, x, y);
-				# if DEBUG == 1
+			ray = getray(data, data->cameras, x, y);
+			// if (intersphere(data, data->cameras, ray) == 1)
+			// 	mlx_pixel_put(data->ptr, data->win, x, y, data->spheres->colour);
+			# if DEBUG == 1
+				if ((x == 0 && y == 0) || (x == 0 && y == data->res.height - 1) || (x == data->res.height - 1 && y == 0) || (x == data->res.width - 1 && y == data->res.height - 1))
+				{
 					printf("Ray en X = %d et Y = %d\n", x, y);
 					printf("Ray[%d] --> (%lf, %lf, %lf)\n", i, ray.x, ray.y, ray.z);
 					printf("--------------------------------------------------------\n");
 					printf("\n\n");
 					i++;
-				#endif
-			}
+				}
+			#endif
 		}
 	}
 	return (0);
 }
 
+
 static int compute(t_data *data)
 {
 	data->ptr = mlx_init();
 	data->win = mlx_new_window(data->ptr, data->res.width, data->res.height, "RT");
-	data->img = mlx_new_image(data->ptr, data->res.width, data->res.height);
-	data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
+	// data->img = mlx_new_image(data->ptr, data->res.width, data->res.height);
+	// data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
 
 	raytrace(data);
 
-	mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
+	// mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
 	mlx_key_hook(data->win, 0, 0);
 	mlx_loop(data->ptr);
 	return (0);
@@ -161,8 +165,8 @@ int main(int ac, char **av)
 	data = malloc(sizeof(t_data));
 	data->cameras = malloc(sizeof(t_camera));
 
-	data->res.width = 10;
-	data->res.height = 10;
+	data->res.width = 500;
+	data->res.height = 250;
 	data->cameras->fov = 40;
 	data->cameras->pos = newvec(0, 5, 0);
 	data->cameras->vector = norm(newvec(1, 0, 0));
@@ -171,7 +175,8 @@ int main(int ac, char **av)
 	sphere = malloc(sizeof(t_sphere));
 	sphere->center = newvec(10, 5, 3);
 	sphere->colour = rgbtoi(255, 255, 0);
-	sphere->diameter = 0.75;
+	sphere->radius = 0.75;
+	data->spheres = sphere;
 
 	compute(data);
     return (0);

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 17:53:39 by henri             #+#    #+#             */
-/*   Updated: 2019/11/24 23:15:27 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/25 11:10:18 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_vector3 norm(t_vector3 vec)
 }
 
 /*
-** Multiplie deux vecteurs
+** Multiplie deux vecteurs et retourne un nouveau vecteur
 */
 
 t_vector3 multvec(t_vector3 vec1, t_vector3 vec2)
@@ -68,12 +68,16 @@ t_vector3 multvec(t_vector3 vec1, t_vector3 vec2)
 	return (new);
 }
 
-double dot(t_vector3 vec1, t_vector3 vec2)
-{
-	double dot;
+/*
+** Retourne le produit scalaire de deux vecteurs
+*/
 
-	dot = vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
-	return (dot);
+double scalar(t_vector3 vec1, t_vector3 vec2)
+{
+	double scalar;
+
+	scalar = vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
+	return (scalar);
 }
 
 t_vector3 subvec(t_vector3 vec1, t_vector3 vec2)

@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/11/24 23:00:07 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/25 12:13:22 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct	s_camera
 typedef struct	s_phere
 {
 	t_vector3	center;
-	double		diameter;
+	double		radius;
 	int			colour;
 }				t_sphere;
 
@@ -118,13 +118,14 @@ typedef struct	s_data
 
 double		veclen(t_vector3 vec);
 double		rad(double degree);
-double		dot(t_vector3 vec1, t_vector3 vec2);
+double		scalar(t_vector3 vec1, t_vector3 vec2);
 
 t_vector3	newvec(double x, double y, double z);
 t_vector3	norm(t_vector3 vec);
 t_vector3	multvec(t_vector3 vec1, t_vector3 vec2);
 t_vector3	subvec(t_vector3 vec1, t_vector3 vec2);
 
-int rgbtoi(int red, int green, int blue);
+int			rgbtoi(int red, int green, int blue);
+int			intersphere(t_data *data, t_camera *cam, t_vector3 ray);
 
 # endif

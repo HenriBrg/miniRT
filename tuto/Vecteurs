@@ -28,11 +28,17 @@ Longueur :
 ________________________________________________________________________________
 
 Produit Scalaire :
+
+	" I think of dot product as the "same-ness" of two vectors "
+
+	Ultimate answer : https://math.stackexchange.com/a/805962
+
+
 	Il permet de déterminer le caractère perpendiculaire de deux droites ou
 	d'une droite et d'un plan.
 
-	Il permet aussi de trouver l'angle entre deux vecteurs (mais comment
-	un tel angle est-il possible ? voir http://spiff.rit.edu/classes/phys311.old/lectures/dot/dot.html)
+	Il permet aussi de trouver l'angle entre deux vecteurs
+	http://spiff.rit.edu/classes/phys311.old/lectures/dot/dot.html)
 
 	Le produit scalaire est le produit de deux vecteurs entre eux.
 
@@ -43,8 +49,6 @@ Produit Scalaire :
 	To Check : https://www.cmath.fr/1ere/produitscalaire/cours.php
 
 	Bonne explication : http://spiff.rit.edu/classes/phys311.old/lectures/dot/dot.html
-
-
 
 	A RETENIR !
 	We also know that the dot (or scalar) product of a vector b →  and a → ,

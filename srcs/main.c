@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/25 17:40:30 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/26 17:47:59 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ static int init(t_data *data)
 **    Un angle V de -20 signifie que par rapport au "Y" vecteur de direction
 ** 	  de la camera, on descend de 20° en bas
 **
-** 2) ... après faudrait quelques explications sur le combo cos & rad
+**    Explication partielle ici :
+**	  https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Mog_rotacion_vector.jpg/263px-Mog_rotacion_vector.jpg
 */
 
 t_vector3	getray(t_data *data, t_camera *cam, double x, double y)
@@ -102,10 +103,35 @@ t_vector3	getray(t_data *data, t_camera *cam, double x, double y)
 }
 
 /*
+** Version 2 : https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-generating-camera-rays/generating-camera-rays
+** As you can see though in figure 2, the film or image plane is centred around the world's origin.
+** In other words, pixels located on the left of the image should have negative x-coordinates,
+** while those located on the right should have positive x-coordinates.
+*/
+
+t_vector3 newgetray(t_data *data, t_camera *cam, double x, double y)
+{
+	double xpix;
+	double ypix;
+	double ratio;
+	t_vector3 origin;
+	t_vector3 direction;
+
+	ratio = data->res.width / data->res.height;
+	xpix = (2 * ((x + 0.5) / data->res.width) - 1) * tan((cam->fov / 2) * (M_PI / 180)) * ratio;
+	xpix = (1 - 2 * (y + 0.5) / data->res.height) * tan((cam->fov / 2) * (M_PI / 180));
+
+	origin = newvec(0, 0, 0);
+	direction = newvec(0, 0, 0);
+
+	norm(ray);
+	return (ray);
+}
+
+/*
 ** Un ray peut s'exprimer par la formule : OrigineCam + t*RayVector
 ** avec t le nombre de période ray(t) = OrigineCam + t*RayVector
 */
-
 int	raytrace(t_data *data)
 {
 	int	x;
@@ -145,9 +171,7 @@ static int compute(t_data *data)
 	data->win = mlx_new_window(data->ptr, data->res.width, data->res.height, "RT");
 	// data->img = mlx_new_image(data->ptr, data->res.width, data->res.height);
 	// data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
-
 	raytrace(data);
-
 	// mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
 	mlx_key_hook(data->win, 0, 0);
 	mlx_loop(data->ptr);
@@ -164,6 +188,8 @@ int main(int ac, char **av)
 
 	data = malloc(sizeof(t_data));
 	data->cameras = malloc(sizeof(t_camera));
+
+	// SCREEN_WIDTH 10 ?
 
 	data->res.width = 500;
 	data->res.height = 500;

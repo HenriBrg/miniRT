@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/11/25 12:13:22 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/26 17:47:38 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ double		scalar(t_vector3 vec1, t_vector3 vec2);
 t_vector3	newvec(double x, double y, double z);
 t_vector3	norm(t_vector3 vec);
 t_vector3	multvec(t_vector3 vec1, t_vector3 vec2);
+t_vector3	crossvec(t_vector3 vec1, t_vector3 vec2);
 t_vector3	subvec(t_vector3 vec1, t_vector3 vec2);
 
 int			rgbtoi(int red, int green, int blue);

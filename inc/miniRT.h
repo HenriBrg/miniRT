@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/11/26 17:47:38 by hberger          ###   ########.fr       */
+/*   Updated: 2019/11/27 14:40:31 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@
 # ifndef DEBUG
 #	define DEBUG 0
 # endif
+
+# define SCREENSIZE 10
+# define RGBTOI(r, g, b) (((r << 8) + g) << 8) + b)
+# define RAD(degree)	(degree * M_PI / 180)
 
 typedef struct	s_resolution
 {
@@ -52,8 +56,11 @@ typedef struct	s_light
 typedef struct	s_camera
 {
 	t_vector3	pos;
-	t_vector3	vector;
+	t_vector3	orientation;
 	double		fov;
+	t_vector3	xvec;
+	t_vector3	yvec;
+	t_vector3	zvec;
 }				t_camera;
 
 typedef struct	s_phere

@@ -6,11 +6,19 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/26 17:47:59 by hberger          ###   ########.fr       */
+/*   Updated: 2019/11/27 14:55:57 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
+
+/*
+int rgbtoi(int red, int green, int blue)
+{
+	return ((((red << 8) + green) << 8) + blue);
+}
+*/
+
 
 /*
 static int	hits(t_data *data)
@@ -92,13 +100,13 @@ t_vector3	getray(t_data *data, t_camera *cam, double x, double y)
 	h = (1.0 - x / ((data->res.width - 1.0) /  2.0)) * cam->fov / 2.0;
 	v = (1.0 - y / ((data->res.height - 1.0) / 2.0)) * cam->fov / 2.0 *
 		(data->res.height / data->res.width);
-	tmp = cam->vector.x;
-	ray.x = tmp * cos(rad(h)) + cam->vector.z * sin(rad(h));
-	ray.y = cam->vector.y;
-	ray.z = -tmp * sin(rad(h)) + cam->vector.z * cos(rad(h));
+	tmp = cam->orientation.x;
+	ray.x = tmp * cos(RAD(h)) + cam->orientation.z * sin(RAD(h));
+	ray.y = cam->orientation.y;
+	ray.z = -tmp * sin(RAD(h)) + cam->orientation.z * cos(RAD(h));
 	tmp = ray.x;
-	ray.x = ray.x * cos(rad(v)) - ray.y * sin(rad(v));
-	ray.y = tmp * sin(rad(v)) + ray.y * cos(rad(v));
+	ray.x = ray.x * cos(RAD(v)) - ray.y * sin(RAD(v));
+	ray.y = tmp * sin(RAD(v)) + ray.y * cos(RAD(v));
 	return (norm(ray));
 }
 
@@ -178,32 +186,56 @@ static int compute(t_data *data)
 	return (0);
 }
 
-int main(int ac, char **av)
+t_vector3 reorientate(t_vector3 base, t_vector3 orientation)
 {
-	t_data *data;
+	t_vector3	new;
+	double		tmp;
+	double		angle;
 
-	(void)ac;
-	(void)av;
-	data = NULL;
+	angle = orientation.x * M_PI;
+	new.x = base.x;
+	new.y = base.y * cos(angle) - base.z * sin(angle);
+	new.z = base.y * sin(angle) + base.z * cos(angle);
+	angle = orientation.y * M_PI;
+	tmp = new.x * cos(angle) + new.z * sin(angle);
+	new.z = -new.x * sin(angle) + new.z * cos(angle);
+	new.x = tmp;
+	angle = orientation.z * M_PI;
+	tmp = new.x * cos(angle) - new.y * sin(angle);
+	new.y = new.x * sin(angle) + new.y * cos(angle);
+	new.x = tmp;
+	// printf("current ray : |%10.6g|%10.6g|%10.6g|\n", new.x, new.y, new.z);
+	return (new);
+}
 
+static void setup(t_data *data)
+{
 	data = malloc(sizeof(t_data));
 	data->cameras = malloc(sizeof(t_camera));
 
-	// SCREEN_WIDTH 10 ?
+	data->res.width = 300;
+	data->res.height = 300;
+	data->cameras->fov = 90;
+	data->cameras->pos = newvec(0, 0, 0);
+	data->cameras->orientation = norm(newvec(0, 0.5, 0));
+	data->cameras->vecx = reorientate(newvec(1, 0, 0), data->cameras->orientation);
+	data->cameras->vecy = reorientate(newvec(0, 1, 0), data->cameras->orientation);
+	data->cameras->vecz = reorientate(newvec(0, 0, 1), data->cameras->orientation);
 
-	data->res.width = 500;
-	data->res.height = 500;
-	data->cameras->fov = 40;
-	data->cameras->pos = newvec(0, 5, 0);
-	data->cameras->vector = norm(newvec(1, 0, 0));
+	data->spheres = malloc(sizeof(t_sphere));
+	data->sphere->radius = 5;
+	data->sphere->center = newvec(1, 0, 10);
+	data->sphere->colour = RGBTOI(255, 0, 0);
+}
 
-	t_sphere *sphere;
-	sphere = malloc(sizeof(t_sphere));
-	sphere->center = newvec(10, 5, 3);
-	sphere->colour = rgbtoi(255, 255, 0);
-	sphere->radius = 0.75;
-	data->spheres = sphere;
+int main(int ac, char **av)
+{
+	(void)ac;
+	(void)av;
+	t_data *data;
 
+	data = NULL;
+	setup(data);
 	compute(data);
     return (0);
 }

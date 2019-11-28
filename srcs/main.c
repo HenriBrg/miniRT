@@ -6,30 +6,12 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/28 17:00:21 by hberger          ###   ########.fr       */
+/*   Updated: 2019/11/28 19:38:35 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
-
 /*
-static int	hits(t_data *data)
-{
-	int	hit;
-
-	hit = 0;
-	(void)data;
-	for obj in objects
-	{
-		if (ray his obj)
-		{
-			hit = 1;
-			*color = obj.color;
-		}
-	}
-	return (hit);
-}
-
 static int init(t_data *data)
 {
 	int i;

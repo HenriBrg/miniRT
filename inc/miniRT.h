@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/11/27 14:40:31 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/28 15:07:58 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # endif
 
 # define SCREENSIZE 10
-# define RGBTOI(r, g, b) (((r << 8) + g) << 8) + b)
+# define RGBTOI(r, g, b) ((((r << 8) + g) << 8) + b)
 # define RAD(degree)	(degree * M_PI / 180)
 
 typedef struct	s_resolution
@@ -58,9 +58,9 @@ typedef struct	s_camera
 	t_vector3	pos;
 	t_vector3	orientation;
 	double		fov;
-	t_vector3	xvec;
-	t_vector3	yvec;
-	t_vector3	zvec;
+	t_vector3	vecx;
+	t_vector3	vecy;
+	t_vector3	vecz;
 }				t_camera;
 
 typedef struct	s_phere
@@ -128,10 +128,13 @@ double		rad(double degree);
 double		scalar(t_vector3 vec1, t_vector3 vec2);
 
 t_vector3	newvec(double x, double y, double z);
+t_vector3	addvec(t_vector3 vec1, t_vector3 vec2);
 t_vector3	norm(t_vector3 vec);
-t_vector3	multvec(t_vector3 vec1, t_vector3 vec2);
 t_vector3	crossvec(t_vector3 vec1, t_vector3 vec2);
 t_vector3	subvec(t_vector3 vec1, t_vector3 vec2);
+t_vector3 	reorientate(t_vector3 base, t_vector3 orientation);
+t_vector3	mult1vec(t_vector3 vec, double x);
+t_vector3	mult2vec(t_vector3 vec1, t_vector3 vec2);
 
 int			rgbtoi(int red, int green, int blue);
 int			intersphere(t_data *data, t_camera *cam, t_vector3 ray);

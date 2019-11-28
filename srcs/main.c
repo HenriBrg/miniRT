@@ -6,19 +6,11 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/27 14:55:57 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/28 15:43:27 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
-
-/*
-int rgbtoi(int red, int green, int blue)
-{
-	return ((((red << 8) + green) << 8) + blue);
-}
-*/
-
 
 /*
 static int	hits(t_data *data)
@@ -88,7 +80,6 @@ static int init(t_data *data)
 **
 **    Explication partielle ici :
 **	  https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Mog_rotacion_vector.jpg/263px-Mog_rotacion_vector.jpg
-*/
 
 t_vector3	getray(t_data *data, t_camera *cam, double x, double y)
 {
@@ -109,31 +100,23 @@ t_vector3	getray(t_data *data, t_camera *cam, double x, double y)
 	ray.y = tmp * sin(RAD(v)) + ray.y * cos(RAD(v));
 	return (norm(ray));
 }
-
-/*
-** Version 2 : https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-generating-camera-rays/generating-camera-rays
-** As you can see though in figure 2, the film or image plane is centred around the world's origin.
-** In other words, pixels located on the left of the image should have negative x-coordinates,
-** while those located on the right should have positive x-coordinates.
 */
 
-t_vector3 newgetray(t_data *data, t_camera *cam, double x, double y)
+t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 {
-	double xpix;
-	double ypix;
-	double ratio;
-	t_vector3 origin;
-	t_vector3 direction;
+	double 		w;
+	double 		h;
+	double 		pixshift;
+	t_vector3	basedir;
+	t_vector3	ray;
 
-	ratio = data->res.width / data->res.height;
-	xpix = (2 * ((x + 0.5) / data->res.width) - 1) * tan((cam->fov / 2) * (M_PI / 180)) * ratio;
-	xpix = (1 - 2 * (y + 0.5) / data->res.height) * tan((cam->fov / 2) * (M_PI / 180));
-
-	origin = newvec(0, 0, 0);
-	direction = newvec(0, 0, 0);
-
-	norm(ray);
-	return (ray);
+	basedir = mult1vec(cam->vecx, (double)SCREENSIZE);
+	w = (double)SCREENSIZE * tan(RAD(cam->fov / 2)) * 2;
+	h = w * (data->res.width / data->res.height);
+	pixshift = w / ((double)data->res.height - 1);
+	ray = addvec(basedir, mult1vec(cam->vecz, ((2 * (x + 0.5) - data->res.width) / 2 ) * pixshift));
+	ray = addvec(ray, mult1vec(cam->vecy, ((2 * (y + 0.5) - data->res.height) / 2 ) * pixshift));
+	return (norm(ray));
 }
 
 /*
@@ -155,8 +138,8 @@ int	raytrace(t_data *data)
 		while (++y < data->res.height)
 		{
 			ray = getray(data, data->cameras, x, y);
-			 if (intersphere(data, data->cameras, ray) == 1)
-			 	mlx_pixel_put(data->ptr, data->win, x, y, data->spheres->colour);
+			if (intersphere(data, data->cameras, ray) == 1)
+				mlx_pixel_put(data->ptr, data->win, x, y, data->spheres->colour);
 			# if DEBUG == 1
 				if ((x == 0 && y == 0) || (x == 0 && y == data->res.height - 1) ||
 					(x == data->res.width - 1 && y == 0) || (x == data->res.width - 1 && y == data->res.height - 1))
@@ -167,50 +150,32 @@ int	raytrace(t_data *data)
 					printf("\n\n");
 					i++;
 				}
-			#endif
+			# endif
 		}
 	}
 	return (0);
 }
 
+/*
+** MLX Init
+**
+** data->img = mlx_new_image(data->ptr, data->res.width, data->res.height);
+** data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
+** mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
+*/
+
 static int compute(t_data *data)
 {
 	data->ptr = mlx_init();
-	data->win = mlx_new_window(data->ptr, data->res.width, data->res.height, "RT");
-	// data->img = mlx_new_image(data->ptr, data->res.width, data->res.height);
-	// data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
+	data->win = mlx_new_window(data->ptr, data->res.width, data->res.height, "miniRT");
 	raytrace(data);
-	// mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
 	mlx_key_hook(data->win, 0, 0);
 	mlx_loop(data->ptr);
 	return (0);
 }
 
-t_vector3 reorientate(t_vector3 base, t_vector3 orientation)
-{
-	t_vector3	new;
-	double		tmp;
-	double		angle;
-
-	angle = orientation.x * M_PI;
-	new.x = base.x;
-	new.y = base.y * cos(angle) - base.z * sin(angle);
-	new.z = base.y * sin(angle) + base.z * cos(angle);
-	angle = orientation.y * M_PI;
-	tmp = new.x * cos(angle) + new.z * sin(angle);
-	new.z = -new.x * sin(angle) + new.z * cos(angle);
-	new.x = tmp;
-	angle = orientation.z * M_PI;
-	tmp = new.x * cos(angle) - new.y * sin(angle);
-	new.y = new.x * sin(angle) + new.y * cos(angle);
-	new.x = tmp;
-	// printf("current ray : |%10.6g|%10.6g|%10.6g|\n", new.x, new.y, new.z);
-	return (new);
-}
-
 static void setup(t_data *data)
 {
-	data = malloc(sizeof(t_data));
 	data->cameras = malloc(sizeof(t_camera));
 
 	data->res.width = 300;
@@ -222,10 +187,18 @@ static void setup(t_data *data)
 	data->cameras->vecy = reorientate(newvec(0, 1, 0), data->cameras->orientation);
 	data->cameras->vecz = reorientate(newvec(0, 0, 1), data->cameras->orientation);
 
+	# if DEBUG == 1
+		printf("\n--------------------------------------------------------\n");
+		printf("Cam->vecx (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecx.x, data->cameras->vecx.y, data->cameras->vecx.z);
+		printf("Cam->vecy (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecy.x, data->cameras->vecy.y, data->cameras->vecy.z);
+		printf("Cam->vecz (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecz.x, data->cameras->vecz.y, data->cameras->vecz.z);
+		printf("--------------------------------------------------------\n\n");
+	# endif
+
 	data->spheres = malloc(sizeof(t_sphere));
-	data->sphere->radius = 5;
-	data->sphere->center = newvec(1, 0, 10);
-	data->sphere->colour = RGBTOI(255, 0, 0);
+	data->spheres->radius = 6;
+	data->spheres->center = newvec(10, 0, 0);
+	data->spheres->colour = RGBTOI(255,255,255);
 }
 
 int main(int ac, char **av)
@@ -234,7 +207,7 @@ int main(int ac, char **av)
 	(void)av;
 	t_data *data;
 
-	data = NULL;
+	data = malloc(sizeof(t_data));
 	setup(data);
 	compute(data);
     return (0);

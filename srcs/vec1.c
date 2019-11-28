@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec.c                                              :+:      :+:    :+:   */
+/*   vec1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 17:53:39 by henri             #+#    #+#             */
-/*   Updated: 2019/11/27 14:42:01 by henri            ###   ########.fr       */
+/*   Updated: 2019/11/28 15:08:21 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,43 @@ t_vector3 newvec(double x, double y, double z)
 }
 
 /*
-** Retourne la longueur du vecteur : ||vec||
+** Retourne un nouveau vecteur 3D résultant de la soustraction de vec1 et vec2
 */
 
-double veclen(t_vector3 vec)
+t_vector3 subvec(t_vector3 vec1, t_vector3 vec2)
 {
-	double len;
+	t_vector3 new;
 
-	len = sqrt(pow(vec.x, 2) + pow(vec.y, 2) + pow(vec.z, 2));
-	return (len);
+	new.x = vec1.x - vec2.x;
+	new.y = vec1.y - vec2.y;
+	new.z = vec1.z - vec2.z;
+	return (new);
+}
+
+/*
+** Multiplie le vecteur par le second paramètre et retourne un nouveau vecteur
+*/
+
+t_vector3 mult1vec(t_vector3 vec, double x)
+{
+	vec.x *= x;
+	vec.y *= x;
+	vec.z *= x;
+	return (vec);
+}
+
+/*
+** Multiplie deux vecteurs et retourne un nouveau vecteur
+*/
+
+t_vector3 mult2vec(t_vector3 vec1, t_vector3 vec2)
+{
+	t_vector3 new;
+
+	new.x = vec1.x * vec2.x;
+	new.y = vec1.y * vec2.y;
+	new.z = vec1.z * vec2.z;
+	return (new);
 }
 
 /*
@@ -52,40 +80,4 @@ t_vector3 norm(t_vector3 vec)
 	vec.y /= len;
 	vec.z /= len;
 	return (vec);
-}
-
-t_vector3 subvec(t_vector3 vec1, t_vector3 vec2)
-{
-	t_vector3 new;
-
-	new.x = vec1.x - vec2.x;
-	new.y = vec1.y - vec2.y;
-	new.z = vec1.z - vec2.z;
-	return (new);
-}
-
-/*
-** Multiplie deux vecteurs et retourne un nouveau vecteur
-*/
-
-t_vector3 multvec(t_vector3 vec1, t_vector3 vec2)
-{
-	t_vector3 new;
-
-	new.x = vec1.x * vec2.x;
-	new.y = vec1.y * vec2.y;
-	new.z = vec1.z * vec2.z;
-	return (new);
-}
-
-/*
-** Retourne le produit scalaire de deux vecteurs
-*/
-
-double scalar(t_vector3 vec1, t_vector3 vec2)
-{
-	double scalar;
-
-	scalar = vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
-	return (scalar);
 }

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/28 16:12:49 by hberger          ###   ########.fr       */
+/*   Updated: 2019/11/28 17:00:21 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,16 @@ t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 	pixshift = w / ((double)data->res.height - 1);
 	ray = addvec(basedir, mult1vec(cam->vecz, ((2 * (x + 0.5) - data->res.width) / 2 ) * pixshift));
 	ray = addvec(ray, mult1vec(cam->vecy, ((2 * (y + 0.5) - data->res.height) / 2 ) * pixshift));
+
+	// CREUSER ICI : affichier les intermediaire du calcul ray avant addvec, milieu et apres
+
+	# if DEBUG == 1
+			printf("------------------ RAY CONFIG ---------------------------\n");
+			printf("BaseDir --> (%lf, %lf, %lf)\n", basedir.x, basedir.y, basedir.z);
+			printf("H = %lf et W = %lf\n", h, w);
+			printf("Pixshift = %lf\n", pixshift);
+	# endif
+
 	return (norm(ray));
 }
 
@@ -146,8 +156,7 @@ int	raytrace(t_data *data)
 				{
 					printf("Ray en X = %d et Y = %d\n", x, y);
 					printf("Ray[%d] --> (%lf, %lf, %lf)\n", i, ray.x, ray.y, ray.z);
-					printf("--------------------------------------------------------\n");
-					printf("\n\n");
+					printf("--------------------------------------------------------\n\n\n");
 					i++;
 				}
 			# endif
@@ -188,6 +197,7 @@ static void setup(t_data *data)
 	data->cameras->vecz = reorientate(newvec(0, 0, 1), data->cameras->orientation);
 	# if DEBUG == 1
 		printf("\n--------------------------------------------------------\n");
+		printf("\n----------------- CAMERA SETUP -------------------------\n");
 		printf("Cam->vecx (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecx.x, data->cameras->vecx.y, data->cameras->vecx.z);
 		printf("Cam->vecy (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecy.x, data->cameras->vecy.y, data->cameras->vecy.z);
 		printf("Cam->vecz (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecz.x, data->cameras->vecz.y, data->cameras->vecz.z);

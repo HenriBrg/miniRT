@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/28 15:43:27 by hberger          ###   ########.fr       */
+/*   Updated: 2019/11/28 16:12:49 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,13 +180,12 @@ static void setup(t_data *data)
 
 	data->res.width = 300;
 	data->res.height = 300;
-	data->cameras->fov = 90;
+	data->cameras->fov = 40;
 	data->cameras->pos = newvec(0, 0, 0);
 	data->cameras->orientation = norm(newvec(0, 0.5, 0));
 	data->cameras->vecx = reorientate(newvec(1, 0, 0), data->cameras->orientation);
 	data->cameras->vecy = reorientate(newvec(0, 1, 0), data->cameras->orientation);
 	data->cameras->vecz = reorientate(newvec(0, 0, 1), data->cameras->orientation);
-
 	# if DEBUG == 1
 		printf("\n--------------------------------------------------------\n");
 		printf("Cam->vecx (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecx.x, data->cameras->vecx.y, data->cameras->vecx.z);
@@ -194,10 +193,9 @@ static void setup(t_data *data)
 		printf("Cam->vecz (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecz.x, data->cameras->vecz.y, data->cameras->vecz.z);
 		printf("--------------------------------------------------------\n\n");
 	# endif
-
 	data->spheres = malloc(sizeof(t_sphere));
-	data->spheres->radius = 6;
-	data->spheres->center = newvec(10, 0, 0);
+	data->spheres->radius = 2;
+	data->spheres->center = newvec(15, 2, 0);
 	data->spheres->colour = RGBTOI(255,255,255);
 }
 

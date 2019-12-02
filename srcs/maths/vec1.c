@@ -6,11 +6,11 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 17:53:39 by henri             #+#    #+#             */
-/*   Updated: 2019/11/28 15:08:21 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/02 19:17:13 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/miniRT.h"
+#include "../../inc/miniRT.h"
 
 /*
 ** Retourne un nouveau vecteur 3D

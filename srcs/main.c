@@ -6,11 +6,12 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/11/28 19:38:35 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/02 22:57:50 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
+
 /*
 static int init(t_data *data)
 {
@@ -51,37 +52,9 @@ static int init(t_data *data)
 }
 */
 
-
 /*
-** 1) On détermine les angles par rapport au vecteur de direction de la camera
-**	  qui pointe par défaut au centre du plan
-**    Un angle H de -20 signifie que par rapport au du "X" vecteur de direction
-**	  de la camera, on élargit de 20° à gauche
-**    Un angle V de -20 signifie que par rapport au "Y" vecteur de direction
-** 	  de la camera, on descend de 20° en bas
-**
-**    Explication partielle ici :
-**	  https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Mog_rotacion_vector.jpg/263px-Mog_rotacion_vector.jpg
-
-t_vector3	getray(t_data *data, t_camera *cam, double x, double y)
-{
-	double		h;
-	double		v;
-	double		tmp;
-	t_vector3	ray;
-
-	h = (1.0 - x / ((data->res.width - 1.0) /  2.0)) * cam->fov / 2.0;
-	v = (1.0 - y / ((data->res.height - 1.0) / 2.0)) * cam->fov / 2.0 *
-		(data->res.height / data->res.width);
-	tmp = cam->orientation.x;
-	ray.x = tmp * cos(RAD(h)) + cam->orientation.z * sin(RAD(h));
-	ray.y = cam->orientation.y;
-	ray.z = -tmp * sin(RAD(h)) + cam->orientation.z * cos(RAD(h));
-	tmp = ray.x;
-	ray.x = ray.x * cos(RAD(v)) - ray.y * sin(RAD(v));
-	ray.y = tmp * sin(RAD(v)) + ray.y * cos(RAD(v));
-	return (norm(ray));
-}
+** Un ray peut s'exprimer par la formule : OrigineCam + t*RayVector
+** avec t le nombre de période ray(t) = OrigineCam + t*RayVector
 */
 
 t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
@@ -98,29 +71,24 @@ t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 	pixshift = w / ((double)data->res.height - 1);
 	ray = addvec(basedir, mult1vec(cam->vecz, ((2 * (x + 0.5) - data->res.width) / 2 ) * pixshift));
 	ray = addvec(ray, mult1vec(cam->vecy, ((2 * (y + 0.5) - data->res.height) / 2 ) * pixshift));
-
-	// CREUSER ICI : affichier les intermediaire du calcul ray avant addvec, milieu et apres
-
 	# if DEBUG == 1
+			// CREUSER ICI : affichier les intermediaire du calcul ray avant addvec, milieu et apres
 			printf("------------------ RAY CONFIG ---------------------------\n");
 			printf("BaseDir --> (%lf, %lf, %lf)\n", basedir.x, basedir.y, basedir.z);
 			printf("H = %lf et W = %lf\n", h, w);
 			printf("Pixshift = %lf\n", pixshift);
 	# endif
-
 	return (norm(ray));
 }
 
-/*
-** Un ray peut s'exprimer par la formule : OrigineCam + t*RayVector
-** avec t le nombre de période ray(t) = OrigineCam + t*RayVector
-*/
+
 int	raytrace(t_data *data)
 {
-	int	x;
-	int	y;
-	int i;
-	t_vector3 ray;
+	int			x;
+	int			y;
+	int 		i;
+	t_vector3	ray;
+	t_interobject	object;
 
 	i = 0;
 	x = -1;
@@ -130,8 +98,9 @@ int	raytrace(t_data *data)
 		while (++y < data->res.height)
 		{
 			ray = getray(data, data->cameras, x, y);
-			if (intersphere(data, data->cameras, ray) == 1)
-				mlx_pixel_put(data->ptr, data->win, x, y, data->spheres->colour);
+			object = intersearch(data, data->cameras, ray);
+			// if (object.inter == 1)
+			// 	mlx_pixel_put(data->ptr, data->win, x, y, object.colour);
 			# if DEBUG == 1
 				if ((x == 0 && y == 0) || (x == 0 && y == data->res.height - 1) ||
 					(x == data->res.width - 1 && y == 0) || (x == data->res.width - 1 && y == data->res.height - 1))
@@ -186,9 +155,18 @@ static void setup(t_data *data)
 		printf("--------------------------------------------------------\n\n");
 	# endif
 	data->spheres = malloc(sizeof(t_sphere));
+	data->spheres->next = NULL;
 	data->spheres->radius = 2;
 	data->spheres->center = newvec(15, 2, 0);
 	data->spheres->colour = RGBTOI(255,255,255);
+
+	t_sphere *second;
+	second = malloc(sizeof(t_sphere));
+	second->next = NULL;
+	second->radius = 5;
+	second->center = newvec(15, 2, 1);
+	second->colour = RGBTOI(0,0,255);
+	data->spheres->next = second;
 }
 
 int main(int ac, char **av)

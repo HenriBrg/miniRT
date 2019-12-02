@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/11/28 15:07:58 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/02 22:31:40 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 # ifndef DEBUG
 #	define DEBUG 0
 # endif
+
+# define TRUE 0
+# define FALSE 0
 
 # define SCREENSIZE 10
 # define RGBTOI(r, g, b) ((((r << 8) + g) << 8) + b)
@@ -63,11 +66,12 @@ typedef struct	s_camera
 	t_vector3	vecz;
 }				t_camera;
 
-typedef struct	s_phere
+typedef struct	s_sphere
 {
-	t_vector3	center;
-	double		radius;
-	int			colour;
+	t_vector3				center;
+	double					radius;
+	int						colour;
+	struct 		s_sphere	*next;
 }				t_sphere;
 
 typedef struct	s_plane
@@ -77,7 +81,7 @@ typedef struct	s_plane
 	int			colour;
 }				t_plane;
 
-typedef struct	s_quare
+typedef struct	s_square
 {
 	t_vector3	centre;
 	t_vector3	orientation;
@@ -101,6 +105,16 @@ typedef struct	s_triangle
 	t_vector3	p3;
 	int			colour;
 }				t_triangle;
+
+typedef struct s_interobject
+{
+	int			inter;
+	t_vector3	ray;
+	t_vector3	origin;
+	void 		*object;
+	double		distance;
+	int			colour;
+}				t_interobject;
 
 typedef struct	s_data
 {
@@ -137,6 +151,8 @@ t_vector3	mult1vec(t_vector3 vec, double x);
 t_vector3	mult2vec(t_vector3 vec1, t_vector3 vec2);
 
 int			rgbtoi(int red, int green, int blue);
-int			intersphere(t_data *data, t_camera *cam, t_vector3 ray);
+int			intersphere(t_sphere *sp, t_camera *cam, t_vector3 ray);
+
+t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray);
 
 # endif

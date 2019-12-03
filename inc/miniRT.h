@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/03 11:15:33 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/03 19:19:35 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define FALSE 0
 
 # define SCREENSIZE 10
+# define BACKGROUNDCOLOR 16777215
 # define RGBTOI(r, g, b) ((((r << 8) + g) << 8) + b)
 # define RAD(degree)	(degree * M_PI / 180)
 
@@ -112,8 +113,8 @@ typedef struct s_interobject
 	t_vector3	ray;
 	t_vector3	origin;
 	void 		*object;
-	double		distance;
 	int			colour;
+	double		distance;
 }				t_interobject;
 
 typedef struct	s_data
@@ -151,7 +152,13 @@ t_vector3	mult1vec(t_vector3 vec, double x);
 t_vector3	mult2vec(t_vector3 vec1, t_vector3 vec2);
 
 int			rgbtoi(int red, int green, int blue);
-int			intersphere(t_sphere *sp, t_camera *cam, t_vector3 ray);
+
+/*
+** srcs/intersections/spheres.c
+*/
+
+double		intersphere(t_sphere *sp, t_camera *cam, t_vector3 ray);
+void 		try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *object);
 
 t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray);
 

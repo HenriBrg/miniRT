@@ -6,14 +6,14 @@
 #    By: henri <henri@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/28 00:56:29 by henri             #+#    #+#              #
-#    Updated: 2019/12/02 19:22:55 by henri            ###   ########.fr        #
+#    Updated: 2019/12/03 19:18:57 by henri            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = miniRT
 
 SRCS = srcs/main.c srcs/maths/vec1.c srcs/maths/vec2.c srcs/init.c 			   \
-	   srcs/intersections/intersection.c
+	   srcs/intersections/intersection.c srcs/intersections/spheres.c
 
 OBJS = ${SRCS:.c=.o}
 

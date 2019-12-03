@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/03 11:54:11 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/03 20:09:24 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,10 @@ t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 }
 
 
+/*
+** printf("Object found\nInter = %d\nDistance = %lf\nColour = %d\n", object.inter, object.distance, object.colour);
+*/
+
 int	raytrace(t_data *data)
 {
 	int			x;
@@ -100,10 +104,9 @@ int	raytrace(t_data *data)
 			ray = getray(data, data->cameras, x, y);
 			object = intersearch(data, data->cameras, ray);
 			if (object.inter == TRUE)
-			 	printf("Object at distance %lf\n", object.distance);
-
-			// if (object.inter == 1)
-			// 	mlx_pixel_put(data->ptr, data->win, x, y, object.colour);
+				mlx_pixel_put(data->ptr, data->win, x, y, object.colour);
+			else
+				mlx_pixel_put(data->ptr, data->win, x, y, BACKGROUNDCOLOR);
 			# if DEBUG == 1
 				if ((x == 0 && y == 0) || (x == 0 && y == data->res.height - 1) ||
 					(x == data->res.width - 1 && y == 0) || (x == data->res.width - 1 && y == data->res.height - 1))
@@ -141,8 +144,8 @@ static void setup(t_data *data)
 {
 	data->cameras = malloc(sizeof(t_camera));
 
-	data->res.width = 10;
-	data->res.height = 10;
+	data->res.width = 300;
+	data->res.height = 300;
 	data->cameras->fov = 40;
 	data->cameras->pos = newvec(0, 0, 0);
 	data->cameras->orientation = norm(newvec(0, 0.5, 0));
@@ -160,8 +163,8 @@ static void setup(t_data *data)
 	data->spheres = malloc(sizeof(t_sphere));
 	data->spheres->next = NULL;
 	data->spheres->radius = 2;
-	data->spheres->center = newvec(15, 2, 0);
-	data->spheres->colour = RGBTOI(255,255,255);
+	data->spheres->center = newvec(15, 2, -2);
+	data->spheres->colour = RGBTOI(255,0,255);
 
 	t_sphere *second;
 	second = malloc(sizeof(t_sphere));

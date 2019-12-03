@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/02 22:31:40 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/03 11:15:33 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #	define DEBUG 0
 # endif
 
-# define TRUE 0
+# define TRUE 1
 # define FALSE 0
 
 # define SCREENSIZE 10

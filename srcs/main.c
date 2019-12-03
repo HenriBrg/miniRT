@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/02 22:57:50 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/03 11:54:11 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,9 @@ int	raytrace(t_data *data)
 		{
 			ray = getray(data, data->cameras, x, y);
 			object = intersearch(data, data->cameras, ray);
+			if (object.inter == TRUE)
+			 	printf("Object at distance %lf\n", object.distance);
+
 			// if (object.inter == 1)
 			// 	mlx_pixel_put(data->ptr, data->win, x, y, object.colour);
 			# if DEBUG == 1
@@ -138,8 +141,8 @@ static void setup(t_data *data)
 {
 	data->cameras = malloc(sizeof(t_camera));
 
-	data->res.width = 300;
-	data->res.height = 300;
+	data->res.width = 10;
+	data->res.height = 10;
 	data->cameras->fov = 40;
 	data->cameras->pos = newvec(0, 0, 0);
 	data->cameras->orientation = norm(newvec(0, 0.5, 0));

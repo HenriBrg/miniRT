@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/03 20:09:24 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/04 20:20:29 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ static void setup(t_data *data)
 	data->spheres = malloc(sizeof(t_sphere));
 	data->spheres->next = NULL;
 	data->spheres->radius = 2;
-	data->spheres->center = newvec(15, 2, -2);
+	data->spheres->center = newvec(14, 2, -2);
 	data->spheres->colour = RGBTOI(255,0,255);
 
 	t_sphere *second;
@@ -173,6 +173,15 @@ static void setup(t_data *data)
 	second->center = newvec(15, 2, 1);
 	second->colour = RGBTOI(0,0,255);
 	data->spheres->next = second;
+
+	t_plane *plane1;
+	plane1 = malloc(sizeof(t_plane));
+	plane1->next = NULL;
+	plane1->center = newvec(1, 2, 1);
+	plane1->normal = reorientate(newvec(0, 1, 0), newvec(10, 3, 2));
+	plane1->colour = RGBTOI(42,0,255);
+	data->spheres->next = plane1;
+
 }
 
 int main(int ac, char **av)

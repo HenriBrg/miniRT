@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/03 20:03:58 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/04 19:06:17 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,12 @@ double	intersphere(t_sphere *sphere, t_camera *cam, t_vector3 ray)
 	}
 }
 
-void try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *object)
+/*
+** ATTENTION : problème lorsque deux sphères se trouvent à la même distance de la caméra (c.a.d que le x du vecteur est identique)
+** les pixels se chevauchent incorrectement !
+*/
+
+void try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 {
 	double tmp;
 	double inter;
@@ -69,12 +74,12 @@ void try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obje
 		if (tmp != -1 && ((inter != -1 && tmp < inter) || (inter == -1)))
 		{
 			inter = tmp;
-			object->inter = TRUE;
-			object->ray = ray;
-			object->origin = cam->pos;
-			object->object = (t_sphere*)sphere;
-			object->distance = tmp;
-			object->colour = sphere->colour;
+			obj->inter = TRUE;
+			obj->ray = ray;
+			obj->origin = cam->pos;
+			obj->ptr = (t_sphere*)sphere;
+			obj->distance = tmp;
+			obj->colour = sphere->colour;
 		}
 		sphere = sphere->next;
 	}

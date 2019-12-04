@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/03 19:19:35 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/04 19:55:01 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct	s_sphere
 typedef struct	s_plane
 {
 	t_vector3	centre;
-	t_vector3	orientation;
+	t_vector3	normal;
 	int			colour;
 }				t_plane;
 
@@ -112,7 +112,7 @@ typedef struct s_interobject
 	int			inter;
 	t_vector3	ray;
 	t_vector3	origin;
-	void 		*object;
+	void 		*ptr;
 	int			colour;
 	double		distance;
 }				t_interobject;

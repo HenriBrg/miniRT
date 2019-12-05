@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/04 19:55:01 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/05 23:37:16 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,21 @@ typedef struct	s_sphere
 
 typedef struct	s_plane
 {
-	t_vector3	centre;
-	t_vector3	normal;
-	int			colour;
+	t_vector3				center;
+	t_vector3				normal;
+	int						colour;
+	struct 		s_plane		*next;
 }				t_plane;
 
 typedef struct	s_square
 {
-	t_vector3	centre;
-	t_vector3	orientation;
-	double		height;
-	int			colour;
+	t_vector3				x;
+	t_vector3				z;
+	t_vector3				center;
+	t_vector3				normal;
+	double					height;
+	int						colour;
+	struct 		s_square	*next;
 }				t_square;
 
 typedef struct	s_cylinder
@@ -154,11 +158,13 @@ t_vector3	mult2vec(t_vector3 vec1, t_vector3 vec2);
 int			rgbtoi(int red, int green, int blue);
 
 /*
-** srcs/intersections/spheres.c
+** srcs/intersections/
 */
 
 double		intersphere(t_sphere *sp, t_camera *cam, t_vector3 ray);
-void 		try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *object);
+void 		try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
+void 		try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
+void 		try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
 
 t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray);
 

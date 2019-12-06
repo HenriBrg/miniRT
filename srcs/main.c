@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/06 19:14:10 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/07 00:11:53 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,37 @@ int	raytrace(t_data *data)
 	int			x;
 	int			y;
 	int 		i;
+	char		*pixels;
 	t_vector3	ray;
 	t_interobject	object;
 
 	i = 0;
 	x = -1;
-	while (++x < data->res.width)
+	pixels = data->pixtab;
+	while (++x < data->res.height)
 	{
 		y = -1;
-		while (++y < data->res.height)
+		while (++y < data->res.width)
 		{
 			ray = getray(data, data->cameras, x, y);
 			object = intersearch(data, data->cameras, ray);
+			/*
 			if (object.inter == TRUE)
-				mlx_pixel_put(data->ptr, data->win, x, y, object.colour);
+				printf("Intersection en [x:%d et y:%d]\n", x, y);
+			*/
+			if (object.inter == TRUE)
+			{
+				// printf("Intersection en [x:%d et x:%d]\n", x, y);
+				pixels[0 + y * 4] = (char)((object.colour & 0xFF));
+				pixels[1 + y * 4] = (char)((object.colour & 0xFF00) >> 8);
+				pixels[2 + y * 4] = (char)((object.colour & 0xFF0000) >> 16);
+			}
 			else
-				mlx_pixel_put(data->ptr, data->win, x, y, BACKGROUNDCOLOR);
+			{
+				pixels[0 + y * 4] = (char)255;
+				pixels[1 + y * 4] = (char)0;
+				pixels[2 + y * 4] = (char)0;
+			}
 			# if DEBUG == 1
 				if ((x == 0 && y == 0) || (x == 0 && y == data->res.height - 1) ||
 					(x == data->res.width - 1 && y == 0) || (x == data->res.width - 1 && y == data->res.height - 1))
@@ -118,6 +133,7 @@ int	raytrace(t_data *data)
 				}
 			# endif
 		}
+		pixels += data->pixsizeline;
 	}
 	return (0);
 }
@@ -134,7 +150,12 @@ static int compute(t_data *data)
 {
 	data->ptr = mlx_init();
 	data->win = mlx_new_window(data->ptr, data->res.width, data->res.height, "miniRT");
+
+	data->img = mlx_new_image(data->ptr, data->res.width, data->res.height);
+	data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
 	raytrace(data);
+	mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
+
 	mlx_key_hook(data->win, 0, 0);
 	mlx_loop(data->ptr);
 	return (0);
@@ -144,11 +165,11 @@ static void setup(t_data *data)
 {
 	data->cameras = malloc(sizeof(t_camera));
 
-	data->res.width = 500;
-	data->res.height = 500;
-	data->cameras->fov = 40;
-	data->cameras->pos = newvec(0, 0, 0);
-	data->cameras->orientation = norm(newvec(0, 0.5, 0));
+	data->res.width = 800;
+	data->res.height = 600;
+	data->cameras->fov = 70;
+	data->cameras->pos = newvec(0,0,0);
+	data->cameras->orientation = newvec(0,0,0);
 	data->cameras->vecx = reorientate(newvec(1, 0, 0), data->cameras->orientation);
 	data->cameras->vecy = reorientate(newvec(0, 1, 0), data->cameras->orientation);
 	data->cameras->vecz = reorientate(newvec(0, 0, 1), data->cameras->orientation);
@@ -160,19 +181,22 @@ static void setup(t_data *data)
 		printf("Cam->vecz (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecz.x, data->cameras->vecz.y, data->cameras->vecz.z);
 		printf("--------------------------------------------------------\n\n");
 	# endif
+
+
 	data->spheres = malloc(sizeof(t_sphere));
 	data->spheres->next = NULL;
-	data->spheres->radius = 2;
-	data->spheres->center = newvec(14, 2, -2);
+	data->spheres->radius = 3;
+	data->spheres->center = newvec(14,-1, 1);
 	data->spheres->colour = RGBTOI(255,0,255);
 
 	t_sphere *second;
 	second = malloc(sizeof(t_sphere));
 	second->next = NULL;
 	second->radius = 5;
-	second->center = newvec(15, 2, 1);
-	second->colour = RGBTOI(0,0,255);
+	second->center = newvec(15, 1, -1);
+	second->colour = RGBTOI(100,0,255);
 	data->spheres->next = second;
+	/*
 
 	t_plane *plane1;
 	plane1 = malloc(sizeof(t_plane));
@@ -202,6 +226,7 @@ static void setup(t_data *data)
 	square1->z = reorientate(newvec(0, 0, 1), 	   newvec(0.5,0.25,0.0));
 	square1->z = mult1vec(square1->z, square1->height);
 	data->squares = square1;
+	*/
 
 }
 
@@ -211,8 +236,17 @@ int main(int ac, char **av)
 	(void)av;
 	t_data *data;
 
+	data = NULL;
 	data = malloc(sizeof(t_data));
 	setup(data);
 	compute(data);
+	free(data->cameras);
+
+
+	free(data->spheres->next);
+	free(data->spheres);
+
+
+	free(data);
     return (0);
 }

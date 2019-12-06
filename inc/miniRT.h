@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/06 19:16:02 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/06 23:56:15 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # define FALSE 0
 
 # define SCREENSIZE 10
-# define BACKGROUNDCOLOR 16777215
 # define RGBTOI(r, g, b) ((((r << 8) + g) << 8) + b)
 # define RAD(degree)	(degree * M_PI / 180)
 

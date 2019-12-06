@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/05 23:46:04 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/06 19:18:09 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ static int	squarebounds(t_square *square, t_camera *cam, t_vector3 ray, double t
 	point.x = cam->pos.x + (ray.x * t);
 	point.y = cam->pos.y + (ray.y * t);
 	point.z = cam->pos.z + (ray.z * t);
-	point = subvec(square->center, point);
+	point.x = square->center.x - point.x;
+	point.y = square->center.y - point.y;
+	point.z = square->center.z - point.z;
 	x = scalar(point, square->x) / square->height;
 	z = scalar(point, square->z) / square->height;
 	if ((x > 0 && x < square->height) && (z > 0 && z < square->height))
@@ -90,7 +92,8 @@ void try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 	while (square != NULL)
 	{
 		tmp = intersquares(square, cam, ray);
-		printf("InterSquare = %lf\n", tmp);
+		if (tmp != -1)
+			printf("InterSquare = %lf\n", tmp);
 		if (tmp != -1 && ((inter != -1 && tmp < inter) || (inter == -1)))
 		{
 			inter = tmp;

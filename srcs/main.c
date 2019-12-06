@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/05 23:45:06 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/06 19:14:10 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,32 +174,32 @@ static void setup(t_data *data)
 	second->colour = RGBTOI(0,0,255);
 	data->spheres->next = second;
 
-	// t_plane *plane1;
-	// plane1 = malloc(sizeof(t_plane));
-	// plane1->next = NULL;
-	// plane1->center = newvec(0,10,0);
-	// plane1->normal = reorientate(newvec(0, 1, 0), newvec( 0,0,0));
-	// plane1->colour = RGBTOI(0, 255, 0);
-	// data->planes = plane1;
+	t_plane *plane1;
+	plane1 = malloc(sizeof(t_plane));
+	plane1->next = NULL;
+	plane1->center = newvec(0,10,0);
+	plane1->normal = reorientate(newvec(0, 1, 0), newvec(0,0,0));
+	plane1->colour = RGBTOI(0, 255, 0);
+	data->planes = plane1;
 
-	// t_plane *plane2;
-	// plane2 = malloc(sizeof(t_plane));
-	// plane2->next = NULL;
-	// plane2->center = newvec(23, 10, 0);
-	// plane2->normal = reorientate(newvec(0, 1, 0), newvec(0, -1, 2));
-	// plane2->colour = RGBTOI(0,120,0);
-	// data->planes->next = plane2;
+	t_plane *plane2;
+	plane2 = malloc(sizeof(t_plane));
+	plane2->next = NULL;
+	plane2->center = newvec(23, 10, 0);
+	plane2->normal = reorientate(newvec(0, 1, 0), newvec(0, -1, 2));
+	plane2->colour = RGBTOI(0,120,0);
+	data->planes->next = plane2;
 
 	t_square *square1;
 	square1 = malloc(sizeof(t_square));
 	square1->next = NULL;
-	square1->height = 10;
-	square1->colour = RGBTOI(111, 111, 111);
-	square1->center = newvec(18,-5,0);
+	square1->height = 20;
+	square1->colour = RGBTOI(0, 255, 0);
+	square1->center = newvec(5,1,2);
 	square1->normal = reorientate(newvec(0, 1, 0), newvec(0.5,0.25,0.0));
-	square1->x = reorientate(newvec(1, 0, 0), newvec(0.5,0.25,0.0));
+	square1->x = reorientate(newvec(1, 0, 0), 	   newvec(0.5,0.25,0.0));
 	square1->x = mult1vec(square1->x, square1->height);
-	square1->z = reorientate(newvec(1, 0, 0), newvec(0.5,0.25,0.0));
+	square1->z = reorientate(newvec(0, 0, 1), 	   newvec(0.5,0.25,0.0));
 	square1->z = mult1vec(square1->z, square1->height);
 	data->squares = square1;
 

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/07 00:11:53 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/07 22:02:06 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 
 	basedir = mult1vec(cam->vecx, (double)SCREENSIZE);
 	w = (double)SCREENSIZE * tan(RAD(cam->fov / 2)) * 2;
-	h = w * (data->res.width / data->res.height);
-	pixshift = w / ((double)data->res.height - 1);
-	ray = addvec(basedir, mult1vec(cam->vecz, ((2 * (x + 0.5) - data->res.width) / 2 ) * pixshift));
-	ray = addvec(ray, mult1vec(cam->vecy, ((2 * (y + 0.5) - data->res.height) / 2 ) * pixshift));
+	h = w * (data->res.height / data->res.width);
+	pixshift = w / ((double)data->res.width - 1);
+	ray = addvec(basedir, mult1vec(cam->vecz, ((2 * (y + 0.5) - data->res.width) / 2) * pixshift));
+	ray = addvec(ray, mult1vec(cam->vecy, ((-2 * (x + 0.5) + data->res.height) / 2) * pixshift));
 	# if DEBUG == 1
 			// CREUSER ICI : affichier les intermediaire du calcul ray avant addvec, milieu et apres
 			printf("------------------ RAY CONFIG ---------------------------\n");
@@ -78,13 +78,10 @@ t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 			printf("H = %lf et W = %lf\n", h, w);
 			printf("Pixshift = %lf\n", pixshift);
 	# endif
-	return (norm(ray));
+	ray = norm(ray);
+	//printf("Ray[x=%lf;y=%lf] --> (%lf, %lf, %lf)\n", x, y, ray.x, ray.y, ray.z);
+	return (ray);
 }
-
-
-/*
-** printf("Object found\nInter = %d\nDistance = %lf\nColour = %d\n", object.inter, object.distance, object.colour);
-*/
 
 int	raytrace(t_data *data)
 {
@@ -105,13 +102,10 @@ int	raytrace(t_data *data)
 		{
 			ray = getray(data, data->cameras, x, y);
 			object = intersearch(data, data->cameras, ray);
-			/*
-			if (object.inter == TRUE)
-				printf("Intersection en [x:%d et y:%d]\n", x, y);
-			*/
+			// printf("RAY[x=%d;y=%d] --> (%lf, %lf, %lf)\n", x, y, ray.x, ray.y, ray.z);
+			// printf("Object found\nInter = %d\nDistance = %lf\nColour = %d\n", object.inter, object.distance, object.colour);
 			if (object.inter == TRUE)
 			{
-				// printf("Intersection en [x:%d et x:%d]\n", x, y);
 				pixels[0 + y * 4] = (char)((object.colour & 0xFF));
 				pixels[1 + y * 4] = (char)((object.colour & 0xFF00) >> 8);
 				pixels[2 + y * 4] = (char)((object.colour & 0xFF0000) >> 16);
@@ -122,16 +116,6 @@ int	raytrace(t_data *data)
 				pixels[1 + y * 4] = (char)0;
 				pixels[2 + y * 4] = (char)0;
 			}
-			# if DEBUG == 1
-				if ((x == 0 && y == 0) || (x == 0 && y == data->res.height - 1) ||
-					(x == data->res.width - 1 && y == 0) || (x == data->res.width - 1 && y == data->res.height - 1))
-				{
-					printf("Ray en X = %d et Y = %d\n", x, y);
-					printf("Ray[%d] --> (%lf, %lf, %lf)\n", i, ray.x, ray.y, ray.z);
-					printf("--------------------------------------------------------\n\n\n");
-					i++;
-				}
-			# endif
 		}
 		pixels += data->pixsizeline;
 	}
@@ -165,8 +149,8 @@ static void setup(t_data *data)
 {
 	data->cameras = malloc(sizeof(t_camera));
 
-	data->res.width = 800;
-	data->res.height = 600;
+	data->res.width = 300;
+	data->res.height = 200;
 	data->cameras->fov = 70;
 	data->cameras->pos = newvec(0,0,0);
 	data->cameras->orientation = newvec(0,0,0);
@@ -181,12 +165,12 @@ static void setup(t_data *data)
 		printf("Cam->vecz (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecz.x, data->cameras->vecz.y, data->cameras->vecz.z);
 		printf("--------------------------------------------------------\n\n");
 	# endif
-
+	/*
 
 	data->spheres = malloc(sizeof(t_sphere));
 	data->spheres->next = NULL;
-	data->spheres->radius = 3;
-	data->spheres->center = newvec(14,-1, 1);
+	data->spheres->radius = 1;
+	data->spheres->center = newvec(1,-0.5,0);
 	data->spheres->colour = RGBTOI(255,0,255);
 
 	t_sphere *second;
@@ -196,37 +180,42 @@ static void setup(t_data *data)
 	second->center = newvec(15, 1, -1);
 	second->colour = RGBTOI(100,0,255);
 	data->spheres->next = second;
-	/*
+	*/
 
 	t_plane *plane1;
 	plane1 = malloc(sizeof(t_plane));
 	plane1->next = NULL;
-	plane1->center = newvec(0,10,0);
-	plane1->normal = reorientate(newvec(0, 1, 0), newvec(0,0,0));
+	plane1->center = newvec(2,-10,0);
+	plane1->normal = reorientate(newvec(0, 1, 0), newvec(0.768,0,0)); // Range [-1;1]
 	plane1->colour = RGBTOI(0, 255, 0);
 	data->planes = plane1;
 
 	t_plane *plane2;
 	plane2 = malloc(sizeof(t_plane));
 	plane2->next = NULL;
-	plane2->center = newvec(23, 10, 0);
-	plane2->normal = reorientate(newvec(0, 1, 0), newvec(0, -1, 2));
+	plane2->center = newvec(1,3,0);
+	plane2->normal = reorientate(newvec(0, 1, 0), newvec(0, 0, 0));
 	plane2->colour = RGBTOI(0,120,0);
 	data->planes->next = plane2;
+
+
+	// sq	18,-5,0 	0.5,0.25,0.0 	10	255,255,255
+	// sq 	18,-5,0 	0.5,-0.25,0.0	10	255,255,255
+	// sq 	18,-5,0 	0.0,0.25,0.0	10	255,255,255
 
 	t_square *square1;
 	square1 = malloc(sizeof(t_square));
 	square1->next = NULL;
-	square1->height = 20;
+	square1->height = 10;
 	square1->colour = RGBTOI(0, 255, 0);
-	square1->center = newvec(5,1,2);
+	square1->center = newvec(18,-5,0);
 	square1->normal = reorientate(newvec(0, 1, 0), newvec(0.5,0.25,0.0));
 	square1->x = reorientate(newvec(1, 0, 0), 	   newvec(0.5,0.25,0.0));
 	square1->x = mult1vec(square1->x, square1->height);
 	square1->z = reorientate(newvec(0, 0, 1), 	   newvec(0.5,0.25,0.0));
 	square1->z = mult1vec(square1->z, square1->height);
 	data->squares = square1;
-	*/
+	// sq	18,-5,0 	0.5,0.25,0.0 	10	255,255,255
 
 }
 

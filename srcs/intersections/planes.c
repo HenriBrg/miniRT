@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/06 22:56:41 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/07 14:00:13 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,18 @@ double interplanes(t_plane *plane, t_camera *cam, t_vector3 ray)
 void try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 {
 	double tmp;
-	double intersection;
+	double inter;
 	t_plane *plane;
 
 	tmp = -1;
-	intersection = -1;
+	inter = -1;
 	plane = data->planes;
 	while (plane != NULL)
 	{
 		tmp = interplanes(plane, cam, ray);
-		if (tmp != -1 && ((intersection != -1 && tmp < intersection) || (intersection == -1)))
+		if (tmp != -1 && ((inter != -1 && tmp < inter) || (inter == -1)))
 		{
-			intersection = tmp;
+			inter = tmp;
 			obj->inter = TRUE;
 			obj->ray = ray;
 			obj->origin = cam->pos;

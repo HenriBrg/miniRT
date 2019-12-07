@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/07 22:02:06 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/07 22:12:04 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,26 +182,17 @@ static void setup(t_data *data)
 	data->spheres->next = second;
 	*/
 
+	// c	0,0,0			0,0,0			70
+	// sq 18,-5,0	0.5,0.25,0	10	0,255,0
+	// pl	0,3,0 0,0.4,0 255,0,0
+
 	t_plane *plane1;
 	plane1 = malloc(sizeof(t_plane));
 	plane1->next = NULL;
-	plane1->center = newvec(2,-10,0);
-	plane1->normal = reorientate(newvec(0, 1, 0), newvec(0.768,0,0)); // Range [-1;1]
-	plane1->colour = RGBTOI(0, 255, 0);
+	plane1->center = newvec(0,3,0);
+	plane1->normal = reorientate(newvec(0, 1, 0), newvec(0,0.4,0)); // Range [-1;1]
+	plane1->colour = RGBTOI(255, 0, 0);
 	data->planes = plane1;
-
-	t_plane *plane2;
-	plane2 = malloc(sizeof(t_plane));
-	plane2->next = NULL;
-	plane2->center = newvec(1,3,0);
-	plane2->normal = reorientate(newvec(0, 1, 0), newvec(0, 0, 0));
-	plane2->colour = RGBTOI(0,120,0);
-	data->planes->next = plane2;
-
-
-	// sq	18,-5,0 	0.5,0.25,0.0 	10	255,255,255
-	// sq 	18,-5,0 	0.5,-0.25,0.0	10	255,255,255
-	// sq 	18,-5,0 	0.0,0.25,0.0	10	255,255,255
 
 	t_square *square1;
 	square1 = malloc(sizeof(t_square));
@@ -215,7 +206,33 @@ static void setup(t_data *data)
 	square1->z = reorientate(newvec(0, 0, 1), 	   newvec(0.5,0.25,0.0));
 	square1->z = mult1vec(square1->z, square1->height);
 	data->squares = square1;
-	// sq	18,-5,0 	0.5,0.25,0.0 	10	255,255,255
+
+	// t_square *square2;
+	// square2 = malloc(sizeof(t_square));
+	// square2->next = NULL;
+	// square2->height = 10;
+	// square2->colour = RGBTOI(0, 255, 0);
+	// square2->center = newvec(18,-5,0);
+	// square2->normal = reorientate(newvec(0, 1, 0), newvec(0.5,-0.25,0.0));
+	// square2->x = reorientate(newvec(1, 0, 0), 	   newvec(0.5,-0.25,0.0));
+	// square2->x = mult1vec(square2->x, square2->height);
+	// square2->z = reorientate(newvec(0, 0, 1), 	   newvec(0.5,-0.25,0.0));
+	// square2->z = mult1vec(square2->z, square2->height);
+	// data->squares = square2;
+	//
+	// t_square *square3;
+	// square3 = malloc(sizeof(t_square));
+	// square3->next = NULL;
+	// square3->height = 10;
+	// square3->colour = RGBTOI(0, 255, 0);
+	// square3->center = newvec(18,-5,0);
+	// square3->normal = reorientate(newvec(0, 1, 0), newvec(0,0.25,0.0));
+	// square3->x = reorientate(newvec(1, 0, 0), 	   newvec(0,0.25,0.0));
+	// square3->x = mult1vec(square3->x, square3->height);
+	// square3->z = reorientate(newvec(0, 0, 1), 	   newvec(0,0.25,0.0));
+	// square3->z = mult1vec(square3->z, square3->height);
+	// data->squares = square3;
+
 
 }
 

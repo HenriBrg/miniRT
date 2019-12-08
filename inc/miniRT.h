@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/06 23:56:15 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/08 23:23:19 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,9 @@ typedef struct	s_triangle
 	t_vector3	p1;
 	t_vector3	p2;
 	t_vector3	p3;
+	t_vector3	normal;
 	int			colour;
+	struct 		s_triangle	*next;
 }				t_triangle;
 
 typedef struct s_interobject
@@ -153,6 +155,8 @@ t_vector3	subvec(t_vector3 vec1, t_vector3 vec2);
 t_vector3 	reorientate(t_vector3 base, t_vector3 orientation);
 t_vector3	mult1vec(t_vector3 vec, double x);
 t_vector3	mult2vec(t_vector3 vec1, t_vector3 vec2);
+t_vector3 	getdirectionalvector(t_vector3 a, t_vector3 b);
+t_vector3 	getpointfromray(t_vector3 origin, t_vector3 ray, double t);
 
 int			rgbtoi(int red, int green, int blue);
 
@@ -166,5 +170,8 @@ void 		try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj
 void 		try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
 
 t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray);
+
+
+void setup(t_data *data);
 
 # endif

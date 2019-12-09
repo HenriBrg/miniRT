@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/07 14:00:13 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/09 23:13:57 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ double interplanes(t_plane *plane, t_camera *cam, t_vector3 ray)
 	double x;
 	double denom;
 
-	x = scalar(subvec(plane->center, cam->pos), plane->normal);
-	denom = scalar(ray, plane->normal);
+	x = dot(subvec(plane->center, cam->pos), plane->normal);
+	denom = dot(ray, plane->normal);
 	if (denom < 1e-8 && denom > -1 * (1e-8))
 		return (-1);
 	x = x / denom;
@@ -53,6 +53,7 @@ void try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 			obj->ptr = (t_plane*)plane;
 			obj->distance = tmp;
 			obj->colour = plane->colour;
+			printf("Plane intersection = %lf\n", tmp);
 		}
 		plane = plane->next;
 	}

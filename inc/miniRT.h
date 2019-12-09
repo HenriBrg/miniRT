@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/09 10:58:25 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/09 22:54:00 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ typedef struct	s_data
 
 double		veclen(t_vector3 vec);
 double		rad(double degree);
-double		scalar(t_vector3 vec1, t_vector3 vec2);
+double		dot(t_vector3 vec1, t_vector3 vec2);
 
 t_vector3	newvec(double x, double y, double z);
 t_vector3	addvec(t_vector3 vec1, t_vector3 vec2);
@@ -168,6 +168,7 @@ double		intersphere(t_sphere *sp, t_camera *cam, t_vector3 ray);
 void 		try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
 void 		try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
 void 		try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
+void 		try_triangles(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
 
 t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray);
 

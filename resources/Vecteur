@@ -1,0 +1,13 @@
+Cosinus(theta) retourne la valeur en abscisse dans le cercle trigonmétrique
+Sinus  (theta) retourne la valeur en ordonnée dans le cercle trigonmétrique
+
+Le produit scalaire (dot product) mesure de combien deux vecteurs sont parallèles
+
+Le produit vectoriel (cross product) mesure de combien deux vecteurs sont perpendiculaires
+
+L'addition d'un vecteur A et d'un vecteur B
+
+La soustraction d'un vecteur A et d'un vecteur B
+
+La normale d'un plan / triangle correspond au vecteur perpendiculaire à la surface
+du plan / triangle

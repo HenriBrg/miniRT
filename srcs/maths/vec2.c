@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 17:53:39 by henri             #+#    #+#             */
-/*   Updated: 2019/12/02 19:17:12 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/09 21:40:09 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ double veclen(t_vector3 vec)
 }
 
 /*
-** Retourne le produit scalaire : A ^ B
+** Retourne le produit scalaire : A ^ B (dot product)
 */
 
-double scalar(t_vector3 vec1, t_vector3 vec2)
+double dot(t_vector3 vec1, t_vector3 vec2)
 {
-	double scalar;
+	double dot;
 
-	scalar = vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
-	return (scalar);
+	dot = vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
+	return (dot);
 }
 
 /*

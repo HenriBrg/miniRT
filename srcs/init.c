@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 14:19:04 by hberger           #+#    #+#             */
-/*   Updated: 2019/11/28 14:30:57 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/09 21:10:20 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 /*
 ** Applique une rotation sur l'axe x, y et z au
 ** vecteur d'orientation de la camera
+** A la sortie au obtient un répère 3D avec
+** data->cameras->vecx : RAYX --> (1.000000, 0.000000, 0.000000)
+** data->cameras->vecy : RAYY --> (0.000000, 1.000000, 0.000000)
+** data->cameras->vecz : RAYZ --> (0.000000, 0.000000, 1.000000)
+printf("RAYX --> (%lf, %lf, %lf)\n", data->cameras->vecx.x, data->cameras->vecx.y, data->cameras->vecx.z);
+printf("RAYY --> (%lf, %lf, %lf)\n", data->cameras->vecy.x, data->cameras->vecy.y, data->cameras->vecy.z);
+printf("RAYZ --> (%lf, %lf, %lf)\n", data->cameras->vecz.x, data->cameras->vecz.y, data->cameras->vecz.z);
 */
 
 t_vector3 reorientate(t_vector3 base, t_vector3 orientation)

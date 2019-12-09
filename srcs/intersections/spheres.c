@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/04 19:06:17 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/09 23:16:57 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ double	intersphere(t_sphere *sphere, t_camera *cam, t_vector3 ray)
 	double	x2;
 	double	delta;
 
-	a = scalar(ray, ray);
-	b = 2 * scalar(ray, subvec(cam->pos, sphere->center));
-	c = scalar(subvec(cam->pos, sphere->center),
+	a = dot(ray, ray);
+	b = 2 * dot(ray, subvec(cam->pos, sphere->center));
+	c = dot(subvec(cam->pos, sphere->center),
 			   subvec(cam->pos, sphere->center)) - (sphere->radius * (sphere->radius / 4));
 	delta = pow(b, 2) - 4 * a * c;
 	if (delta < 0)
@@ -80,6 +80,7 @@ void try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 			obj->ptr = (t_sphere*)sphere;
 			obj->distance = tmp;
 			obj->colour = sphere->colour;
+			printf("Sphere intersection = %lf\n", tmp);
 		}
 		sphere = sphere->next;
 	}

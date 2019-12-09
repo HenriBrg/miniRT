@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/09 11:33:46 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/09 23:17:05 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static int	squarebounds(t_square *square, t_camera *cam, t_vector3 ray, double t
 
 	point = getpointfromray(cam->pos, ray, t);
 	point = subvec(square->center, point);
-	x = scalar(point, square->x) / square->height;
-	z = scalar(point, square->z) / square->height;
+	x = dot(point, square->x) / square->height;
+	z = dot(point, square->z) / square->height;
 	if ((x > 0 && x < square->height) && (z > 0 && z < square->height))
 		return (1);
 	return (0);
@@ -43,8 +43,8 @@ static double intersquares(t_square *square, t_camera *cam, t_vector3 ray)
 	double 	t;
 	double	denom;
 
-	t = scalar(subvec(square->center, cam->pos), square->normal);
-	denom = scalar(ray, square->normal);
+	t = dot(subvec(square->center, cam->pos), square->normal);
+	denom = dot(ray, square->normal);
 	if (denom < 1e-8 && denom > -1 * (1e-8))
 		return (-1);
 	t = t / denom;
@@ -74,6 +74,7 @@ void try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 			obj->ptr = (t_square*)square;
 			obj->distance = tmp;
 			obj->colour = square->colour;
+			printf("Square intersection = %lf\n", tmp);
 		}
 		square = square->next;
 	}

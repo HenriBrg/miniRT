@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/08 21:42:09 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/09 23:30:40 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,10 @@ int	raytrace(t_data *data)
 {
 	int			x;
 	int			y;
-	int 		i;
 	char		*pixels;
 	t_vector3	ray;
 	t_interobject	object;
 
-	i = 0;
 	x = -1;
 	pixels = data->pixtab;
 	while (++x < data->res.height)

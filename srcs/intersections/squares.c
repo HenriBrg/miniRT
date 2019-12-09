@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/08 23:16:34 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/09 11:33:46 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	squarebounds(t_square *square, t_camera *cam, t_vector3 ray, double t
 	t_vector3 point;
 
 	point = getpointfromray(cam->pos, ray, t);
-	point = getdirectionalvector(point, square->center);
+	point = subvec(square->center, point);
 	x = scalar(point, square->x) / square->height;
 	z = scalar(point, square->z) / square->height;
 	if ((x > 0 && x < square->height) && (z > 0 && z < square->height))

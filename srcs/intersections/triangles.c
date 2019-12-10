@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 23:19:39 by henri             #+#    #+#             */
-/*   Updated: 2019/12/10 12:17:36 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/10 12:30:59 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_vector3		getnormaltriangle(t_vector3 p1, t_vector3 p2, t_vector3 p3)
 
 	ab = subvec(p2, p1);
 	ac = subvec(p3, p1);
-	return (norm(cross(ab, ac)));
+	return (norm(cross(ac, ab)));
 }
 
 /*
@@ -64,7 +64,7 @@ static double	intertriangle(t_triangle *triangle, t_camera *cam, t_vector3 ray)
 	t /= denom;
 	if (t > 0 && trianglebounds(triangle, cam, ray, t) == 1)
 		return (t);
-	return (0);
+	return (-1);
 }
 
 void try_triangles(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
@@ -88,8 +88,6 @@ void try_triangles(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *ob
 			obj->ptr = (t_triangle*)triangle;
 			obj->distance = tmp;
 			obj->colour = triangle->colour;
-			//printf("Triangle intersection = %lf\n", tmp);
-
 		}
 		triangle = triangle->next;
 	}

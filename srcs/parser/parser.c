@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/10 12:18:30 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/10 12:38:18 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,24 @@ void setup(t_data *data)
 	tri1->p2 = newvec(4,0,-2);
 	tri1->p3 = newvec(2,2,0);
 	data->triangles = tri1;
+
+	t_triangle *tri2;
+	tri2 = malloc(sizeof(t_triangle));
+	tri2->next = NULL;
+	tri2->colour = RGBTOI(0,255,0);
+	tri2->p1 = newvec(0,0,2);
+	tri2->p2 = newvec(4,0,2);
+	tri2->p3 = newvec(2,2,0);
+	tri1->next = tri2;
+
+	t_triangle *tri3;
+	tri3 = malloc(sizeof(t_triangle));
+	tri3->next = NULL;
+	tri3->colour = RGBTOI(0,0,255);
+	tri3->p1 = newvec(4,0,-2);
+	tri3->p2 = newvec(4,0,2);
+	tri3->p3 = newvec(2,2,0);
+	tri2->next = tri3;
 
 	/*
 

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/09 23:24:12 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/10 12:18:30 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void setup(t_data *data)
 	plane1->center = newvec(0,-1,0);
 	plane1->normal = reorientate(newvec(0, 1, 0), newvec(0,0,0));
 	plane1->colour = RGBTOI(255,255,255);
-	//data->planes = plane1;
+	data->planes = plane1;
 
 	t_square *square1;
 	square1 = malloc(sizeof(t_square));
@@ -60,7 +60,6 @@ void setup(t_data *data)
 	square1->z = mult1vec(square1->z, square1->height);
 	data->squares = square1;
 
-	/*
 	t_triangle *tri1;
 	tri1 = malloc(sizeof(t_triangle));
 	tri1->next = NULL;
@@ -69,8 +68,6 @@ void setup(t_data *data)
 	tri1->p2 = newvec(4,0,-2);
 	tri1->p3 = newvec(2,2,0);
 	data->triangles = tri1;
-
-	*/
 
 	/*
 

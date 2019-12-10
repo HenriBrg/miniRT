@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/09 23:16:57 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/10 12:13:04 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 	while (sphere != NULL)
 	{
 		tmp = intersphere(sphere, cam, ray);
-		if (tmp != -1 && ((inter != -1 && tmp < inter) || (inter == -1)))
+		//if (tmp != -1 && ((inter != -1 && tmp < inter) || (inter == -1)))
+		if (tmp != -1 && ((tmp < obj->distance) || (obj->inter == 0)))
 		{
 			inter = tmp;
 			obj->inter = TRUE;
@@ -80,7 +81,7 @@ void try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 			obj->ptr = (t_sphere*)sphere;
 			obj->distance = tmp;
 			obj->colour = sphere->colour;
-			printf("Sphere intersection = %lf\n", tmp);
+			//printf("Sphere intersection = %lf\n", tmp);
 		}
 		sphere = sphere->next;
 	}

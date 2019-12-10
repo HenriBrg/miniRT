@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 23:19:39 by henri             #+#    #+#             */
-/*   Updated: 2019/12/09 23:17:21 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/10 12:17:36 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void try_triangles(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *ob
 	while (triangle != NULL)
 	{
 		tmp = intertriangle(triangle, cam, ray);
-		if (tmp != -1 && ((inter != -1 && tmp < inter) || (inter == -1)))
+		if (tmp != -1 && ((tmp < obj->distance) || (obj->inter == 0)))
 		{
 			inter = tmp;
 			obj->inter = TRUE;
@@ -88,7 +88,7 @@ void try_triangles(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *ob
 			obj->ptr = (t_triangle*)triangle;
 			obj->distance = tmp;
 			obj->colour = triangle->colour;
-			printf("Triangle intersection = %lf\n", tmp);
+			//printf("Triangle intersection = %lf\n", tmp);
 
 		}
 		triangle = triangle->next;

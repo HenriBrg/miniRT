@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/09 23:13:57 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/10 12:13:09 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,17 @@
 
 double interplanes(t_plane *plane, t_camera *cam, t_vector3 ray)
 {
-	double x;
+	double t;
 	double denom;
 
-	x = dot(subvec(plane->center, cam->pos), plane->normal);
+	t = dot(subvec(plane->center, cam->pos), plane->normal);
 	denom = dot(ray, plane->normal);
 	if (denom < 1e-8 && denom > -1 * (1e-8))
 		return (-1);
-	x = x / denom;
-	return ((x > 0) ? x : -1);
+	t = t / denom;
+	if (t > 0)
+		return (t);
+	return (-1);
 }
 
 void try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
@@ -44,7 +46,7 @@ void try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 	while (plane != NULL)
 	{
 		tmp = interplanes(plane, cam, ray);
-		if (tmp != -1 && ((inter != -1 && tmp < inter) || (inter == -1)))
+		if (tmp != -1 && ((tmp < obj->distance) || (obj->inter == 0)))
 		{
 			inter = tmp;
 			obj->inter = TRUE;
@@ -53,7 +55,6 @@ void try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 			obj->ptr = (t_plane*)plane;
 			obj->distance = tmp;
 			obj->colour = plane->colour;
-			printf("Plane intersection = %lf\n", tmp);
 		}
 		plane = plane->next;
 	}

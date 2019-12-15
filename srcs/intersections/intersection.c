@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 23:01:44 by henri             #+#    #+#             */
-/*   Updated: 2019/12/10 11:56:59 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/15 15:13:22 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray)
 	object.ptr = 0;
 	object.colour = 0;
 	object.distance = 0;
+	object.intercount = 0;
 
 	try_spheres(data, cam, ray, &object);
 	try_planes(data, cam, ray, &object);

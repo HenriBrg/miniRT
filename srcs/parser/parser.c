@@ -6,11 +6,46 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/10 12:38:18 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/15 15:46:48 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
+
+
+/*
+** Applique une rotation sur l'axe x, y et z au
+** vecteur d'orientation de la camera
+** A la sortie au obtient un répère 3D avec
+** data->cameras->vecx : RAYX --> (1.000000, 0.000000, 0.000000)
+** data->cameras->vecy : RAYY --> (0.000000, 1.000000, 0.000000)
+** data->cameras->vecz : RAYZ --> (0.000000, 0.000000, 1.000000)
+printf("RAYX --> (%lf, %lf, %lf)\n", data->cameras->vecx.x, data->cameras->vecx.y, data->cameras->vecx.z);
+printf("RAYY --> (%lf, %lf, %lf)\n", data->cameras->vecy.x, data->cameras->vecy.y, data->cameras->vecy.z);
+printf("RAYZ --> (%lf, %lf, %lf)\n", data->cameras->vecz.x, data->cameras->vecz.y, data->cameras->vecz.z);
+*/
+
+t_vector3 reorientate(t_vector3 base, t_vector3 orientation)
+{
+	t_vector3	new;
+	double		tmp;
+	double		angle;
+
+	angle = orientation.x * M_PI;
+	new.x = base.x;
+	new.y = base.y * cos(angle) - base.z * sin(angle);
+	new.z = base.y * sin(angle) + base.z * cos(angle);
+	angle = orientation.y * M_PI;
+	tmp = new.x * cos(angle) + new.z * sin(angle);
+	new.z = -new.x * sin(angle) + new.z * cos(angle);
+	new.x = tmp;
+	angle = orientation.z * M_PI;
+	tmp = new.x * cos(angle) - new.y * sin(angle);
+	new.y = new.x * sin(angle) + new.y * cos(angle);
+	new.x = tmp;
+	// printf("current ray : |%10.6g|%10.6g|%10.6g|\n", new.x, new.y, new.z);
+	return (new);
+}
 
 /*
 printf("\n----------------- CAMERA SETUP --------------------\n");
@@ -87,41 +122,6 @@ void setup(t_data *data)
 	tri3->p3 = newvec(2,2,0);
 	tri2->next = tri3;
 
-	/*
 
-	t_sphere *second;
-	second = malloc(sizeof(t_sphere));
-	second->next = NULL;
-	second->radius = 5;
-	second->center = newvec(15, 1, -1);
-	second->colour = RGBTOI(100,0,255);
-	data->spheres->next = second;
-
-	t_square *square2;
-	square2 = malloc(sizeof(t_square));
-	square2->next = NULL;
-	square2->height = 10;
-	square2->colour = RGBTOI(0, 255, 0);
-	square2->center = newvec(18,-5,0);
-	square2->normal = reorientate(newvec(0, 1, 0), newvec(0.5,-0.25,0.0));
-	square2->x = reorientate(newvec(1, 0, 0), 	   newvec(0.5,-0.25,0.0));
-	square2->x = mult1vec(square2->x, square2->height);
-	square2->z = reorientate(newvec(0, 0, 1), 	   newvec(0.5,-0.25,0.0));
-	square2->z = mult1vec(square2->z, square2->height);
-	data->squares = square2;
-
-	t_square *square3;
-	square3 = malloc(sizeof(t_square));
-	square3->next = NULL;
-	square3->height = 10;
-	square3->colour = RGBTOI(0, 255, 0);
-	square3->center = newvec(18,-5,0);
-	square3->normal = reorientate(newvec(0, 1, 0), newvec(0,0.25,0.0));
-	square3->x = reorientate(newvec(1, 0, 0), 	   newvec(0,0.25,0.0));
-	square3->x = mult1vec(square3->x, square3->height);
-	square3->z = reorientate(newvec(0, 0, 1), 	   newvec(0,0.25,0.0));
-	square3->z = mult1vec(square3->z, square3->height);
-	data->squares = square3;
-	*/
 
 }

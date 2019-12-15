@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/10 12:13:04 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/15 14:59:54 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,18 @@
 
 double	intersphere(t_sphere *sphere, t_camera *cam, t_vector3 ray)
 {
-	double	a;
-	double	b;
-	double	c;
-	double	x1;
-	double	x2;
-	double	delta;
+	double		t0;
+	double		t1;
+	t_vector3	abc;
 
-	a = dot(ray, ray);
-	b = 2 * dot(ray, subvec(cam->pos, sphere->center));
-	c = dot(subvec(cam->pos, sphere->center),
-			   subvec(cam->pos, sphere->center)) - (sphere->radius * (sphere->radius / 4));
-	delta = pow(b, 2) - 4 * a * c;
-	if (delta < 0)
-		return (-1);
-	else if (delta == 0)
-	{
-		x1 = -b / (2 * a);
-		return (x1);
-	}
-	else
-	{
-		x1 = (-b - sqrt(delta)) / (2 * a);
-		x2 = (-b + sqrt(delta)) / (2 * a);
-		return ((x1 < x2 ? x1 : x2));
-	}
+	t0 = -1;
+	abc.x = dot(ray, ray);
+	abc.y = 2 * dot(ray, subvec(cam->pos, sphere->center));
+	abc.z = dot(subvec(cam->pos, sphere->center),
+			subvec(cam->pos, sphere->center)) -
+			(sphere->radius * (sphere->radius / 4));
+	solvequadratic(abc, &t0, &t1);
+	return (t0);
 }
 
 /*

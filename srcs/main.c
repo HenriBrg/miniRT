@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/10 12:18:12 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/15 13:35:12 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 
 int	raytrace(t_data *data)
 {
-	int			x;
-	int			y;
-	char		*pixels;
-	t_vector3	ray;
+	int				x;
+	int				y;
+	char			*pixels;
+	t_vector3		ray;
 	t_interobject	object;
 
 	x = -1;

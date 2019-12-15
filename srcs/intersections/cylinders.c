@@ -6,54 +6,14 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/15 15:51:01 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/15 15:54:27 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
 
 
-static int check_cyl_solve(t_rt_param *param, t_cylindre *cyl)
-{
-	t_vector3	d_x_t;
-	t_vector3	abc;
-	int 		sol;
 
-	d_x_t.x = dot(param->ray, cyl->orient);
-	d_x_t.y = dot(sub_vect(param->origin, cyl->centre), cyl->orient);
-	abc.x = dot_same(param->ray) - pow(d_x_t.x, 2);
-	abc.y = 2 * (dot(param->ray, sub_vect(param->origin, cyl->centre)) -
-			d_x_t.x * d_x_t.y);
-	abc.z = dot_same(sub_vect(param->origin, cyl->centre)) -
-			pow(d_x_t.y, 2) - pow(cyl->diametre / 2, 2);
-	sol = solve_quadratic(abc, &(param->i), &(param->i_2));
-	if (sol >= 1)
-		param->v = 1;
-	if (sol == 2)
-		param->v_2 = 1;
-	return (sol);
-}
-
-int	raytrace_cyl(t_rt_param *param)
-{
-	t_cylindre	*cyl;
-	double		h1;
-	double		h2;
-
-	cyl = param->object;
-	if (!check_cyl_solve(param, cyl))
-		return (0);
-	h1 = dot(sub_vect(param->origin, cyl->centre), cyl->orient) +
-		dot(param->ray, cyl->orient) * param->i;
-	if (h1 < 0 || h1 > cyl->height)
-		param->v = 0;
-	h2 = dot(sub_vect(param->origin, cyl->centre), cyl->orient) +
-		dot(param->ray, cyl->orient) * param->i_2;
-	if (h2 < 0 || h2 > cyl->height)
-		param->v_2 = 0;
-	return ((param->v && h1 < cyl->height) ||
-			(param->v_2 && h2 < cyl->height));
-}
 
 static int	solvable(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, t_interobject *obj)
 {

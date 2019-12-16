@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/16 22:19:21 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/16 22:27:40 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,12 +136,13 @@ static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray)
 	cardoc.y = dot(ca, ray);
 	cardoc.z = dot(ca, oc);
 	abc.x = cardoc.x - (cardoc.y * cardoc.y);
-	abc.y = cardoc.x * dot(oc, ray) - (cardoc.y * cardoc.z);
-	abc.z = cardoc.x * dotsame(oc) - (cardoc.y * cardoc.z)
+	abc.y = cardoc.x * dot(oc, ray) - (cardoc.z * cardoc.y);
+	abc.z = cardoc.x * dotsame(oc) - (cardoc.z * cardoc.z)
 			- (cylinder->radius * cylinder->radius * cardoc.x);
 	hty.x = (abc.y * abc.y) - (abc.x * abc.z);
 	if (hty.x < 0)
 		return (-1);
+	hty.x = sqrt(hty.x);
 	hty.y = (-abc.y - hty.x) / abc.x;
 	hty.z = cardoc.z + (hty.y * cardoc.y);
 	if (hty.z > 0 && hty.z < cardoc.x)

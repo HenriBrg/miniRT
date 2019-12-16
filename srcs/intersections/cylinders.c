@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/16 20:09:36 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/16 20:26:19 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, 
 ** http://www.iquilezles.org/www/articles/intersectors/intersectors.htm
 */
 
-static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, t_interobject *obj)
+static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, t_interobject *)
 {
 	/* VARIABLES
 	v = ray
@@ -114,7 +114,7 @@ static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, 
 	*/
 }
 
-static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, t_interobject *obj)
+static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray)
 {
 	t_vector3	topbot;
 

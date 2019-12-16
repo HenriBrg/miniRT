@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/16 12:52:47 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/16 17:44:09 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,14 @@ static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, 
 ** http://www.iquilezles.org/www/articles/intersectors/intersectors.htm
 */
 
+static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, t_interobject *obj)
+{
+	/*
+	v = ray
+	va = cylinder->orientation
+	*/
+
+}
 
 void try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 {

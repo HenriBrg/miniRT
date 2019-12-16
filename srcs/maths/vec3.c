@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 23:12:15 by henri             #+#    #+#             */
-/*   Updated: 2019/12/09 11:34:16 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/16 22:11:05 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,9 @@ t_vector3 getpointfromray(t_vector3 origin, t_vector3 ray, double t)
 	origin.y += ray.y * t;
 	origin.z += ray.z * t;
 	return (origin);
+}
+
+double absd(double n)
+{
+	return ((n < 0) ? -n : n);
 }

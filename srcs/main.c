@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/15 20:49:22 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/16 22:18:49 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,6 @@ int	raytrace(t_data *data)
 				pixels[0 + y * 4] = (char)((object.colour & 0xFF));
 				pixels[1 + y * 4] = (char)((object.colour & 0xFF00) >> 8);
 				pixels[2 + y * 4] = (char)((object.colour & 0xFF0000) >> 16);
-			}
-			else if (object.type == CYLINDER)
-			{
-				
 			}
 			else
 			{

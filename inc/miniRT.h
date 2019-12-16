@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/15 20:33:27 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/16 22:15:48 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct	s_cylinder
 	t_vector3				defaultorientation;
 	t_vector3				orientation;
 	double					diameter;
+	double					radius;
 	double					height;
 	int						colour;
 	struct		s_cylinder	*next;
@@ -166,6 +167,7 @@ typedef struct	s_data
 	t_triangle		*triangles;
 }				t_data;
 
+double		absd(double n);
 double		veclen(t_vector3 vec);
 double		rad(double degree);
 double		dot(t_vector3 vec1, t_vector3 vec2);

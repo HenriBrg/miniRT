@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/16 20:26:19 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/16 22:19:21 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,10 @@ static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, 
 }
 */
 
-/*
-** https://mrl.nyu.edu/~dzorin/cg05/lecture12.pdf
-** https://mrl.nyu.edu/~dzorin/rend05/lecture2.pdf
-** http://www.iquilezles.org/www/articles/intersectors/intersectors.htm
-*/
+/* VARIABLES
 
 static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, t_interobject *)
 {
-	/* VARIABLES
 	v = ray
 	q = ray
 	qi = ray * i
@@ -111,16 +106,50 @@ static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, 
 
 
 	inter1 = dot(cylinder->orientation, subvec())
-	*/
 }
+
+*/
+
+/*
+** ca = vecteur allant du centre de la base bottom vers le centre de la base top
+** oc = vecteur allant de cam->pos jusqu'au centre de la base bottom
+**
+** https://mrl.nyu.edu/~dzorin/cg05/lecture12.pdf
+** https://mrl.nyu.edu/~dzorin/rend05/lecture2.pdf
+** http://www.iquilezles.org/www/articles/intersectors/intersectors.htm
+*/
 
 static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray)
 {
-	t_vector3	topbot;
+	t_vector3	pb;
+	t_vector3	ca;
+	t_vector3	oc;
+	t_vector3	abc;
+	t_vector3	hty;
+	t_vector3	cardoc;;
 
-	const t_vector topcenter = addvec(cylinder->center, mult1vec(cylinder->orientation, cylinder->height));
+	pb = addvec(cylinder->center, mult1vec(cylinder->orientation, cylinder->height));
+	ca = subvec(pb, cylinder->center);
+	oc = subvec(cam->pos, cylinder->center);
 
-	topbot = subvec()
+	cardoc.x = dotsame(ca);
+	cardoc.y = dot(ca, ray);
+	cardoc.z = dot(ca, oc);
+	abc.x = cardoc.x - (cardoc.y * cardoc.y);
+	abc.y = cardoc.x * dot(oc, ray) - (cardoc.y * cardoc.z);
+	abc.z = cardoc.x * dotsame(oc) - (cardoc.y * cardoc.z)
+			- (cylinder->radius * cylinder->radius * cardoc.x);
+	hty.x = (abc.y * abc.y) - (abc.x * abc.z);
+	if (hty.x < 0)
+		return (-1);
+	hty.y = (-abc.y - hty.x) / abc.x;
+	hty.z = cardoc.z + (hty.y * cardoc.y);
+	if (hty.z > 0 && hty.z < cardoc.x)
+		return (hty.y);
+	hty.y = (((hty.z < 0) ? 0 : cardoc.x) - cardoc.z) / cardoc.y;
+	if (absd(abc.y + (abc.x * hty.y) < hty.x))
+		return (hty.y);
+	return (-1);
 }
 
 
@@ -135,10 +164,10 @@ void try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *ob
 	cylinder = data->cylinders;
 	while (cylinder != NULL)
 	{
-		tmp = intercylinder(cylinder, cam, ray, obj);
+		tmp = intercylinder(cylinder, cam, ray);
 		if (tmp != -1 && ((tmp < obj->distance) || (obj->inter == 0)))
 		{
-			obj->type = CYLINDER;
+			printf("Intersection Cylindre\n");
 			inter = tmp;
 			obj->inter = TRUE;
 			obj->ray = ray;

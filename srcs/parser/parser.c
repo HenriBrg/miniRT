@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/15 20:00:39 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/16 22:16:46 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,10 @@ void setup(t_data *data)
 	cyl1->next = NULL;
 	cyl1->colour = RGBTOI(140,100,255);
 	cyl1->center = newvec(10.0,-5,-3);
-	cyl1->orientation = reorientate(newvec(0,1,0), newvec(0,0,0));
+	// cyl1->orientation = reorientate(newvec(0,1,0), newvec(0,0,0));
+	cyl1->orientation = newvec(0,0.5,0.2);
 	cyl1->diameter = 1.75;
+	cyl1->radius = cyl1->diameter / 2;
 	cyl1->height = 3;
 	data->cylinders = cyl1;
 

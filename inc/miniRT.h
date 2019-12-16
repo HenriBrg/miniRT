@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/15 15:25:26 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/15 20:33:27 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define TRUE 1
 # define FALSE 0
 
+# define UNDEFINED 0
 # define SPHERE 1
 # define PLANE 2
 # define SQUARE 3
@@ -103,7 +104,7 @@ typedef struct	s_square
 
 typedef struct	s_cylinder
 {
-	t_vector3				centre;
+	t_vector3				center;
 	t_vector3				defaultorientation;
 	t_vector3				orientation;
 	double					diameter;
@@ -122,18 +123,26 @@ typedef struct	s_triangle
 	struct 		s_triangle	*next;
 }				t_triangle;
 
+/*
+** origin : cam->pos
+** intercount : nombre d'intersection (2 potentielles sur sphère/cylindre)
+** distance = t0 mais plus clair d'avoir distance
+*/
+
 typedef struct s_interobject
 {
+	void 		*ptr;
 	int			type;
 	int			inter;
-	t_vector3	ray;
-	t_vector3	origin;
-	void 		*ptr;
 	int			colour;
-	double		distance;
 	int			intercount;
 	double		t0;
 	double		t1;
+	double		distance;
+	t_vector3	ray;
+	t_vector3	origin;
+	int	v;
+	int v2;
 }				t_interobject;
 
 typedef struct	s_data
@@ -160,6 +169,7 @@ typedef struct	s_data
 double		veclen(t_vector3 vec);
 double		rad(double degree);
 double		dot(t_vector3 vec1, t_vector3 vec2);
+double		dotsame(t_vector3 vec1);
 
 t_vector3	newvec(double x, double y, double z);
 t_vector3	addvec(t_vector3 vec1, t_vector3 vec2);
@@ -180,11 +190,11 @@ int			rgbtoi(int red, int green, int blue);
 ** srcs/intersections/
 */
 
-double		intersphere(t_sphere *sp, t_camera *cam, t_vector3 ray);
 void 		try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
 void 		try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
 void 		try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
 void 		try_triangles(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
+void 		try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
 
 t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray);
 

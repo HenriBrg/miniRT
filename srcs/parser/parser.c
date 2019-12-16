@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/15 15:46:48 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/15 20:00:39 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,13 @@ void setup(t_data *data)
 	data->spheres->center = newvec(2,0.5,0);
 	data->spheres->colour = RGBTOI(255,0,255);
 
-	t_plane *plane1;
-	plane1 = malloc(sizeof(t_plane));
-	plane1->next = NULL;
-	plane1->center = newvec(0,-1,0);
-	plane1->normal = reorientate(newvec(0, 1, 0), newvec(0,0,0));
-	plane1->colour = RGBTOI(255,255,255);
-	data->planes = plane1;
+	// t_plane *plane1;
+	// plane1 = malloc(sizeof(t_plane));
+	// plane1->next = NULL;
+	// plane1->center = newvec(0,-1,0);
+	// plane1->normal = reorientate(newvec(0, 1, 0), newvec(0,0,0));
+	// plane1->colour = RGBTOI(255,255,255);
+	// data->planes = plane1;
 
 	t_square *square1;
 	square1 = malloc(sizeof(t_square));
@@ -122,6 +122,16 @@ void setup(t_data *data)
 	tri3->p3 = newvec(2,2,0);
 	tri2->next = tri3;
 
+	// cy	10.0,-5,-3	0,0,0 	    1.75 	3		255,255,255
 
+	t_cylinder *cyl1;
+	cyl1 = malloc(sizeof(t_cylinder));
+	cyl1->next = NULL;
+	cyl1->colour = RGBTOI(140,100,255);
+	cyl1->center = newvec(10.0,-5,-3);
+	cyl1->orientation = reorientate(newvec(0,1,0), newvec(0,0,0));
+	cyl1->diameter = 1.75;
+	cyl1->height = 3;
+	data->cylinders = cyl1;
 
 }

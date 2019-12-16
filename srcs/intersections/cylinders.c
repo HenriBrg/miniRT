@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/16 17:44:09 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/16 20:09:36 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,71 @@ static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, 
 
 static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, t_interobject *obj)
 {
-	/*
+	/* VARIABLES
 	v = ray
+	q = ray
+	qi = ray * i
+	qt = ray * t
 	va = cylinder->orientation
-	*/
+	p = cam->pos
+	pa = cylinder->center
+	r = radius
+	p1 = bottom base center
+	p2 = top base center
 
+	// codam
+	p = ray.origin;
+	v = ray.direction;
+	pa = cylinder.position;
+	va = cylinder.rotation;
+	r = cylinder.radius;
+	q1 = p + v * t1;
+	q2 = p + v * t1;
+
+
+	t_vector3	abc;
+	t_vector3	delta;
+
+	delta = subvec(cam->pos, cylinder->center);
+
+	abc.x = dotsame(subvec(ray, mult1vec(cylinder->orientation, dot(ray, cylinder->orientation))));
+
+	abc.y = 2 * (dot(subvec(ray, mult1vec(cylinder->orientation,
+										  dot(ray, cylinder->orientation)))),
+				    (subvec(delta, mult1vec(cylinder->orientation,
+						 				dot(cylinder->orientation, delta)))));
+
+
+	abc.z = dotsame(subvec(delta, mult1vec(cylinder->orientation,
+										  dot(delta, cylinder->orientation))))
+										  - pow(cylinder->radius, 2);
+
+	obj->intercount = solvequadratic(abc, &obj->t0, &obj->t1);
+	if (obj->intercount == 0)
+		return (-1);
+
+	double inter1;
+	double inter2;
+	double inter3;
+	double inter4;
+	double botcenter;
+	double topcenter;
+
+
+
+	inter1 = dot(cylinder->orientation, subvec())
+	*/
 }
+
+static double	intercylinder(t_cylinder *cylinder, t_camera *cam, t_vector3 ray, t_interobject *obj)
+{
+	t_vector3	topbot;
+
+	const t_vector topcenter = addvec(cylinder->center, mult1vec(cylinder->orientation, cylinder->height));
+
+	topbot = subvec()
+}
+
 
 void try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 {

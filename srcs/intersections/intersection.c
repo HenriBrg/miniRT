@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 23:01:44 by henri             #+#    #+#             */
-/*   Updated: 2019/12/15 19:41:14 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/16 20:11:56 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray)
 	try_planes(data, cam, ray, &object);
 	try_squares(data, cam, ray, &object);
 	try_triangles(data, cam, ray, &object);
-	try_cylinders(data, cam, ray, & object);
+	try_cylinders(data, cam, ray, &object);
 	return (object);
 }

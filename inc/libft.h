@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 17:17:16 by hberger           #+#    #+#             */
-/*   Updated: 2019/11/23 00:08:33 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/17 00:22:00 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ char			*ft_strrchr(const char *s, int c);
 char			*ft_strstr(const char *str, const char *to_find);
 char			*ft_strsub(char const *s, unsigned int start, size_t len);
 char			*ft_strndup(const char *src, size_t n);
+char			**ft_strsplit(char *str, char *charset);
+void			ft_strsfree(char **strs);
 size_t			ft_strlen(const char *str);
 
 #endif

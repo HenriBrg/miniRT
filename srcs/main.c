@@ -6,23 +6,11 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/16 22:18:49 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/16 23:58:14 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
-
-/*
-** Un ray peut s'exprimer par la formule : OrigineCam + t*RayVector
-** avec t le nombre de période ray(t) = OrigineCam + t*RayVector
-printf("\n--------------------------------------\n");
-printf("BaseDir[x=%lf;y=%lf] --> (%lf, %lf, %lf)\n", x, y, basedir.x, basedir.y, basedir.z);
-printf("RayV1[x=%lf;y=%lf] --> (%lf, %lf, %lf)\n", x, y, ray.x, ray.y, ray.z);
-printf("RayV2[x=%lf;y=%lf] --> (%lf, %lf, %lf)\n", x, y, ray.x, ray.y, ray.z);
-printf("w = %lf et pixshift = %lf\n", w, pixshift);
-printf("RayV3[x=%lf;y=%lf] --> (%lf, %lf, %lf)\n", x, y, ray.x, ray.y, ray.z);
-printf("--------------------------------------\n");
-*/
 
 t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 {
@@ -39,11 +27,6 @@ t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 	ray = norm(ray);
 	return (ray);
 }
-
-/*
-// printf("RAY[x=%d;y=%d] --> (%lf, %lf, %lf)\n", x, y, ray.x, ray.y, ray.z);
-// printf("Object found\nInter = %d\nDistance = %lf\nColour = %d\n", object.inter, object.distance, object.colour);
-*/
 
 int	raytrace(t_data *data)
 {
@@ -80,14 +63,6 @@ int	raytrace(t_data *data)
 	return (0);
 }
 
-/*
-** MLX Init
-**
-** data->img = mlx_new_image(data->ptr, data->res.width, data->res.height);
-** data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
-** mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
-*/
-
 static int compute(t_data *data)
 {
 	data->ptr = mlx_init();
@@ -113,13 +88,6 @@ int main(int ac, char **av)
 	data = malloc(sizeof(t_data));
 	setup(data);
 	compute(data);
-	free(data->cameras);
-
-
-	free(data->spheres->next);
-	free(data->spheres);
-
-
 	free(data);
     return (0);
 }

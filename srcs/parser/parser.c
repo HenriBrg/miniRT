@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/16 22:32:10 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/17 00:27:45 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@
 ** data->cameras->vecx : RAYX --> (1.000000, 0.000000, 0.000000)
 ** data->cameras->vecy : RAYY --> (0.000000, 1.000000, 0.000000)
 ** data->cameras->vecz : RAYZ --> (0.000000, 0.000000, 1.000000)
-printf("RAYX --> (%lf, %lf, %lf)\n", data->cameras->vecx.x, data->cameras->vecx.y, data->cameras->vecx.z);
-printf("RAYY --> (%lf, %lf, %lf)\n", data->cameras->vecy.x, data->cameras->vecy.y, data->cameras->vecy.z);
-printf("RAYZ --> (%lf, %lf, %lf)\n", data->cameras->vecz.x, data->cameras->vecz.y, data->cameras->vecz.z);
 */
 
 t_vector3 reorientate(t_vector3 base, t_vector3 orientation)
@@ -43,17 +40,10 @@ t_vector3 reorientate(t_vector3 base, t_vector3 orientation)
 	tmp = new.x * cos(angle) - new.y * sin(angle);
 	new.y = new.x * sin(angle) + new.y * cos(angle);
 	new.x = tmp;
-	// printf("current ray : |%10.6g|%10.6g|%10.6g|\n", new.x, new.y, new.z);
 	return (new);
 }
 
-/*
-printf("\n----------------- CAMERA SETUP --------------------\n");
-printf("Cam->vecx (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecx.x, data->cameras->vecx.y, data->cameras->vecx.z);
-printf("Cam->vecy (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecy.x, data->cameras->vecy.y, data->cameras->vecy.z);
-printf("Cam->vecz (x/y/z) = (%lf, %lf, %lf)\n", data->cameras->vecz.x, data->cameras->vecz.y, data->cameras->vecz.z);
-printf("-----------------------------------------------------\n\n");
-*/
+
 
 void setup(t_data *data)
 {
@@ -62,12 +52,12 @@ void setup(t_data *data)
 	data->res.width = 800;
 	data->res.height = 800;
 	data->cameras->fov = 55;
-	data->cameras->pos = newvec(0,0,0);
-	data->cameras->orientation = newvec(0,0,0);
+	data->cameras->pos = newvec(-10,0,0);
+	data->cameras->orientation = newvec(0.2,0.1,0.1);
 	data->cameras->vecx = reorientate(newvec(1, 0, 0), data->cameras->orientation);
 	data->cameras->vecy = reorientate(newvec(0, 1, 0), data->cameras->orientation);
 	data->cameras->vecz = reorientate(newvec(0, 0, 1), data->cameras->orientation);
-	/*
+
 	data->spheres = malloc(sizeof(t_sphere));
 	data->spheres->next = NULL;
 	data->spheres->radius = 1;
@@ -122,8 +112,6 @@ void setup(t_data *data)
 	tri3->p3 = newvec(2,2,0);
 	tri2->next = tri3;
 
-	// cy	10.0,-5,-3	0,0,0 	    1.75 	3		255,255,255
-	*/
 
 
 	t_cylinder *cyl1;
@@ -132,11 +120,12 @@ void setup(t_data *data)
 	cyl1->colour = RGBTOI(140,100,255);
 	cyl1->center = newvec(20, 0, 0);
 
-	cyl1->orientation = reorientate(newvec(0,1,0), newvec(0,0,0));
-	// cyl1->orientation = newvec(0,0.5,0.2);
+	cyl1->orientation = reorientate(newvec(0.9,1,0.4), newvec(0,0,0));
 	cyl1->diameter = 3;
 	cyl1->radius = cyl1->diameter / 2;
 	cyl1->height = 10;
+	cyl1->pb = addvec(cyl1->center, mult1vec(cyl1->orientation, cyl1->height));
+
 	data->cylinders = cyl1;
 
 }

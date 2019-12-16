@@ -1,0 +1,32 @@
+Cosinus(theta) retourne la valeur en abscisse dans le cercle trigonométrique
+Sinus  (theta) retourne la valeur en ordonnée dans le cercle trigonométrique
+
+Le produit scalaire (dot product) mesure de combien deux vecteurs sont parallèles
+We also know that the dot (or scalar) product of a vector b →  and a → ,
+corresponds to projecting b →  onto the line defined by the vector a → ,
+and the result of this projection is the length of the segment AB as shown in figure 2
+
+Le produit vectoriel (cross product) mesure de combien deux vecteurs sont perpendiculaires
+
+L'addition d'un vecteur A et d'un vecteur B
+
+La soustraction d'un vecteur A et d'un vecteur B
+
+La normale d'un plan / triangle correspond au vecteur perpendiculaire à la surface
+du plan / triangle
+
+Radian :
+	C'est une nouvelle mesure d'angle. 1 radian = 180 degré
+	Il permet d'exprimer la valeur d'un angle dans le range [0π ; 2π]
+	2 valant 360°
+
+Cosinus d'un angle :
+	Toujours compris entre -1 et 1
+	Le cosinus d'un angle donne la valeur en abscisse pour une longueur de 1
+	cos(x)^2 + sin(x)^2 = 1
+	cos(-x) = cos(x) car cosinus est une fonction paire
+
+Sinus d'un angle :
+	Toujours compris entre -1 et 1
+	Le sinus d'un angle donne la valeur en ordonnée pour une longueur de 1
+	sin(-x) = -sin(x) car sinus est une fonction impaire

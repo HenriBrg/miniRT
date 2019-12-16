@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/16 22:15:48 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/16 23:56:59 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ typedef struct	s_square
 
 typedef struct	s_cylinder
 {
+	t_vector3				pb;
 	t_vector3				center;
-	t_vector3				defaultorientation;
 	t_vector3				orientation;
 	double					diameter;
 	double					radius;

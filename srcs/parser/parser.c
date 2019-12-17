@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/17 18:44:18 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/17 20:23:55 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,12 +175,100 @@ int		ft_strtablen(char **strs)
 	int i;
 
 	i = 0;
-	while (*strs != NULL)
+	while (strs[i] != NULL)
+		i++;
+	return (i);
+}
+
+int		check(char *charset, char c)
+{
+	int i;
+
+	i = 0;
+	while (charset[i] != '\0')
 	{
-		strs++;
+		if (charset[i] == c)
+			return (0);
 		i++;
 	}
-	return (i);
+	return (1);
+}
+
+int		words(char *str, char *charset)
+{
+	int i;
+	int x;
+
+	i = 0;
+	x = 0;
+	while (str[i] != '\0')
+	{
+		if (check(charset, str[i]))
+		{
+			x++;
+			while (str[i] != '\0' && check(charset, str[i]))
+				i++;
+		}
+		else
+			i++;
+	}
+	return (x + 1);
+}
+
+char	*copy(char *str, char *charset)
+{
+	int		i;
+	char	*output;
+
+	i = 0;
+	while (check(charset, str[i]))
+		i++;
+	if ((output = (char*)malloc(sizeof(char) * (i + 1))) == NULL)
+		return (NULL);
+	i = 0;
+	output[i] = '\0';
+	while (str[i] != '\0')
+		if (check(charset, str[i]))
+		{
+			while (check(charset, str[i]))
+			{
+				output[i] = str[i];
+				i++;
+			}
+			output[i] = '\0';
+			return (output);
+		}
+		else
+			i++;
+	return (0);
+}
+
+char	**ft_strsplit(char *str, char *charset)
+{
+	int		i;
+	int		x;
+	char	**result;
+
+	if (*charset == '\0' || charset == 0)
+		return (0);
+	if ((result = malloc(sizeof(char*) * words(str, charset))) == NULL)
+		return (NULL);
+	i = 0;
+	x = 0;
+	while (str[i] != '\0')
+	{
+		if (check(charset, str[i]))
+		{
+			result[x] = copy(str + i, charset);
+			while (str[i] != '\0' && check(charset, str[i]))
+				i++;
+			x++;
+		}
+		else
+			i++;
+	}
+	result[x] = 0;
+	return (result);
 }
 
 
@@ -197,9 +285,7 @@ int	parse(t_data *data, char *filename)
 	while (get_next_line(fd, &line) > 0)
 	{
 		tab = ft_strsplit(line, " \t");
-		printf("size = %d\n", ft_strtablen(tab));
-
-		// free(line);
+		free(line);
 		store(data, tab);
 		ft_strsfree(tab);
 	}

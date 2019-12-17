@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/16 23:56:59 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/17 18:19:32 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct	s_light
 	t_vector3	pos;
 	double		ratio;
 	int			colour;
+	struct 		s_light		*next;
 }				t_light;
 
 typedef struct	s_camera
@@ -73,6 +74,7 @@ typedef struct	s_camera
 	t_vector3	vecx;
 	t_vector3	vecy;
 	t_vector3	vecz;
+	struct 		s_camera		*next;
 }				t_camera;
 
 typedef struct	s_sphere
@@ -156,8 +158,8 @@ typedef struct	s_data
 	int				endian;
 	char 			*pixtab;
 
-	t_resolution	res;
-	t_ambiant_light	amb;
+	t_resolution	*res;
+	t_ambiant_light	*amb;
 	t_light			*lights;
 	t_camera		*cameras;
 	t_sphere		*spheres;
@@ -201,6 +203,27 @@ void 		try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *
 t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray);
 
 
-void setup(t_data *data);
+/*
+** parser
+*/
+
+void	parse_ambiant(t_data *data, char **tab);
+void	add_camera(t_data *data, char **tab);
+void	parse_resolution(t_data *data, char **tab);
+
+int			parse(t_data *data, char *filename);
+int			uint_format(char *s);
+int			double_format(char *s);
+int			str_to_rgb(char *s);
+int			rgb_format(char *s);
+int			uint_format(char *s);
+int			double_format(char *s);
+int			str_to_rgb(char *s);
+int			rgb_format(char *s);
+int			check_range_vec3_orient(t_vector3 *vec);
+int			vec3_format(char *s, t_vector3 *vec);
+char		*skip_double(char *s);
+void 		corrupted(t_data *data, char **tab, char *message);
+void 		putexit(char *msg);
 
 # endif

@@ -6,7 +6,7 @@
 #    By: henri <henri@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/28 00:56:29 by henri             #+#    #+#              #
-#    Updated: 2019/12/15 19:11:34 by henri            ###   ########.fr        #
+#    Updated: 2019/12/17 18:06:03 by henri            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,14 @@ SRCS = srcs/main.c srcs/maths/vec1.c srcs/maths/vec2.c srcs/maths/vec3.c	   \
 	   srcs/maths/trigo.c													   \
 	   srcs/intersections/intersection.c srcs/intersections/spheres.c		   \
 	   srcs/intersections/planes.c srcs/intersections/squares.c				   \
-	   srcs/intersections/triangles.c srcs/parser/parser.c					   \
-	   srcs/intersections/cylinders.c
+	   srcs/intersections/triangles.c 										   \
+	   srcs/intersections/cylinders.c										   \
+	   srcs/parser/parse_ambiant.c    srcs/parser/parse_sphere.c			   \
+	   srcs/parser/parse_camera.c     srcs/parser/parse_square.c			   \
+	   srcs/parser/parse_cylinder.c   srcs/parser/parse_triangle.c			   \
+	   srcs/parser/parse_light.c      srcs/parser/parse_utils.c				   \
+	   srcs/parser/parse_plane.c      srcs/parser/parser.c					   \
+	   srcs/parser/parse_resolution.c
 
 OBJS = ${SRCS:.c=.o}
 

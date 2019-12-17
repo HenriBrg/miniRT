@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/16 23:58:14 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/17 18:08:45 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 
 	basedir = mult1vec(cam->vecx, (double)SCREENSIZE);
 	w = (double)SCREENSIZE * tan(RAD(cam->fov / 2)) * 2;
-	pixshift = w / ((double)data->res.width - 1);
-	ray = addvec(basedir, mult1vec(cam->vecz, ((2 * (y + 0.5) - data->res.width) / 2) * pixshift));
-	ray = addvec(ray, mult1vec(cam->vecy, ((-2 * (x + 0.5) + data->res.height) / 2) * pixshift));
+	pixshift = w / ((double)data->res->width - 1);
+	ray = addvec(basedir, mult1vec(cam->vecz, ((2 * (y + 0.5) - data->res->width) / 2) * pixshift));
+	ray = addvec(ray, mult1vec(cam->vecy, ((-2 * (x + 0.5) + data->res->height) / 2) * pixshift));
 	ray = norm(ray);
 	return (ray);
 }
@@ -38,10 +38,10 @@ int	raytrace(t_data *data)
 
 	x = -1;
 	pixels = data->pixtab;
-	while (++x < data->res.height)
+	while (++x < data->res->height)
 	{
 		y = -1;
-		while (++y < data->res.width)
+		while (++y < data->res->width)
 		{
 			ray = getray(data, data->cameras, x, y);
 			object = intersearch(data, data->cameras, ray);
@@ -66,9 +66,9 @@ int	raytrace(t_data *data)
 static int compute(t_data *data)
 {
 	data->ptr = mlx_init();
-	data->win = mlx_new_window(data->ptr, data->res.width, data->res.height, "miniRT");
+	data->win = mlx_new_window(data->ptr, data->res->width, data->res->height, "miniRT");
 
-	data->img = mlx_new_image(data->ptr, data->res.width, data->res.height);
+	data->img = mlx_new_image(data->ptr, data->res->width, data->res->height);
 	data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
 	raytrace(data);
 	mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
@@ -86,8 +86,10 @@ int main(int ac, char **av)
 
 	data = NULL;
 	data = malloc(sizeof(t_data));
-	setup(data);
-	compute(data);
+	// setup(data);
+	if (0)
+		compute(data);
+	parse(data, av[1]);
 	free(data);
     return (0);
 }

@@ -6,20 +6,21 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/17 00:27:45 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/17 18:44:18 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
 
 
-/*
+/* -------------------- Description --------------------
+**
 ** Applique une rotation sur l'axe x, y et z au
 ** vecteur d'orientation de la camera
 ** A la sortie au obtient un répère 3D avec
-** data->cameras->vecx : RAYX --> (1.000000, 0.000000, 0.000000)
-** data->cameras->vecy : RAYY --> (0.000000, 1.000000, 0.000000)
-** data->cameras->vecz : RAYZ --> (0.000000, 0.000000, 1.000000)
+** data->cameras->vecx --> (1.000000, 0.000000, 0.000000)
+** data->cameras->vecy --> (0.000000, 1.000000, 0.000000)
+** data->cameras->vecz --> (0.000000, 0.000000, 1.000000)
 */
 
 t_vector3 reorientate(t_vector3 base, t_vector3 orientation)
@@ -43,14 +44,14 @@ t_vector3 reorientate(t_vector3 base, t_vector3 orientation)
 	return (new);
 }
 
-
+/*
 
 void setup(t_data *data)
 {
 	data->cameras = malloc(sizeof(t_camera));
 
-	data->res.width = 800;
-	data->res.height = 800;
+	data->res->width = 800;
+	data->res->height = 800;
 	data->cameras->fov = 55;
 	data->cameras->pos = newvec(-10,0,0);
 	data->cameras->orientation = newvec(0.2,0.1,0.1);
@@ -128,4 +129,142 @@ void setup(t_data *data)
 
 	data->cylinders = cyl1;
 
+}
+
+*/
+
+void corrupted(t_data *data, char **tab, char *message)
+{
+	(void)data;
+	(void)tab;
+	//free(data->res);
+	//free(data->amb);
+	//ft_strsfree(tab);
+	putexit(message);
+}
+
+
+void	store(t_data *data, char **tab)
+{
+	if (ft_strcmp(tab[0], "R") == 0)
+		parse_resolution(data, tab);
+	else if (ft_strcmp(tab[0], "A") == 0)
+		parse_ambiant(data, tab);
+	else if (ft_strcmp(tab[0], "c") == 0)
+		add_camera(data, tab);
+	/*
+	else if (ft_strcmp(tab[0], "l") == 0)
+		parse_light(data, tab);
+	else if (ft_strcmp(tab[0], "sp") == 0)
+		parse_sphere(data, tab);
+	else if (ft_strcmp(tab[0], "pl") == 0)
+		parse_plane(data, tab);
+	else if (ft_strcmp(tab[0], "sq") == 0)
+		parse_square(data, tab);
+	else if (ft_strcmp(tab[0], "tr") == 0)
+		parse_triangle(data, tab);
+	else if (ft_strcmp(tab[0], "cy") == 0)
+		parse_cylinder(data, tab);
+	*/
+	else
+		corrupted(data, tab, "Unknow keyword");
+}
+
+int		ft_strtablen(char **strs)
+{
+	int i;
+
+	i = 0;
+	while (*strs != NULL)
+	{
+		strs++;
+		i++;
+	}
+	return (i);
+}
+
+
+int	parse(t_data *data, char *filename)
+{
+	int 	fd;
+	char	*line;
+	char	**tab;
+
+	if (ft_strcmp(ft_strchr(filename, '.'), ".rt") != 0)
+		putexit("Filename must ends with .rt");
+	if (!(fd = open(filename, O_RDONLY)))
+		putexit("Can't open file");
+	while (get_next_line(fd, &line) > 0)
+	{
+		tab = ft_strsplit(line, " \t");
+		printf("size = %d\n", ft_strtablen(tab));
+
+		// free(line);
+		store(data, tab);
+		ft_strsfree(tab);
+	}
+	if (close(fd) == -1)
+		putexit("Can't close file");
+	return (0);
+}
+
+void configuration(t_data *data)
+{
+
+	printf("Résolution 		: x = %d et y = %d\n", data->res->width, data->res->height);
+	printf("Lumière Ambiante	: ratio = %lf et colour = %d\n", data->amb->ratio,  data->amb->colour);
+	/*
+
+	t_light		*lights;
+	t_camera	*cameras;
+	t_plane 	*planes;
+	t_sphere	*spheres;
+	t_square	*squares;
+	t_cylinder 	*cylinders;
+	t_triangle 	*triangles;
+
+	cameras = tab->cameras;
+	while (cameras)
+	{
+		printf("Camera			: pos (x:%lf, y:%lf, z:%lf) et vector(x:%lf, y:%lf, z:%lf) et fov = %lf\n", cameras->pos.x, cameras->pos.y, cameras->pos.z, cameras->vector.x, cameras->vector.y, cameras->vector.z, cameras->fov);
+		cameras = cameras->next;
+	}
+	planes = tab->planes;
+	while (planes)
+	{
+		printf("Plane			: pos (x:%lf, y:%lf, z:%lf) et vector(x:%lf, y:%lf, z:%lf) et RGB(%d, %d, %d)\n", planes->pos.x, planes->pos.y, planes->pos.z, planes->vector.x, planes->vector.y, planes->vector.z, planes->rgb[0], planes->rgb[1], planes->rgb[2]);
+		planes = planes->next;
+	}
+	lights = tab->lights;
+	while (lights)
+	{
+		printf("Light			: pos (x:%lf, y:%lf, z:%lf) et ratio = %lf et RGB(%d, %d, %d)\n", lights->pos.x, lights->pos.y, lights->pos.z, lights->ratio, lights->rgb[0], lights->rgb[1], lights->rgb[2]);
+		lights = lights->next;
+	}
+	spheres = tab->spheres;
+	while (spheres)
+	{
+		printf("Sphere			: pos (x:%lf, y:%lf, z:%lf) et ratio = %lf et RGB(%d, %d, %d)\n", spheres->pos.x, spheres->pos.y, spheres->pos.z, spheres->diameter, spheres->rgb[0], spheres->rgb[1], spheres->rgb[2]);
+		spheres = spheres->next;
+	}
+	squares = tab->squares;
+	while (squares)
+	{
+		printf("Square			: pos (x:%lf, y:%lf, z:%lf) et vector(x:%lf, y:%lf, z:%lf) et height = %lf et RGB(%d, %d, %d)\n", squares->pos.x, squares->pos.y, squares->pos.z, squares->vector.x, squares->vector.y, squares->vector.z, squares->height, squares->rgb[0], squares->rgb[1], squares->rgb[2]);
+		squares = squares->next;
+	}
+	cylinders = tab->cylinders;
+	while (cylinders)
+	{
+		printf("Cylinder		: pos (x:%lf, y:%lf, z:%lf) et vector (x:%lf, y:%lf, z:%lf) et RGB(%d, %d, %d) et diam = %lf et height = %lf\n", cylinders->pos.x, cylinders->pos.y, cylinders->pos.z, cylinders->vector.x, cylinders->vector.y, cylinders->vector.z, cylinders->rgb[0], cylinders->rgb[1], cylinders->rgb[2], cylinders->diameter, cylinders->height);
+		cylinders = cylinders->next;
+	}
+	triangles = tab->triangles;
+	while (triangles)
+	{
+		printf("triangles		: pos_a (x:%lf, y:%lf, z:%lf) et pos_b (x:%lf, y:%lf, z:%lf) et pos_c (x:%lf, y:%lf, z:%lf) et RGB(%d, %d, %d)\n", triangles->pos_a.x, triangles->pos_a.y, triangles->pos_a.z, triangles->pos_b.x, triangles->pos_b.y, triangles->pos_b.z, triangles->pos_c.x, triangles->pos_c.y, triangles->pos_c.z , triangles->rgb[0], triangles->rgb[1], triangles->rgb[2]);
+		triangles = triangles->next;
+	}
+
+	*/
 }

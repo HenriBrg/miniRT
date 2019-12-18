@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 17:18:19 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 19:39:37 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,6 @@ void setup(t_data *data)
 
 void corrupted(t_data *data, char **tab, char *message)
 {
-	(void)data;
-	(void)tab;
 	free(data->res);
 	free(data->amb);
 	free_camera(data);
@@ -149,23 +147,50 @@ void corrupted(t_data *data, char **tab, char *message)
 void	store(t_data *data, char **tab)
 {
 	if (ft_strcmp(tab[0], "R") == 0)
+	{
 		parse_resolution(data, tab);
+		printf("parsing res\n");
+	}
 	else if (ft_strcmp(tab[0], "A") == 0)
+	{
 		parse_ambiant(data, tab);
+		printf("parsing amb\n");
+	}
 	else if (ft_strcmp(tab[0], "c") == 0)
+	{
 		add_camera(data, tab);
+		printf("parsing cam\n");
+	}
 	else if (ft_strcmp(tab[0], "l") == 0)
+	{
 		add_light(data, tab);
+		printf("parsing light\n");
+	}
 	else if (ft_strcmp(tab[0], "sp") == 0)
+	{
 		add_sphere(data, tab);
+		printf("parsing sphere\n");
+	}
 	else if (ft_strcmp(tab[0], "pl") == 0)
+	{
 		add_plane(data, tab);
+		printf("parsing plane\n");
+	}
 	else if (ft_strcmp(tab[0], "sq") == 0)
+	{
 		add_square(data, tab);
+		printf("parsing square\n");
+	}
 	else if (ft_strcmp(tab[0], "tr") == 0)
+	{
 		add_triangle(data, tab);
+		printf("parsing triangle\n");
+	}
 	else if (ft_strcmp(tab[0], "cy") == 0)
+	{
 		add_cylinder(data, tab);
+		printf("parsing cylindre\n");
+	}
 	else if (ft_strcmp(tab[0], "#") == 0)
 		return ;
 	else
@@ -174,31 +199,29 @@ void	store(t_data *data, char **tab)
 
 void debug(t_data *data)
 {
-
-	t_light		*lights;
-	t_camera	*cameras;
+	t_light		*lgt;
+	t_camera	*cam;
 	t_plane 	*planes;
 	t_sphere	*spheres;
 	t_square	*squares;
 	t_cylinder 	*cylinders;
 	t_triangle 	*triangles;
 
-
 	printf("Résolution	: w = %d et h = %d\n", data->res->width, data->res->height);
 	printf("Ambiant		: ratio = %lf et colour = %d\n", data->amb->ratio,  data->amb->colour);
 
-	cameras = data->cameras;
-	while (cameras)
+	cam = data->cameras;
+	while (cam)
 	{
-		printf("Camera		: pos (x:%lf, y:%lf, z:%lf) et vector(x:%lf, y:%lf, z:%lf) et fov = %lf\n", cameras->pos.x, cameras->pos.y, cameras->pos.z, cameras->orientation.x, cameras->orientation.y, cameras->orientation.z, cameras->fov);
-		cameras = cameras->next;
+		printf("Camera		: pos (x:%lf, y:%lf, z:%lf) et vector(x:%lf, y:%lf, z:%lf) et fov = %lf\n", cam->pos.x, cam->pos.y, cam->pos.z, cam->orientation.x, cam->orientation.y, cam->orientation.z, cam->fov);
+		cam = cam->next;
 	}
 
-	lights = data->lights;
-	while (lights)
+	lgt = data->lights;
+	while (lgt)
 	{
-		printf("Light		: pos (x:%lf, y:%lf, z:%lf) et ratio = %lf et RGB(%d)\n", lights->pos.x, lights->pos.y, lights->pos.z, lights->ratio, lights->colour);
-		lights = lights->next;
+		printf("Light		: pos (x:%lf, y:%lf, z:%lf) et ratio = %lf et RGB(%d)\n", lgt->pos.x, lgt->pos.y, lgt->pos.z, lgt->ratio, lgt->colour);
+		lgt = lgt->next;
 	}
 
 	spheres = data->spheres;
@@ -257,70 +280,11 @@ int	parse(t_data *data, char *filename)
 			store(data, tab);
 			ft_strsfree(tab);
 		}
+		else
+			free(line);
 	}
 	if (close(fd) == -1)
 		putexit("Can't close file");
-	debug(data);
+	printf("Parsing done\n");
 	return (0);
-}
-
-void configuration(t_data *data)
-{
-
-	printf("Résolution 		: x = %d et y = %d\n", data->res->width, data->res->height);
-	printf("Lumière Ambiante	: ratio = %lf et colour = %d\n", data->amb->ratio,  data->amb->colour);
-	/*
-
-	t_light		*lights;
-	t_camera	*cameras;
-	t_plane 	*planes;
-	t_sphere	*spheres;
-	t_square	*squares;
-	t_cylinder 	*cylinders;
-	t_triangle 	*triangles;
-
-	cameras = tab->cameras;
-	while (cameras)
-	{
-		printf("Camera			: pos (x:%lf, y:%lf, z:%lf) et vector(x:%lf, y:%lf, z:%lf) et fov = %lf\n", cameras->pos.x, cameras->pos.y, cameras->pos.z, cameras->vector.x, cameras->vector.y, cameras->vector.z, cameras->fov);
-		cameras = cameras->next;
-	}
-	planes = tab->planes;
-	while (planes)
-	{
-		printf("Plane			: pos (x:%lf, y:%lf, z:%lf) et vector(x:%lf, y:%lf, z:%lf) et RGB(%d, %d, %d)\n", planes->pos.x, planes->pos.y, planes->pos.z, planes->vector.x, planes->vector.y, planes->vector.z, planes->rgb[0], planes->rgb[1], planes->rgb[2]);
-		planes = planes->next;
-	}
-	lights = tab->lights;
-	while (lights)
-	{
-		printf("Light			: pos (x:%lf, y:%lf, z:%lf) et ratio = %lf et RGB(%d, %d, %d)\n", lights->pos.x, lights->pos.y, lights->pos.z, lights->ratio, lights->rgb[0], lights->rgb[1], lights->rgb[2]);
-		lights = lights->next;
-	}
-	spheres = tab->spheres;
-	while (spheres)
-	{
-		printf("Sphere			: pos (x:%lf, y:%lf, z:%lf) et ratio = %lf et RGB(%d, %d, %d)\n", spheres->pos.x, spheres->pos.y, spheres->pos.z, spheres->diameter, spheres->rgb[0], spheres->rgb[1], spheres->rgb[2]);
-		spheres = spheres->next;
-	}
-	squares = tab->squares;
-	while (squares)
-	{
-		printf("Square			: pos (x:%lf, y:%lf, z:%lf) et vector(x:%lf, y:%lf, z:%lf) et height = %lf et RGB(%d, %d, %d)\n", squares->pos.x, squares->pos.y, squares->pos.z, squares->vector.x, squares->vector.y, squares->vector.z, squares->height, squares->rgb[0], squares->rgb[1], squares->rgb[2]);
-		squares = squares->next;
-	}
-	cylinders = tab->cylinders;
-	while (cylinders)
-	{
-		printf("Cylinder		: pos (x:%lf, y:%lf, z:%lf) et vector (x:%lf, y:%lf, z:%lf) et RGB(%d, %d, %d) et diam = %lf et height = %lf\n", cylinders->pos.x, cylinders->pos.y, cylinders->pos.z, cylinders->vector.x, cylinders->vector.y, cylinders->vector.z, cylinders->rgb[0], cylinders->rgb[1], cylinders->rgb[2], cylinders->diameter, cylinders->height);
-		cylinders = cylinders->next;
-	}
-	triangles = tab->triangles;
-	while (triangles)
-	{
-		printf("triangles		: pos_a (x:%lf, y:%lf, z:%lf) et pos_b (x:%lf, y:%lf, z:%lf) et pos_c (x:%lf, y:%lf, z:%lf) et RGB(%d, %d, %d)\n", triangles->pos_a.x, triangles->pos_a.y, triangles->pos_a.z, triangles->pos_b.x, triangles->pos_b.y, triangles->pos_b.z, triangles->pos_c.x, triangles->pos_c.y, triangles->pos_c.z , triangles->rgb[0], triangles->rgb[1], triangles->rgb[2]);
-		triangles = triangles->next;
-	}
-
-	*/
 }

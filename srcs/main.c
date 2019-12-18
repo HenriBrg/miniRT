@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 15:55:17 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 20:01:48 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ static int compute(t_data *data)
 
 void final_free(t_data *data)
 {
-	free(data->res);
-	free(data->amb);
-	free_camera(data);
+	// free(data->res);
+	// free(data->amb);
+	// free_camera(data);
 	free(data);
 }
 
@@ -97,8 +97,7 @@ int main(int ac, char **av)
 	data->parse_res_doublon = 0;
 	data->parse_amb_doublon = 0;
 	parse(data, av[1]);
-	if (0)
-		compute(data);
+	compute(data);
 	final_free(data);
     return (0);
 }

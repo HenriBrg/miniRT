@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:21:23 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 15:42:56 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 18:25:32 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	double_format(char *s)
 			return (-1);
 		i++;
 	}
-	if (s[--i] == '.')
-		return (-1);
+	// if (s[--i] == '.')
+	// 	return (-1);
 	return (0);
 }
 
@@ -70,11 +70,11 @@ int	str_to_rgb(char *s)
 
 	i = 0;
 	r = ft_atoi(s + i);
-	while (s[i] != '\0' && ft_isdigit(s[i]))
+	while (s[i] != '\0' && ft_isdigit(s[i]) == 1)
 		i++;
 	i++;
 	g = ft_atoi(s + i);
-	while (s[i] != '\0' && ft_isdigit(s[i]))
+	while (s[i] != '\0' && ft_isdigit(s[i]) == 1)
 		i++;
 	i++;
 	b = ft_atoi(s + i);
@@ -86,21 +86,23 @@ int	rgb_format(char *s)
 {
 	int i;
 
-	if ((i = -1) && ft_stroccurs(s, ',') != 2)
+	if (ft_stroccurs(s, ',') != 2)
 		return (-1);
-	while (s[++i])
+	i = -1;
+	while (s[++i] != '\0')
 		if (ft_isdigit(s[i]) == 0 && s[i] != ',')
 			return (-1);
-	if (!(i = 0) && ft_isdigit(s[i]) == 0)
+	i = 0;
+	if (ft_isdigit(s[i]) == 0)
 		return (-1);
 	if (ft_atoi(s + i) > 255)
 		return (-1);
-	while (s[i] != '\0' && ft_isdigit(s[i]))
+	while (s[i] != '\0' && ft_isdigit(s[i]) == 1)
 		i++;
 	i++;
 	if (ft_atoi(s + i) > 255)
 		return (-1);
-	while (s[i] != '\0' && ft_isdigit(s[i]))
+	while (s[i] != '\0' && ft_isdigit(s[i]) == 1)
 		i++;
 	i++;
 	if (ft_atoi(s + i) > 255)

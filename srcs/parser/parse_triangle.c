@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:25 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 17:06:03 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 19:24:05 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,15 @@ t_triangle	*parse_triangle(t_data *data, char **tab)
 
 void	free_triangle(t_data *data)
 {
+	t_triangle 	*tmp;
 	t_triangle 	*next;
 
-	while (data->triangles)
+	tmp = data->triangles;
+	while (tmp)
 	{
-		next = data->triangles->next;
-		free(data->triangles);
-		data->triangles = next;
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
 	}
 }
 

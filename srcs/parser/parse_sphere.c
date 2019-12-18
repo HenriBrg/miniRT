@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:19 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 16:50:30 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 19:23:43 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,15 @@ t_sphere	*parse_sphere(t_data *data, char **tab)
 
 void	free_sphere(t_data *data)
 {
+	t_sphere 	*tmp;
 	t_sphere 	*next;
 
-	while (data->spheres)
+	tmp = data->spheres;
+	while (tmp)
 	{
-		next = data->spheres->next;
-		free(data->spheres);
-		data->spheres = next;
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
 	}
 }
 

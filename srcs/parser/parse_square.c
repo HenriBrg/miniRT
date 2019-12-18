@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:22 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 17:03:06 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 19:23:54 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,15 @@ t_square	*parse_square(t_data *data, char **tab)
 
 void	free_square(t_data *data)
 {
+	t_square 	*tmp;
 	t_square 	*next;
 
-	while (data->squares)
+	tmp = data->squares;
+	while (tmp)
 	{
-		next = data->squares->next;
-		free(data->squares);
-		data->squares = next;
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:10 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 16:38:46 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 19:23:29 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,15 @@ t_light	*parse_light(t_data *data, char **tab)
 
 void	free_light(t_data *data)
 {
+	t_light 	*tmp;
 	t_light 	*next;
 
-	while (data->lights)
+	tmp = data->lights;
+	while (tmp)
 	{
-		next = data->lights->next;
-		free(data->lights);
-		data->lights = next;
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 17:18:22 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 16:20:31 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 20:01:12 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 void	free_camera(t_data *data)
 {
+	t_camera 	*tmp;
 	t_camera 	*next;
 
-	while (data->cameras)
+	tmp = data->cameras;
+	while (tmp)
 	{
-		next = data->cameras->next;
-		free(data->cameras);
-		data->cameras = next;
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
 	}
 }
 
@@ -48,9 +50,9 @@ t_camera	*parse_camera(t_data *data, char **tab)
 	camera->vecy = reorientate(newvec(0, 1, 0), orient);
 	camera->vecz = reorientate(newvec(0, 0, 1), orient);
 	camera->fov = ft_atod(tab[3]);
+	camera->next = NULL;
 	return (camera);
 }
-
 
 void	add_camera(t_data *data, char **tab)
 {

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:13 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 16:48:11 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 19:23:27 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@ t_plane	*parse_plane(t_data *data, char **tab)
 
 void	free_plane(t_data *data)
 {
+	t_plane 	*tmp;
 	t_plane 	*next;
 
-	while (data->planes)
+	tmp = data->planes;
+	while (tmp)
 	{
-		next = data->planes->next;
-		free(data->planes);
-		data->planes = next;
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
 	}
 }
 

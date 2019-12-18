@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:07 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 16:23:14 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 20:00:26 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@ t_cylinder	*parse_cylinder(t_data *data, char **tab)
 
 void	free_cylinder(t_data *data)
 {
+	t_cylinder 	*tmp;
 	t_cylinder 	*next;
 
-	while (data->cylinders)
+	tmp = data->cylinders;
+	while (tmp)
 	{
-		next = data->cylinders->next;
-		free(data->cylinders);
-		data->cylinders = next;
+		next = tmp->next;
+		free(tmp);
+		tmp = next;
 	}
 }
 

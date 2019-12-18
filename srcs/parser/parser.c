@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 16:41:38 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 17:18:19 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,10 +174,19 @@ void	store(t_data *data, char **tab)
 
 void debug(t_data *data)
 {
+
+	t_light		*lights;
+	t_camera	*cameras;
+	t_plane 	*planes;
+	t_sphere	*spheres;
+	t_square	*squares;
+	t_cylinder 	*cylinders;
+	t_triangle 	*triangles;
+
+
 	printf("Résolution	: w = %d et h = %d\n", data->res->width, data->res->height);
 	printf("Ambiant		: ratio = %lf et colour = %d\n", data->amb->ratio,  data->amb->colour);
 
-	t_camera	*cameras;
 	cameras = data->cameras;
 	while (cameras)
 	{
@@ -185,20 +194,45 @@ void debug(t_data *data)
 		cameras = cameras->next;
 	}
 
-	t_cylinder 	*cylinders;
+	lights = data->lights;
+	while (lights)
+	{
+		printf("Light		: pos (x:%lf, y:%lf, z:%lf) et ratio = %lf et RGB(%d)\n", lights->pos.x, lights->pos.y, lights->pos.z, lights->ratio, lights->colour);
+		lights = lights->next;
+	}
+
+	spheres = data->spheres;
+	while (spheres)
+	{
+		printf("Sphere		: pos (x:%lf, y:%lf, z:%lf) et radius = %lf et RGB(%d)\n", spheres->center.x, spheres->center.y, spheres->center.z, spheres->radius, spheres->colour);
+		spheres = spheres->next;
+	}
+
+	planes = data->planes;
+	while (planes)
+	{
+		printf("Plane		: center (x:%lf, y:%lf, z:%lf) et normal computed(x:%lf, y:%lf, z:%lf) et RGB(%d)\n", planes->center.x, planes->center.y, planes->center.z, planes->normal.x, planes->normal.y, planes->normal.z, planes->colour);
+		planes = planes->next;
+	}
+
+	squares = data->squares;
+	while (squares)
+	{
+		printf("Square		: center (x:%lf, y:%lf, z:%lf) et normal computed (x:%lf, y:%lf, z:%lf) et height = %lf et RGB(%d)\n", squares->center.x, squares->center.y, squares->center.z, squares->normal.x, squares->normal.y, squares->normal.z, squares->height, squares->colour);
+		squares = squares->next;
+	}
+
+	triangles = data->triangles;
+	while (triangles)
+	{
+		printf("triangle		: pos_a (x:%lf, y:%lf, z:%lf) et pos_b (x:%lf, y:%lf, z:%lf) et pos_c (x:%lf, y:%lf, z:%lf) et RGB(%d)\n", triangles->p1.x, triangles->p1.y, triangles->p1.z, triangles->p2.x, triangles->p2.y, triangles->p2.z, triangles->p3.x, triangles->p3.y, triangles->p3.z , triangles->colour);
+		triangles = triangles->next;
+	}
 	cylinders = data->cylinders;
 	while (cylinders)
 	{
 		printf("Cylinder		: center (x:%lf, y:%lf, z:%lf) et vector (x:%lf, y:%lf, z:%lf) et RGB(%d) et diam = %lf et height = %lf\n", cylinders->center.x, cylinders->center.y, cylinders->center.z, cylinders->orientation.x, cylinders->orientation.y, cylinders->orientation.z, cylinders->colour, cylinders->radius, cylinders->height);
 		cylinders = cylinders->next;
-	}
-
-	t_light		*lights;
-	lights = data->lights;
-	while (lights)
-	{
-		printf("Light			: pos (x:%lf, y:%lf, z:%lf) et ratio = %lf et RGB(%d)\n", lights->pos.x, lights->pos.y, lights->pos.z, lights->ratio, lights->colour);
-		lights = lights->next;
 	}
 
 

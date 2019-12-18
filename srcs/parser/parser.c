@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/17 20:23:55 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 16:41:38 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,11 @@ void corrupted(t_data *data, char **tab, char *message)
 {
 	(void)data;
 	(void)tab;
-	//free(data->res);
-	//free(data->amb);
-	//ft_strsfree(tab);
+	free(data->res);
+	free(data->amb);
+	free_camera(data);
+	free(data);
+	ft_strsfree(tab);
 	putexit(message);
 }
 
@@ -152,125 +154,55 @@ void	store(t_data *data, char **tab)
 		parse_ambiant(data, tab);
 	else if (ft_strcmp(tab[0], "c") == 0)
 		add_camera(data, tab);
-	/*
 	else if (ft_strcmp(tab[0], "l") == 0)
-		parse_light(data, tab);
+		add_light(data, tab);
 	else if (ft_strcmp(tab[0], "sp") == 0)
-		parse_sphere(data, tab);
+		add_sphere(data, tab);
 	else if (ft_strcmp(tab[0], "pl") == 0)
-		parse_plane(data, tab);
+		add_plane(data, tab);
 	else if (ft_strcmp(tab[0], "sq") == 0)
-		parse_square(data, tab);
+		add_square(data, tab);
 	else if (ft_strcmp(tab[0], "tr") == 0)
-		parse_triangle(data, tab);
+		add_triangle(data, tab);
 	else if (ft_strcmp(tab[0], "cy") == 0)
-		parse_cylinder(data, tab);
-	*/
+		add_cylinder(data, tab);
+	else if (ft_strcmp(tab[0], "#") == 0)
+		return ;
 	else
 		corrupted(data, tab, "Unknow keyword");
 }
 
-int		ft_strtablen(char **strs)
+void debug(t_data *data)
 {
-	int i;
+	printf("Résolution	: w = %d et h = %d\n", data->res->width, data->res->height);
+	printf("Ambiant		: ratio = %lf et colour = %d\n", data->amb->ratio,  data->amb->colour);
 
-	i = 0;
-	while (strs[i] != NULL)
-		i++;
-	return (i);
-}
-
-int		check(char *charset, char c)
-{
-	int i;
-
-	i = 0;
-	while (charset[i] != '\0')
+	t_camera	*cameras;
+	cameras = data->cameras;
+	while (cameras)
 	{
-		if (charset[i] == c)
-			return (0);
-		i++;
+		printf("Camera		: pos (x:%lf, y:%lf, z:%lf) et vector(x:%lf, y:%lf, z:%lf) et fov = %lf\n", cameras->pos.x, cameras->pos.y, cameras->pos.z, cameras->orientation.x, cameras->orientation.y, cameras->orientation.z, cameras->fov);
+		cameras = cameras->next;
 	}
-	return (1);
-}
 
-int		words(char *str, char *charset)
-{
-	int i;
-	int x;
-
-	i = 0;
-	x = 0;
-	while (str[i] != '\0')
+	t_cylinder 	*cylinders;
+	cylinders = data->cylinders;
+	while (cylinders)
 	{
-		if (check(charset, str[i]))
-		{
-			x++;
-			while (str[i] != '\0' && check(charset, str[i]))
-				i++;
-		}
-		else
-			i++;
+		printf("Cylinder		: center (x:%lf, y:%lf, z:%lf) et vector (x:%lf, y:%lf, z:%lf) et RGB(%d) et diam = %lf et height = %lf\n", cylinders->center.x, cylinders->center.y, cylinders->center.z, cylinders->orientation.x, cylinders->orientation.y, cylinders->orientation.z, cylinders->colour, cylinders->radius, cylinders->height);
+		cylinders = cylinders->next;
 	}
-	return (x + 1);
-}
 
-char	*copy(char *str, char *charset)
-{
-	int		i;
-	char	*output;
-
-	i = 0;
-	while (check(charset, str[i]))
-		i++;
-	if ((output = (char*)malloc(sizeof(char) * (i + 1))) == NULL)
-		return (NULL);
-	i = 0;
-	output[i] = '\0';
-	while (str[i] != '\0')
-		if (check(charset, str[i]))
-		{
-			while (check(charset, str[i]))
-			{
-				output[i] = str[i];
-				i++;
-			}
-			output[i] = '\0';
-			return (output);
-		}
-		else
-			i++;
-	return (0);
-}
-
-char	**ft_strsplit(char *str, char *charset)
-{
-	int		i;
-	int		x;
-	char	**result;
-
-	if (*charset == '\0' || charset == 0)
-		return (0);
-	if ((result = malloc(sizeof(char*) * words(str, charset))) == NULL)
-		return (NULL);
-	i = 0;
-	x = 0;
-	while (str[i] != '\0')
+	t_light		*lights;
+	lights = data->lights;
+	while (lights)
 	{
-		if (check(charset, str[i]))
-		{
-			result[x] = copy(str + i, charset);
-			while (str[i] != '\0' && check(charset, str[i]))
-				i++;
-			x++;
-		}
-		else
-			i++;
+		printf("Light			: pos (x:%lf, y:%lf, z:%lf) et ratio = %lf et RGB(%d)\n", lights->pos.x, lights->pos.y, lights->pos.z, lights->ratio, lights->colour);
+		lights = lights->next;
 	}
-	result[x] = 0;
-	return (result);
-}
 
+
+}
 
 int	parse(t_data *data, char *filename)
 {
@@ -284,13 +216,17 @@ int	parse(t_data *data, char *filename)
 		putexit("Can't open file");
 	while (get_next_line(fd, &line) > 0)
 	{
-		tab = ft_strsplit(line, " \t");
-		free(line);
-		store(data, tab);
-		ft_strsfree(tab);
+		if (ft_strlen(line) > 0)
+		{
+			tab = ft_strsplit(line, " \t");
+			free(line);
+			store(data, tab);
+			ft_strsfree(tab);
+		}
 	}
 	if (close(fd) == -1)
 		putexit("Can't close file");
+	debug(data);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/17 18:19:32 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 16:38:28 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,13 +139,9 @@ typedef struct s_interobject
 	int			inter;
 	int			colour;
 	int			intercount;
-	double		t0;
-	double		t1;
 	double		distance;
 	t_vector3	ray;
 	t_vector3	origin;
-	int	v;
-	int v2;
 }				t_interobject;
 
 typedef struct	s_data
@@ -157,6 +153,8 @@ typedef struct	s_data
 	int				pixsizeline;
 	int				endian;
 	char 			*pixtab;
+	int				parse_res_doublon;
+	int				parse_amb_doublon;
 
 	t_resolution	*res;
 	t_ambiant_light	*amb;
@@ -207,9 +205,18 @@ t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray);
 ** parser
 */
 
-void	parse_ambiant(t_data *data, char **tab);
-void	add_camera(t_data *data, char **tab);
-void	parse_resolution(t_data *data, char **tab);
+void		parse_ambiant(t_data *data, char **tab);
+void		parse_resolution(t_data *data, char **tab);
+void		add_sphere(t_data *data, char **tab);
+void		add_plane(t_data *data, char **tab);
+void		add_square(t_data *data, char **tab);
+void		add_triangle(t_data *data, char **tab);
+void		add_cylinder(t_data *data, char **tab);
+void		add_light(t_data *data, char **tab);
+void		add_camera(t_data *data, char **tab);
+
+
+void		free_camera(t_data *data);
 
 int			parse(t_data *data, char *filename);
 int			uint_format(char *s);
@@ -222,7 +229,7 @@ int			str_to_rgb(char *s);
 int			rgb_format(char *s);
 int			check_range_vec3_orient(t_vector3 *vec);
 int			vec3_format(char *s, t_vector3 *vec);
-char		*skip_double(char *s);
+int			skip_double(char *s, int i);
 void 		corrupted(t_data *data, char **tab, char *message);
 void 		putexit(char *msg);
 

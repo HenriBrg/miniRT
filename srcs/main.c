@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/17 18:08:45 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 15:55:17 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,14 @@ static int compute(t_data *data)
 	return (0);
 }
 
+void final_free(t_data *data)
+{
+	free(data->res);
+	free(data->amb);
+	free_camera(data);
+	free(data);
+}
+
 int main(int ac, char **av)
 {
 	(void)ac;
@@ -86,10 +94,11 @@ int main(int ac, char **av)
 
 	data = NULL;
 	data = malloc(sizeof(t_data));
-	// setup(data);
+	data->parse_res_doublon = 0;
+	data->parse_amb_doublon = 0;
+	parse(data, av[1]);
 	if (0)
 		compute(data);
-	parse(data, av[1]);
-	free(data);
+	final_free(data);
     return (0);
 }

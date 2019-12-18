@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:31:55 by henri             #+#    #+#             */
-/*   Updated: 2019/12/17 18:09:02 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 14:59:37 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 void	parse_ambiant(t_data *data, char **tab)
 {
+	if (data->parse_amb_doublon != 0)
+		corrupted(data, tab, "Ambiant declared twice");
+	data->parse_amb_doublon = 1;
 	if (ft_strslen(tab) != 3)
-		corrupted(data, tab, "Bad ambiant format");
+		corrupted(data, tab, "Bad ambiant format (too many args)");
 	if (double_format(tab[1]) == -1 || rgb_format(tab[2]) == -1)
-		corrupted(data, tab, "Bad ambiant format");
+		corrupted(data, tab, "Bad ambiant format (double or rgb)");
 	if (!(data->amb = malloc(sizeof(t_ambiant_light))))
 		corrupted(data, tab, "Can't malloc ambiant light");
 	data->amb->ratio = ft_atod(tab[1]);

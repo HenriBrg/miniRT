@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 22:58:48 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 18:13:28 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/19 23:30:39 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	camera_count(t_data *data)
 	return (i);
 }
 
-t_camera *switch_camera(t_data *data, int camera_num)
+t_camera *get_current_camera(t_data *data)
 {
 	int i;
 	t_camera *tmp;
@@ -36,7 +36,7 @@ t_camera *switch_camera(t_data *data, int camera_num)
 	tmp = data->cameras;
 	while (tmp != NULL)
 	{
-		if (camera_num == i)
+		if (data->camera_num == i)
 			return (tmp);
 		tmp = tmp->next;
 		i++;
@@ -44,7 +44,6 @@ t_camera *switch_camera(t_data *data, int camera_num)
 	return (data->cameras);
 }
 
-/*
 void keys(int key, void *ptr)
 {
 	t_data	*data;
@@ -75,5 +74,3 @@ void keys(int key, void *ptr)
 	}
 
 }
-
-*/

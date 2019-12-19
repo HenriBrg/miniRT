@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 22:53:00 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/19 23:18:22 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 ** http://www.iquilezles.org/www/articles/intersectors/intersectors.htm
 */
 
-static double	intercylinder(t_cylinder *cyl, t_camera *cam, t_vector3 ray)
+static double		intercylinder(t_cylinder *cyl, t_camera *cam, t_vector3 ray)
 {
-	t_vector3	ca;
-	t_vector3	oc;
-	t_vector3	abc;
-	t_vector3	hty;
-	t_vector3	cardoc;
+	t_vector3		ca;
+	t_vector3		oc;
+	t_vector3		abc;
+	t_vector3		hty;
+	t_vector3		cardoc;
 
 	ca = subvec(cyl->pb, cyl->center);
 	oc = subvec(cam->pos, cyl->center);
@@ -43,16 +43,14 @@ static double	intercylinder(t_cylinder *cyl, t_camera *cam, t_vector3 ray)
 		return (hty.y);
 	hty.y = (((hty.z < 0) ? 0 : cardoc.x) - cardoc.z) / cardoc.y;
 	return ((((fabs(abc.y + (abc.x * hty.y)) < hty.x) && hty.y > 0)) ? hty.y : -1);
-
-
 }
 
 
-void try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
+void			try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 {
-	double tmp;
-	double inter;
-	t_cylinder *cylinder;
+	double 		tmp;
+	double 		inter;
+	t_cylinder 	*cylinder;
 
 	tmp = -1;
 	inter = -1;

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 22:20:41 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/19 23:29:17 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 	basedir = mult1vec(cam->vecx, (double)SCREENSIZE);
 	w = (double)SCREENSIZE * tan(RAD(cam->fov / 2)) * 2;
 	pixshift = w / ((double)data->res->width - 1);
-	ray = addvec(basedir, mult1vec(cam->vecz, ((2 * (y + 0.5) - data->res->width) / 2) * pixshift));
-	ray = addvec(ray, mult1vec(cam->vecy, ((-2 * (x + 0.5) + data->res->height) / 2) * pixshift));
+	ray = addvec(basedir, mult1vec(cam->vecz,
+				((2 * (y + 0.5) - data->res->width) / 2) * pixshift));
+	ray = addvec(ray, mult1vec(cam->vecy,
+				((-2 * (x + 0.5) + data->res->height) / 2) * pixshift));
 	ray = norm(ray);
 	return (ray);
 }
@@ -44,7 +46,7 @@ int	raytrace(t_data *data)
 		while (++y < data->res->width)
 		{
 			ray = getray(data, data->cameras, x, y);
-			object = intersearch(data, data->cameras, ray);
+			object = intersearch(data, get_current_camera(data), ray);
 			if (object.inter == TRUE)
 			{
 				pixels[0 + y * 4] = (char)((object.colour & 0xFF));

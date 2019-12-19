@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:07 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 22:52:05 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/19 23:19:28 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 cy 	50.0,0.0,20.6 	0.0,0.0,1.0 	10,0,255 	14.2 	21.42
 */
 
-t_cylinder	*parse_cylinder(t_data *data, char **tab, int fd)
+t_cylinder		*parse_cylinder(t_data *data, char **tab, int fd)
 {
 	t_vector3	center;
 	t_vector3	orient;
@@ -47,7 +47,7 @@ t_cylinder	*parse_cylinder(t_data *data, char **tab, int fd)
 	return (cylinder);
 }
 
-void	free_cylinder(t_data *data)
+void			free_cylinder(t_data *data)
 {
 	t_cylinder 	*tmp;
 	t_cylinder 	*next;
@@ -61,9 +61,9 @@ void	free_cylinder(t_data *data)
 	}
 }
 
-void	add_cylinder(t_data *data, char **tab, int fd)
+void			add_cylinder(t_data *data, char **tab, int fd)
 {
-	t_cylinder *tmp;
+	t_cylinder	*tmp;
 
 	if (data->cylinders == 0)
 		data->cylinders = parse_cylinder(data, tab, fd);

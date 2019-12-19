@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/19 22:32:40 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/19 23:30:21 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,8 @@
 # include "libft.h"
 # include "mlx.h"
 
-# ifndef DEBUG
-#	define DEBUG 0
-# endif
-
 # define TRUE 1
 # define FALSE 0
-
-# define UNDEFINED 0
-# define SPHERE 1
-# define PLANE 2
-# define SQUARE 3
-# define TRIANGLE 4
-# define CYLINDER 5
-# define DISK 5
 
 # define KEY_ESC 53
 # define KEY_ARROW_LEFT 123
@@ -40,7 +28,6 @@
 
 
 # define SCREENSIZE 10
-# define RGBTOI(r, g, b) ((((r << 8) + g) << 8) + b)
 # define RAD(degree)	(degree * M_PI / 180)
 
 typedef struct	s_resolution
@@ -130,12 +117,6 @@ typedef struct	s_triangle
 	struct 		s_triangle	*next;
 }				t_triangle;
 
-/*
-** origin : cam->pos
-** intercount : nombre d'intersection (2 potentielles sur sphère/cylindre)
-** distance = t0 mais plus clair d'avoir distance
-*/
-
 typedef struct s_interobject
 {
 	void 		*ptr;
@@ -174,12 +155,16 @@ typedef struct	s_data
 	t_triangle		*triangles;
 }				t_data;
 
+/*
+** maths/
+*/
+
+int			solvequadratic(t_vector3 abc, double *t0, double *t1);
 double		absd(double n);
 double		veclen(t_vector3 vec);
 double		rad(double degree);
 double		dot(t_vector3 vec1, t_vector3 vec2);
 double		dotsame(t_vector3 vec1);
-
 t_vector3	newvec(double x, double y, double z);
 t_vector3	addvec(t_vector3 vec1, t_vector3 vec2);
 t_vector3	norm(t_vector3 vec);
@@ -191,7 +176,6 @@ t_vector3	mult2vec(t_vector3 vec1, t_vector3 vec2);
 t_vector3 	getdirectionalvector(t_vector3 a, t_vector3 b);
 t_vector3 	getpointfromray(t_vector3 origin, t_vector3 ray, double t);
 
-int			solvequadratic(t_vector3 abc, double *t0, double *t1);
 
 int			rgbtoi(int red, int green, int blue);
 
@@ -199,13 +183,12 @@ int			rgbtoi(int red, int green, int blue);
 ** srcs/intersections/
 */
 
-void 		try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
-void 		try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
-void 		try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
-void 		try_triangles(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
-void 		try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
-
-t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray);
+void 			try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
+void 			try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
+void 			try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
+void 			try_triangles(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
+void 			try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
+t_interobject 	intersearch(t_data *data, t_camera *cam, t_vector3 ray);
 
 
 /*
@@ -213,6 +196,7 @@ t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray);
 */
 
 int			camera_count(t_data *data);
+t_camera 	*get_current_camera(t_data *data);
 
 /*
 ** parser

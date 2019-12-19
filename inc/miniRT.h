@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/19 17:27:57 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/19 22:32:40 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,15 +218,15 @@ int			camera_count(t_data *data);
 ** parser
 */
 
-void		parse_ambiant(t_data *data, char **tab);
-void		parse_resolution(t_data *data, char **tab);
-void		add_sphere(t_data *data, char **tab);
-void		add_plane(t_data *data, char **tab);
-void		add_square(t_data *data, char **tab);
-void		add_triangle(t_data *data, char **tab);
-void		add_cylinder(t_data *data, char **tab);
-void		add_light(t_data *data, char **tab);
-void		add_camera(t_data *data, char **tab);
+void		parse_ambiant(t_data *data, char **tab, int fd);
+void		parse_resolution(t_data *data, char **tab, int fd);
+void		add_sphere(t_data *data, char **tab, int fd);
+void		add_plane(t_data *data, char **tab, int fd);
+void		add_square(t_data *data, char **tab, int fd);
+void		add_triangle(t_data *data, char **tab, int fd);
+void		add_cylinder(t_data *data, char **tab, int fd);
+void		add_light(t_data *data, char **tab, int fd);
+void		add_camera(t_data *data, char **tab, int fd);
 
 void		free_light(t_data *data);
 void		free_camera(t_data *data);
@@ -249,7 +249,7 @@ int			rgb_format(char *s);
 int			check_range_vec3_orient(t_vector3 *vec);
 int			vec3_format(char *s, t_vector3 *vec);
 int			skip_double(char *s, int i);
-void 		corrupted(t_data *data, char **tab, char *message);
+void 		corrupted(t_data *data, char **tab, char *message, int fd);
 void 		putexit(char *msg);
 
 # endif

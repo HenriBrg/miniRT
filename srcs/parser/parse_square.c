@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:22 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 18:19:57 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/19 22:32:01 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,26 @@ void 		finish_square(t_square	*square, t_vector3 orient)
 	square->z = mult1vec(square->z, square->height);
 }
 
-t_square	*parse_square(t_data *data, char **tab)
+t_square	*parse_square(t_data *data, char **tab, int fd)
 {
 	t_vector3	center;
 	t_vector3	orient;
 	t_square	*square;
 
 	if (ft_strslen(tab) != 5)
-		corrupted(data, tab, "Bad square format (too many args)");
+		corrupted(data, tab, "Bad square format (too many args)", fd);
 	if (vec3_format(tab[1], &center) == -1)
-		corrupted(data, tab, "Bad square position format");
+		corrupted(data, tab, "Bad square position format", fd);
 	if (vec3_format(tab[2], &orient) == -1)
-		corrupted(data, tab, "Bad cylinder orient format");
+		corrupted(data, tab, "Bad cylinder orient format", fd);
 	if (check_range_vec3_orient(&orient) == -1)
-		corrupted(data, tab, "cylinder orient not in range [-1;1]");
+		corrupted(data, tab, "cylinder orient not in range [-1;1]", fd);
 	if (double_format(tab[3]) == -1)
-		corrupted(data, tab, "Bad square height format");
+		corrupted(data, tab, "Bad square height format", fd);
 	if (rgb_format(tab[4]) == -1)
-		corrupted(data, tab, "Bad square rgb format");
+		corrupted(data, tab, "Bad square rgb format", fd);
 	if (!(square = malloc(sizeof(t_square))))
-		corrupted(data, tab, "Can't malloc square");
+		corrupted(data, tab, "Can't malloc square", fd);
 	square->center = center;
 	square->normal = reorientate(newvec(0, 1, 0), orient);
 	square->height = ft_atod(tab[3]);
@@ -77,17 +77,17 @@ void	free_square(t_data *data)
 	}
 }
 
-void	add_square(t_data *data, char **tab)
+void	add_square(t_data *data, char **tab, int fd)
 {
 	t_square *tmp;
 
 	if (data->squares == 0)
-		data->squares = parse_square(data, tab);
+		data->squares = parse_square(data, tab, fd);
 	else
 	{
 		tmp = data->squares;
 		while (tmp->next != NULL)
 			tmp = tmp->next;
-		tmp->next = parse_square(data, tab);
+		tmp->next = parse_square(data, tab, fd);
 	}
 }

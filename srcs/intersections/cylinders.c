@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/16 23:56:07 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/19 22:53:00 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ static double	intercylinder(t_cylinder *cyl, t_camera *cam, t_vector3 ray)
 	if (hty.z > 0 && hty.z < cardoc.x)
 		return (hty.y);
 	hty.y = (((hty.z < 0) ? 0 : cardoc.x) - cardoc.z) / cardoc.y;
-	return (((absd(abc.y + (abc.x * hty.y)) < hty.x)) ? hty.y : -1);
+	return ((((fabs(abc.y + (abc.x * hty.y)) < hty.x) && hty.y > 0)) ? hty.y : -1);
+
+
 }
 
 

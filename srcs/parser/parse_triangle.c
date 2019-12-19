@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:25 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 18:19:58 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/19 22:32:16 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct	s_triangle
 
 */
 
-t_triangle	*parse_triangle(t_data *data, char **tab)
+t_triangle	*parse_triangle(t_data *data, char **tab, int fd)
 {
 	t_vector3	pos1;
 	t_vector3	pos2;
@@ -35,17 +35,17 @@ t_triangle	*parse_triangle(t_data *data, char **tab)
 	t_triangle	*triangle;
 
 	if (ft_strslen(tab) != 5)
-		corrupted(data, tab, "Bad triangle format (too many args)");
+		corrupted(data, tab, "Bad triangle format (too many args)", fd);
 	if (vec3_format(tab[1], &pos1) == -1)
-		corrupted(data, tab, "Bad triangle position1 format");
+		corrupted(data, tab, "Bad triangle position1 format", fd);
 	if (vec3_format(tab[2], &pos2) == -1)
-		corrupted(data, tab, "Bad triangle position2 format");
+		corrupted(data, tab, "Bad triangle position2 format", fd);
 	if (vec3_format(tab[3], &pos3) == -1)
-		corrupted(data, tab, "Bad triangle position3 format");
+		corrupted(data, tab, "Bad triangle position3 format", fd);
 	if (rgb_format(tab[4]) == -1)
-		corrupted(data, tab, "Bad triangle rgb format");
+		corrupted(data, tab, "Bad triangle rgb format", fd);
 	if (!(triangle = malloc(sizeof(t_triangle))))
-		corrupted(data, tab, "Can't malloc triangle");
+		corrupted(data, tab, "Can't malloc triangle", fd);
 	triangle->p1 = pos1;
 	triangle->p2 = pos2;
 	triangle->p3 = pos3;
@@ -68,17 +68,17 @@ void	free_triangle(t_data *data)
 	}
 }
 
-void	add_triangle(t_data *data, char **tab)
+void	add_triangle(t_data *data, char **tab, int fd)
 {
 	t_triangle *tmp;
 
 	if (data->triangles == 0)
-		data->triangles = parse_triangle(data, tab);
+		data->triangles = parse_triangle(data, tab, fd);
 	else
 	{
 		tmp = data->triangles;
 		while (tmp->next != NULL)
 			tmp = tmp->next;
-		tmp->next = parse_triangle(data, tab);
+		tmp->next = parse_triangle(data, tab, fd);
 	}
 }

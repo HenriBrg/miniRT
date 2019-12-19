@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:21:23 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 18:25:32 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/19 22:28:32 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,9 @@ int vec3_format(char *s, t_vector3 *vec)
 	while (s[++i] != '\0')
 		if (ft_isdigit(s[i]) == 0 && s[i] != ',' && s[i] != '.' && s[i] != '-')
 			return (-1);
-	if (!(i = 0) && (ft_isdigit(s[i]) == 1 || s[i] == '-'))
-		vec->x = ft_atod(s + i);
+	i = 0;
+	if (ft_isdigit(s[i]) == 1 || s[i] == '-')
+		vec->x = ft_atod(s);
 	else
 		return (-1);
 	i = skip_double(s, i);

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:13 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 18:20:08 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/19 22:30:47 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,27 @@ typedef struct	s_plane
 	struct 		s_plane		*next;
 }				t_plane;*/
 
-t_plane	*parse_plane(t_data *data, char **tab)
+t_plane	*parse_plane(t_data *data, char **tab, int fd)
 {
 	t_vector3	pos;
 	t_vector3	normal;
 	t_plane	*plane;
 
 	if (ft_strslen(tab) != 4)
-		corrupted(data, tab, "Bad plane format (too many args)");
+		corrupted(data, tab, "Bad plane format (too many args)", fd);
 	if (vec3_format(tab[1], &pos) == -1)
-		corrupted(data, tab, "Bad plane position format");
+		corrupted(data, tab, "Bad plane position format", fd);
 	if (vec3_format(tab[2], &normal) == -1)
-		corrupted(data, tab, "Bad plane normal format");
+		corrupted(data, tab, "Bad plane normal format", fd);
 	if (check_range_vec3_orient(&normal) == -1)
-		corrupted(data, tab, "plane normal not in range [-1;1]");
+		corrupted(data, tab, "plane normal not in range [-1;1]", fd);
 	if (rgb_format(tab[3]) == -1)
-		corrupted(data, tab, "Bad plane rgb format");
+		corrupted(data, tab, "Bad plane rgb format", fd);
 	if (!(plane = malloc(sizeof(t_plane))))
-		corrupted(data, tab, "Can't malloc plane");
+		corrupted(data, tab, "Can't malloc plane", fd);
 	plane->center = pos;
 	plane->next = NULL;
-	plane->normal = normal;
+	plane->normal = reorientate(newvec(0, 1, 0), normal);
 	plane->colour = str_to_rgb(tab[3]);
 	return (plane);
 }
@@ -61,17 +61,17 @@ void	free_plane(t_data *data)
 	}
 }
 
-void	add_plane(t_data *data, char **tab)
+void	add_plane(t_data *data, char **tab, int fd)
 {
 	t_plane *tmp;
 
 	if (data->planes == 0)
-		data->planes = parse_plane(data, tab);
+		data->planes = parse_plane(data, tab, fd);
 	else
 	{
 		tmp = data->planes;
 		while (tmp->next != NULL)
 			tmp = tmp->next;
-		tmp->next = parse_plane(data, tab);
+		tmp->next = parse_plane(data, tab, fd);
 	}
 }

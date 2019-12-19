@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:13 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 19:23:27 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/19 18:20:08 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_plane	*parse_plane(t_data *data, char **tab)
 	if (!(plane = malloc(sizeof(t_plane))))
 		corrupted(data, tab, "Can't malloc plane");
 	plane->center = pos;
+	plane->next = NULL;
 	plane->normal = normal;
 	plane->colour = str_to_rgb(tab[3]);
 	return (plane);

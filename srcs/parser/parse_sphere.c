@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:19 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 19:23:43 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/19 18:19:56 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_sphere	*parse_sphere(t_data *data, char **tab)
 	if (!(sphere = malloc(sizeof(t_sphere))))
 		corrupted(data, tab, "Can't malloc sphere");
 	sphere->center = center;
+	sphere->next = NULL;
 	sphere->radius = ft_atod(tab[2]);
 	sphere->colour = str_to_rgb(tab[3]);
 	return (sphere);

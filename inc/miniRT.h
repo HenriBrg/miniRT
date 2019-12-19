@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/18 23:44:45 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/19 17:27:57 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ typedef struct	s_data
 
 	int				camera_num;
 	t_camera		*currentcam;
-	
+
 	t_resolution	*res;
 	t_ambiant_light	*amb;
 	t_light			*lights;
@@ -209,6 +209,12 @@ t_interobject intersearch(t_data *data, t_camera *cam, t_vector3 ray);
 
 
 /*
+** keys.c
+*/
+
+int			camera_count(t_data *data);
+
+/*
 ** parser
 */
 
@@ -222,8 +228,14 @@ void		add_cylinder(t_data *data, char **tab);
 void		add_light(t_data *data, char **tab);
 void		add_camera(t_data *data, char **tab);
 
-
+void		free_light(t_data *data);
 void		free_camera(t_data *data);
+void		free_sphere(t_data *data);
+void		free_plane(t_data *data);
+void		free_square(t_data *data);
+void		free_triangle(t_data *data);
+void		free_cylinder(t_data *data);
+
 
 int			parse(t_data *data, char *filename);
 int			uint_format(char *s);

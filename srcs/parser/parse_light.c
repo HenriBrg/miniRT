@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:10 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 19:23:29 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/19 18:16:04 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct	s_light
 t_light	*parse_light(t_data *data, char **tab)
 {
 	t_vector3	pos;
-	t_light	*light;
+	t_light		*light;
 
 	if (ft_strslen(tab) != 4)
 		corrupted(data, tab, "Bad light format (too many args)");
@@ -41,6 +41,7 @@ t_light	*parse_light(t_data *data, char **tab)
 	light->pos = pos;
 	light->ratio = ft_atod(tab[2]);
 	light->colour = str_to_rgb(tab[3]);
+	light->next = NULL;
 	return (light);
 }
 
@@ -50,7 +51,9 @@ void	free_light(t_data *data)
 	t_light 	*next;
 
 	tmp = data->lights;
-	while (tmp)
+	if (tmp == NULL)
+		return ;
+	while (tmp != NULL)
 	{
 		next = tmp->next;
 		free(tmp);

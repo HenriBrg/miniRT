@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:25 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 19:24:05 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/19 18:19:58 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_triangle	*parse_triangle(t_data *data, char **tab)
 	triangle->p1 = pos1;
 	triangle->p2 = pos2;
 	triangle->p3 = pos3;
+	triangle->next = NULL;
 	triangle->colour = str_to_rgb(tab[4]);
 	return (triangle);
 }

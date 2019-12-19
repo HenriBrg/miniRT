@@ -6,9 +6,11 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 22:58:48 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 23:46:07 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/19 18:13:28 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../../inc/miniRT.h"
 
 int	camera_count(t_data *data)
 {
@@ -25,6 +27,24 @@ int	camera_count(t_data *data)
 	return (i);
 }
 
+t_camera *switch_camera(t_data *data, int camera_num)
+{
+	int i;
+	t_camera *tmp;
+
+	i = 1;
+	tmp = data->cameras;
+	while (tmp != NULL)
+	{
+		if (camera_num == i)
+			return (tmp);
+		tmp = tmp->next;
+		i++;
+	}
+	return (data->cameras);
+}
+
+/*
 void keys(int key, void *ptr)
 {
 	t_data	*data;
@@ -55,3 +75,5 @@ void keys(int key, void *ptr)
 	}
 
 }
+
+*/

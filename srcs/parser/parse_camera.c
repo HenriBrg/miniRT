@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 17:18:22 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 20:01:12 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/19 19:53:03 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_camera(t_data *data)
 	t_camera 	*next;
 
 	tmp = data->cameras;
-	while (tmp)
+	while (tmp != NULL)
 	{
 		next = tmp->next;
 		free(tmp);
@@ -58,13 +58,13 @@ void	add_camera(t_data *data, char **tab)
 {
 	t_camera *tmp;
 
-	if (data->cameras == 0)
-		data->cameras = parse_camera(data, tab);
-	else
+	if (data->cameras != NULL)
 	{
 		tmp = data->cameras;
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 		tmp->next = parse_camera(data, tab);
 	}
+	else
+		data->cameras = parse_camera(data, tab);
 }

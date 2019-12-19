@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:22 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 19:23:54 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/19 18:19:57 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ t_square	*parse_square(t_data *data, char **tab)
 	square->normal = reorientate(newvec(0, 1, 0), orient);
 	square->height = ft_atod(tab[3]);
 	square->colour = str_to_rgb(tab[4]);
+	square->next = NULL;
 	finish_square(square, orient);
 	return (square);
 }

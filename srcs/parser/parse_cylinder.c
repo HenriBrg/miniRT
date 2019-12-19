@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:07 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 20:00:26 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/19 18:20:27 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_cylinder	*parse_cylinder(t_data *data, char **tab)
 		corrupted(data, tab, "Bad cylinder radius or height format");
 	if (!(cylinder = malloc(sizeof(t_cylinder))))
 		corrupted(data, tab, "Can't malloc cylinder");
+	cylinder->next = NULL;
 	cylinder->center = center;
 	cylinder->orientation = reorientate(orient, newvec(0,0,0));
 	cylinder->colour = str_to_rgb(tab[3]);

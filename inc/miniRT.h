@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/18 16:38:28 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 23:44:45 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@
 # define TRIANGLE 4
 # define CYLINDER 5
 # define DISK 5
+
+# define KEY_ESC 53
+# define KEY_ARROW_LEFT 123
+# define KEY_ARROW_RIGHT 124
 
 
 # define SCREENSIZE 10
@@ -156,6 +160,9 @@ typedef struct	s_data
 	int				parse_res_doublon;
 	int				parse_amb_doublon;
 
+	int				camera_num;
+	t_camera		*currentcam;
+	
 	t_resolution	*res;
 	t_ambiant_light	*amb;
 	t_light			*lights;

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 20:01:48 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 23:55:51 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ int	raytrace(t_data *data)
 	return (0);
 }
 
+static void choose_camera(t_data *data)
+{
+
+}
+
 static int compute(t_data *data)
 {
 	data->ptr = mlx_init();
@@ -73,6 +78,7 @@ static int compute(t_data *data)
 	raytrace(data);
 	mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
 
+
 	mlx_key_hook(data->win, 0, 0);
 	mlx_loop(data->ptr);
 	return (0);
@@ -80,9 +86,15 @@ static int compute(t_data *data)
 
 void final_free(t_data *data)
 {
-	// free(data->res);
-	// free(data->amb);
-	// free_camera(data);
+	free(data->res);
+	free(data->amb);
+	free_camera(data);
+	free_light(data);
+	free_sphere(data);
+	free_plane(data);
+	free_square(data);
+	free_triangle(data);
+	free_cylinder(data);
 	free(data);
 }
 
@@ -96,7 +108,9 @@ int main(int ac, char **av)
 	data = malloc(sizeof(t_data));
 	data->parse_res_doublon = 0;
 	data->parse_amb_doublon = 0;
+	data->camera_num = 1;
 	parse(data, av[1]);
+	data->camera_num = 1;
 	compute(data);
 	final_free(data);
     return (0);

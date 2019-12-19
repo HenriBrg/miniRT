@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/18 19:39:37 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/18 23:53:31 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,12 @@ void corrupted(t_data *data, char **tab, char *message)
 	free(data->res);
 	free(data->amb);
 	free_camera(data);
+	free_light(data);
+	free_sphere(data);
+	free_plane(data);
+	free_square(data);
+	free_triangle(data);
+	free_cylinder(data);
 	free(data);
 	ft_strsfree(tab);
 	putexit(message);
@@ -272,7 +278,6 @@ int	parse(t_data *data, char *filename)
 	if (!(fd = open(filename, O_RDONLY)))
 		putexit("Can't open file");
 	while (get_next_line(fd, &line) > 0)
-	{
 		if (ft_strlen(line) > 0)
 		{
 			tab = ft_strsplit(line, " \t");
@@ -282,9 +287,9 @@ int	parse(t_data *data, char *filename)
 		}
 		else
 			free(line);
-	}
+	if (camera_count(data) == 0)
+		corrupted(data, NULL, "Sans caméra ça va être difficile ! ;D")
 	if (close(fd) == -1)
 		putexit("Can't close file");
-	printf("Parsing done\n");
 	return (0);
 }

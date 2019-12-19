@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 23:29:17 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/20 00:27:24 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int compute(t_data *data)
 	raytrace(data);
 	mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
 
-	mlx_key_hook(data->win, 0, 0);
+	mlx_key_hook(data->win, keys, data);
 	mlx_loop(data->ptr);
 	return (0);
 }
@@ -93,6 +93,8 @@ void final_free(t_data *data)
 	free_cylinder(data);
 	free(data);
 }
+
+// TODO : ambiant - keys puis ensuite leaks et finir par lights shadow
 
 int main(int ac, char **av)
 {

@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/19 23:30:21 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/20 00:17:22 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@
 # define TRUE 1
 # define FALSE 0
 
+# define KEY_SPACE 49
 # define KEY_ESC 53
-# define KEY_ARROW_LEFT 123
-# define KEY_ARROW_RIGHT 124
-
 
 # define SCREENSIZE 10
 # define RAD(degree)	(degree * M_PI / 180)
@@ -156,6 +154,14 @@ typedef struct	s_data
 }				t_data;
 
 /*
+** Divers
+*/
+
+void 		final_free(t_data *data);
+int			raytrace(t_data *data);
+
+
+/*
 ** maths/
 */
 
@@ -197,6 +203,7 @@ t_interobject 	intersearch(t_data *data, t_camera *cam, t_vector3 ray);
 
 int			camera_count(t_data *data);
 t_camera 	*get_current_camera(t_data *data);
+int 		keys(int key, void *ptr);
 
 /*
 ** parser

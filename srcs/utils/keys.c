@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 22:58:48 by henri             #+#    #+#             */
-/*   Updated: 2019/12/20 00:24:02 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/20 01:15:56 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int		keys(int key, void *ptr)
 		mlx_destroy_image(data->ptr, data->img);
 		mlx_destroy_window(data->ptr, data->win);
 		final_free(data);
+		while (1);
 		exit(0);
 	}
 	else if (key == KEY_SPACE)

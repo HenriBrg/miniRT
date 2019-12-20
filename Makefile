@@ -6,7 +6,7 @@
 #    By: henri <henri@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/28 00:56:29 by henri             #+#    #+#              #
-#    Updated: 2019/12/19 23:28:49 by hberger          ###   ########.fr        #
+#    Updated: 2019/12/20 00:48:43 by hberger          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,6 @@ OBJS = ${SRCS:.c=.o}
 FLAGS = -Wall -Wextra -Werror
 
 
-ifndef VERBOSE
-.SILENT:
-endif
 
 all: $(NAME)
 
@@ -42,13 +39,16 @@ all: $(NAME)
 	gcc -g $(FLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	gcc -g $(FLAGS) $(SRCS) -o $(NAME) -L. lib/libft.a -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
+	make -C libft
+	gcc -g $(FLAGS) $(SRCS) -o $(NAME) -L. libft/libft.a -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
 
 
 clean:
+	make clean -C libft
 	rm -f $(OBJS)
 
 fclean: clean
+	make fclean -C libft
 	rm -f $(NAME)
 
 re: fclean all

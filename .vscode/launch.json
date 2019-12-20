@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/miniRT",
-            "args": [],
+            "args": ["scenes/squares.rt"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

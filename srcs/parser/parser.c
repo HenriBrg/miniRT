@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 23:09:29 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/20 01:05:10 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	parse(t_data *data, char *filename)
 
 	if (ft_strcmp(ft_strchr(filename, '.'), ".rt") != 0)
 		putexit("Filename must ends with .rt");
-	if (!(fd = open("scene.rt", O_RDONLY)))
+	if (!(fd = open(filename, O_RDONLY)))
 		putexit("Can't open file");
 	reading(fd, data);
 	if (close(fd) == -1)

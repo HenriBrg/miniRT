@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/20 00:27:24 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/20 01:15:51 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,10 @@ static int compute(t_data *data)
 {
 	data->ptr = mlx_init();
 	data->win = mlx_new_window(data->ptr, data->res->width, data->res->height, "miniRT");
-
 	data->img = mlx_new_image(data->ptr, data->res->width, data->res->height);
 	data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
 	raytrace(data);
 	mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
-
 	mlx_key_hook(data->win, keys, data);
 	mlx_loop(data->ptr);
 	return (0);
@@ -95,6 +93,10 @@ void final_free(t_data *data)
 }
 
 // TODO : ambiant - keys puis ensuite leaks et finir par lights shadow
+// erreur : on voit la sphere alors qu'on ne devrait pas :
+// c	20,0,0			0,0,0			70
+// sp	8.0,0,0		2.75				255,0,255
+
 
 int main(int ac, char **av)
 {
@@ -108,8 +110,7 @@ int main(int ac, char **av)
 	data->parse_amb_doublon = 0;
 	data->camera_num = 1;
 
-	parse(data, "scene.rt");
-	// setup(data);
+	parse(data, av[1]);
 	compute(data);
 
 	final_free(data);

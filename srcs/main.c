@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/20 01:15:51 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/20 01:21:55 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void final_free(t_data *data)
 	free(data);
 }
 
-// TODO : ambiant - keys puis ensuite leaks et finir par lights shadow
+// TODO : ambiant - keys echap puis ensuite leaks et finir par lights shadow
 // erreur : on voit la sphere alors qu'on ne devrait pas :
 // c	20,0,0			0,0,0			70
 // sp	8.0,0,0		2.75				255,0,255

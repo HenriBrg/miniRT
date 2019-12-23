@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 22:58:45 by henri             #+#    #+#             */
-/*   Updated: 2019/12/23 02:29:53 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/23 16:04:04 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,33 @@
 ** not have any padding at all.
 */
 
-unsigned char *fileheader(int width, int height)
+/*
+int				i;
+unsigned char	fileheader[14];
+i = -1;
+while (++i < 14)
+	fileheader[i] = (unsigned char)0;
+
+int				i;
+unsigned char	bmpheader[40];
+
+i = -1;
+while (++i < 40)
+	bmpheader[i] = (unsigned char)0;
+*/
+
+void	writefileheader(int fd, int width, int height)
 {
+	int				i;
 	int				bytes;
 	int				padding;
-	static unsigned char	fileheader[] = {0, 0, 0, 0, 0, 0,
-											0, 0, 0, 0, 0, 0, 0, 0};
+	unsigned char	fileheader[14];
 
+	i = -1;
+	while (++i < 14)
+		fileheader[i] = (unsigned char)0;
 	padding = (4 - (width * 3) % 4) % 4;
-	bytes = 14 + 40 + (width * 3 + padding) * height;
+	bytes = 14 + 40 + (3 * width + padding) * height;
 	fileheader[0] = (unsigned char)('B');
 	fileheader[1] = (unsigned char)('M');
 	fileheader[2] = (unsigned char)(bytes);
@@ -53,33 +71,31 @@ unsigned char *fileheader(int width, int height)
 	fileheader[4] = (unsigned char)(bytes >> 16);
 	fileheader[5] = (unsigned char)(bytes >> 24);
 	fileheader[10] = (unsigned char)(54);
-	return (fileheader);
+	write(fd, fileheader, 14);
 }
 
-/*
-** unsigned char bmpheader[] = {
-** 		0,0,0,0 --> header size
-** 		0,0,0,0 --> image width
-** 		0,0,0,0 --> image height
-** 		0,0 	--> number of color planes
-** 		0,0 	--> bits per pixel
-** 		0,0,0,0 --> compression
-** 		0,0,0,0 --> image size
-** 		0,0,0,0 --> horizontal resolution
-** 		0,0,0,0 --> vertical resolution
-** 		0,0,0,0 --> colors in color table
-** 		0,0,0,0 --> important color count
-** };
-*/
+/* Pas forcément nécessaire ?
 
+bmpheader[24] = (unsigned char)(3780);
+bmpheader[25] = (unsigned char)(3780 >> 8);
+bmpheader[26] = (unsigned char)(3780 >> 16);
+bmpheader[27] = (unsigned char)(3780 >> 24);
+bmpheader[28] = (unsigned char)(3780);
+bmpheader[29] = (unsigned char)(3780 >> 8);
+bmpheader[30] = (unsigned char)(3780 >> 16);
+bmpheader[31] = (unsigned char)(3780 >> 24);
+ */
 
-unsigned char *bmpheader(int width, int height)
+void	writebmpheader(int fd, int width, int height)
 {
-    static unsigned char bmpheader[] = {
-        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-		0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-    };
+	int	size;
+	int				i;
+	unsigned char	bmpheader[40];
 
+	i = -1;
+	while (++i < 40)
+		bmpheader[i] = (unsigned char)0;
+	size = width * height * 3;
     bmpheader[0] = (unsigned char)(40);
     bmpheader[4] = (unsigned char)(width);
     bmpheader[5] = (unsigned char)(width >> 8);
@@ -91,21 +107,27 @@ unsigned char *bmpheader(int width, int height)
     bmpheader[11] = (unsigned char)(height >> 24);
     bmpheader[12] = (unsigned char)(1);
     bmpheader[14] = (unsigned char)(3 * 8);
-	return (bmpheader);
+	bmpheader[16] = (unsigned char)(0);
+	bmpheader[20] = (unsigned char)(size);
+	bmpheader[21] = (unsigned char)(size >> 8);
+	bmpheader[22] = (unsigned char)(size >> 16);
+	bmpheader[23] = (unsigned char)(size >> 24);
+	write(fd, bmpheader, 40);
 }
-
 
 void 	writepixels(int fd, t_data *data)
 {
 	int	x;
 	int	y;
+	char	*pixtab;
 
+	pixtab = data->pixtab;
 	y = data->res->height - 1;
 	while (y >= 0)
 	{
 		x = -1;
 		while (++x < data->res->width)
-			write(fd, &(data->pixtab[(y * data->res->width + x) * 4]), 3);
+			write(fd, &(pixtab[(y * data->res->width + x) * 4]), 3);
 		y--;
 	}
 }
@@ -113,16 +135,20 @@ void 	writepixels(int fd, t_data *data)
 void 	save_to_bmp(t_data *data)
 {
 	int				fd;
-	unsigned char	*fheader;
-	unsigned char	*bitmapheader;
 
 	ft_putendl_fd("ScreenShot en cours ...", 1);
-	fheader = fileheader(data->res->width, data->res->height - 1);
-	bitmapheader = bmpheader(data->res->width, data->res->height - 1);
-	fd = open("ScreenShot.bmp", O_CREAT | O_WRONLY | O_TRUNC);
-	write(fd, fheader, 14);
-	write(fd, bitmapheader, 40);
+	if ((fd = open("ScreenShot.bmp", O_WRONLY | O_CREAT | O_TRUNC)) == -1)
+	{
+		final_free(data);
+		putexit("Erreur d'ouverture BMP");
+	}
+	writefileheader(fd, data->res->width, data->res->height);
+	writebmpheader(fd, data->res->width, data->res->height);
 	writepixels(fd, data);
-	close(fd);
-	ft_putendl_fd("... ScreenShot done !", 1);
+	if (close(fd) == -1)
+	{
+		final_free(data);
+		putexit("Erreur de fermeture BMP");
+	}
+	ft_putendl_fd("... ScreenShot done ", 1);
 }

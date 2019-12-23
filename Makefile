@@ -6,7 +6,7 @@
 #    By: henri <henri@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/28 00:56:29 by henri             #+#    #+#              #
-#    Updated: 2019/12/23 01:45:54 by henri            ###   ########.fr        #
+#    Updated: 2019/12/23 19:20:46 by henri            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRCS = srcs/main.c srcs/maths/vec1.c srcs/maths/vec2.c srcs/maths/vec3.c	   \
 	   srcs/parser/parse_utils2.c											   \
 	   srcs/parser/parse_plane.c      srcs/parser/parser.c					   \
 	   srcs/parser/parse_resolution.c										   \
-	   srcs/utils/keys.c srcs/utils/colour.c srcs/utils/bmp.c
+	   srcs/utils/keys.c srcs/utils/colour.c srcs/utils/bmp.c				   \
+	   srcs/lights/lights.c
 
 OBJS = ${SRCS:.c=.o}
 
@@ -34,11 +35,14 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 .c.o:
-	gcc -g $(FLAGS) -c $< -o $@
+	gcc $(FLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
 	make -C libft
-	gcc -g $(FLAGS) $(SRCS) -o $(NAME) -L. libft/libft.a -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
+	gcc $(FLAGS) $(SRCS) -o $(NAME) -L. libft/libft.a -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
+
+run: $(NAME)
+	./miniRT scenes/scene.rt
 
 clean:
 	make clean -C libft

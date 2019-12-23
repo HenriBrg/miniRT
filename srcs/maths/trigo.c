@@ -6,11 +6,29 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 14:14:50 by henri             #+#    #+#             */
-/*   Updated: 2019/12/15 15:01:14 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/23 16:33:32 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
+
+t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
+{
+	double 		w;
+	double 		pixshift;
+	t_vector3	basedir;
+	t_vector3	ray;
+
+	basedir = mult1vec(cam->vecx, (double)SCREENSIZE);
+	w = (double)SCREENSIZE * tan(RAD(cam->fov / 2)) * 2;
+	pixshift = w / ((double)data->res->width - 1);
+	ray = addvec(basedir, mult1vec(cam->vecz,
+				((2 * (y + 0.5) - data->res->width) / 2) * pixshift));
+	ray = addvec(ray, mult1vec(cam->vecy,
+				((-2 * (x + 0.5) + data->res->height) / 2) * pixshift));
+	ray = norm(ray);
+	return (ray);
+}
 
 int	solvequadratic(t_vector3 abc, double *t0, double *t1)
 {

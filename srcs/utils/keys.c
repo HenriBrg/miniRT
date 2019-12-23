@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 22:58:48 by henri             #+#    #+#             */
-/*   Updated: 2019/12/22 19:07:29 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/23 19:46:49 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int		keys(int key, void *ptr)
 	data = (t_data*)ptr;
 	if (key == KEY_ESC)
 	{
-		final_free(data);
+		clear(data);
 		exit(0);
 	}
 	else if (key == KEY_SPACE)

@@ -6,29 +6,11 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/23 02:23:37 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/23 23:09:44 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
-
-t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
-{
-	double 		w;
-	double 		pixshift;
-	t_vector3	basedir;
-	t_vector3	ray;
-
-	basedir = mult1vec(cam->vecx, (double)SCREENSIZE);
-	w = (double)SCREENSIZE * tan(RAD(cam->fov / 2)) * 2;
-	pixshift = w / ((double)data->res->width - 1);
-	ray = addvec(basedir, mult1vec(cam->vecz,
-				((2 * (y + 0.5) - data->res->width) / 2) * pixshift));
-	ray = addvec(ray, mult1vec(cam->vecy,
-				((-2 * (x + 0.5) + data->res->height) / 2) * pixshift));
-	ray = norm(ray);
-	return (ray);
-}
 
 void	raytrace(t_data *data)
 {
@@ -48,30 +30,25 @@ void	raytrace(t_data *data)
 			ray = getray(data, data->cameras, x, y);
 			object = intersearch(data, get_current_camera(data), ray);
 			if (object.inter == TRUE)
-				colorize(pixels, object.colour, y);
+				colorize(pixels, apply_ambient(data->amb, object.colour), y);
 			else
-				colorize(pixels, 255, y);
+				colorize(pixels, apply_ambient(data->amb, BACKGCOLOUR), y);
 		}
 		pixels += data->pixsizeline;
 	}
-	if (data->save_bmp == 1)
-		save_to_bmp(data);
 }
 
 static int compute(t_data *data)
 {
-	data->ptr = mlx_init();
-	data->win = mlx_new_window(data->ptr, data->res->width, data->res->height, "miniRT");
-	data->img = mlx_new_image(data->ptr, data->res->width, data->res->height);
-	data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
 	raytrace(data);
+	data->save_bmp == 1 ? save_to_bmp(data) : 0;
 	mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
 	mlx_key_hook(data->win, keys, data);
 	mlx_loop(data->ptr);
 	return (0);
 }
 
-void final_free(t_data *data)
+void clear(t_data *data)
 {
 	if (data->img != 0)
 		mlx_destroy_image(data->ptr, data->img);
@@ -94,21 +71,39 @@ void final_free(t_data *data)
 // c	20,0,0			0,0,0			70
 // sp	8.0,0,0		2.75				255,0,255
 
-
-int main(int ac, char **av)
+void 	init(t_data *data, char **av)
 {
-	(void)ac;
-	(void)av;
-	t_data *data;
-
-	data = NULL;
-	data = malloc(sizeof(t_data));
+	data->res = 0;
+	data->amb = 0;
+	data->cameras = 0;
+	data->lights = 0;
+	data->spheres = 0;
+	data->planes = 0;
+	data->squares = 0;
+	data->triangles = 0;
+	data->cylinders = 0;
 	data->parse_res_doublon = 0;
 	data->parse_amb_doublon = 0;
 	data->camera_num = 1;
-	data->save_bmp = (av[2] != 0 && ft_strcmp(av[2], "--save") == 0) ? 1 : 0;
 	parse(data, av[1]);
-	compute(data);
-	final_free(data);
+	data->save_bmp = (av[2] != 0 && ft_strcmp(av[2], "--save") == 0) ? 1 : 0;
+	data->ptr = mlx_init();
+	data->win = mlx_new_window(data->ptr, data->res->width, data->res->height, "miniRT");
+	data->img = mlx_new_image(data->ptr, data->res->width, data->res->height);
+	data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
+}
+
+int main(int ac, char **av)
+{
+	t_data *data;
+
+	if (ac < 2)
+		return (-1);
+	data = NULL;
+	data = malloc(sizeof(t_data));
+	init(data, av);
+	if (0)
+		compute(data);
+	clear(data);
     return (0);
 }

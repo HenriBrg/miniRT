@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/23 01:46:05 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/23 19:46:39 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "libft.h"
 # include "mlx.h"
 
+# define BACKGCOLOUR 0x003399
+
 # define TRUE 1
 # define FALSE 0
 
@@ -27,6 +29,13 @@
 
 # define SCREENSIZE 10
 # define RAD(degree)	(degree * M_PI / 180)
+
+typedef struct	s_rgb
+{
+	int	r;
+	int g;
+	int b;
+}				t_rgb;
 
 typedef struct	s_resolution
 {
@@ -157,8 +166,15 @@ typedef struct	s_data
 ** Divers
 */
 
-void 		final_free(t_data *data);
+void 		clear(t_data *data);
 void		raytrace(t_data *data);
+
+
+/*
+** light/
+*/
+
+int	apply_ambient(t_ambiant_light *ambient, int colour);
 
 
 /*
@@ -181,6 +197,7 @@ t_vector3	mult1vec(t_vector3 vec, double x);
 t_vector3	mult2vec(t_vector3 vec1, t_vector3 vec2);
 t_vector3 	getdirectionalvector(t_vector3 a, t_vector3 b);
 t_vector3 	getpointfromray(t_vector3 origin, t_vector3 ray, double t);
+t_vector3	getray(t_data *data, t_camera *cam, double x, double y);
 
 
 int			rgbtoi(int red, int green, int blue);
@@ -207,6 +224,7 @@ int 		keys(int key, void *ptr);
 void 		save_to_bmp(t_data *data);
 
 void	colorize(char *pixels, int colour, int position_on_line);
+void 	decode_rgb(int colour, int *r, int *g, int *b);
 
 /*
 ** parser

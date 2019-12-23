@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 22:58:45 by henri             #+#    #+#             */
-/*   Updated: 2019/12/23 16:04:04 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/23 19:46:26 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void 	save_to_bmp(t_data *data)
 	ft_putendl_fd("ScreenShot en cours ...", 1);
 	if ((fd = open("ScreenShot.bmp", O_WRONLY | O_CREAT | O_TRUNC)) == -1)
 	{
-		final_free(data);
+		clear(data);
 		putexit("Erreur d'ouverture BMP");
 	}
 	writefileheader(fd, data->res->width, data->res->height);
@@ -147,7 +147,7 @@ void 	save_to_bmp(t_data *data)
 	writepixels(fd, data);
 	if (close(fd) == -1)
 	{
-		final_free(data);
+		clear(data);
 		putexit("Erreur de fermeture BMP");
 	}
 	ft_putendl_fd("... ScreenShot done ", 1);

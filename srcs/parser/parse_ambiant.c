@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:31:55 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 22:28:05 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/23 00:12:05 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	parse_ambiant(t_data *data, char **tab, int fd)
 	data->parse_amb_doublon = 1;
 	if (ft_strslen(tab) != 3)
 		corrupted(data, tab, "Bad ambiant format (too many args)", fd);
+	if (ft_atod(tab[1]) < 0 || ft_atod(tab[1]) > 1)
+		corrupted(data, tab, "Bad ambiant intensity", fd);
 	if (double_format(tab[1]) == -1 || rgb_format(tab[2]) == -1)
 		corrupted(data, tab, "Bad ambiant format (double or rgb)", fd);
 	if (!(ambiant = malloc(sizeof(t_ambiant_light))))

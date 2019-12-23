@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 22:58:48 by henri             #+#    #+#             */
-/*   Updated: 2019/12/20 01:15:56 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/22 19:07:29 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ int		keys(int key, void *ptr)
 	data = (t_data*)ptr;
 	if (key == KEY_ESC)
 	{
-		mlx_destroy_image(data->ptr, data->img);
-		mlx_destroy_window(data->ptr, data->win);
 		final_free(data);
-		while (1);
 		exit(0);
 	}
 	else if (key == KEY_SPACE)
@@ -66,6 +63,7 @@ int		keys(int key, void *ptr)
 		else
 			data->camera_num = 1;
 		raytrace(data);
+		// destroy old img ?
 		mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
 	}
 	return (0);

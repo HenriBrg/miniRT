@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 17:18:22 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 22:29:35 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/22 19:19:22 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ t_camera	*parse_camera(t_data *data, char **tab, int fd)
 		corrupted(data, tab, "Camera orient not in range [-1;1]", fd);
 	if (double_format(tab[3]) == -1)
 		corrupted(data, tab, "Bad camera fov format", fd);
+	if (ft_atod(tab[3]) <= 0 || ft_atod(tab[3]) > 180)
+		corrupted(data, tab, "Bad camera fov format (too long/small)", fd);
 	if (!(camera = malloc(sizeof(t_camera))))
 		corrupted(data, tab, "Can't malloc camera", fd);
 	camera->pos = pos;

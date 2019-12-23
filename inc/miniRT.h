@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/20 00:17:22 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/23 01:46:05 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,9 @@ typedef struct	s_data
 	char 			*pixtab;
 	int				parse_res_doublon;
 	int				parse_amb_doublon;
-
 	int				camera_num;
-	t_camera		*currentcam;
+
+	int				save_bmp;
 
 	t_resolution	*res;
 	t_ambiant_light	*amb;
@@ -158,7 +158,7 @@ typedef struct	s_data
 */
 
 void 		final_free(t_data *data);
-int			raytrace(t_data *data);
+void		raytrace(t_data *data);
 
 
 /*
@@ -204,6 +204,9 @@ t_interobject 	intersearch(t_data *data, t_camera *cam, t_vector3 ray);
 int			camera_count(t_data *data);
 t_camera 	*get_current_camera(t_data *data);
 int 		keys(int key, void *ptr);
+void 		save_to_bmp(t_data *data);
+
+void	colorize(char *pixels, int colour, int position_on_line);
 
 /*
 ** parser

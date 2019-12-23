@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/20 01:21:55 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/23 02:23:37 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 	return (ray);
 }
 
-int	raytrace(t_data *data)
+void	raytrace(t_data *data)
 {
 	int				x;
 	int				y;
@@ -48,21 +48,14 @@ int	raytrace(t_data *data)
 			ray = getray(data, data->cameras, x, y);
 			object = intersearch(data, get_current_camera(data), ray);
 			if (object.inter == TRUE)
-			{
-				pixels[0 + y * 4] = (char)((object.colour & 0xFF));
-				pixels[1 + y * 4] = (char)((object.colour & 0xFF00) >> 8);
-				pixels[2 + y * 4] = (char)((object.colour & 0xFF0000) >> 16);
-			}
+				colorize(pixels, object.colour, y);
 			else
-			{
-				pixels[0 + y * 4] = (char)255;
-				pixels[1 + y * 4] = (char)0;
-				pixels[2 + y * 4] = (char)0;
-			}
+				colorize(pixels, 255, y);
 		}
 		pixels += data->pixsizeline;
 	}
-	return (0);
+	if (data->save_bmp == 1)
+		save_to_bmp(data);
 }
 
 static int compute(t_data *data)
@@ -80,6 +73,10 @@ static int compute(t_data *data)
 
 void final_free(t_data *data)
 {
+	if (data->img != 0)
+		mlx_destroy_image(data->ptr, data->img);
+	if (data->win != 0)
+		mlx_destroy_window(data->ptr, data->win);
 	free(data->res);
 	free(data->amb);
 	free_camera(data);
@@ -109,10 +106,9 @@ int main(int ac, char **av)
 	data->parse_res_doublon = 0;
 	data->parse_amb_doublon = 0;
 	data->camera_num = 1;
-
+	data->save_bmp = (av[2] != 0 && ft_strcmp(av[2], "--save") == 0) ? 1 : 0;
 	parse(data, av[1]);
 	compute(data);
-
 	final_free(data);
     return (0);
 }

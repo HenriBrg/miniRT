@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/23 23:09:47 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/23 23:30:02 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,11 @@ void corrupted(t_data *data, char **tab, char *message, int fd)
 	free_triangle(data);
 	free_cylinder(data);
 	free(data);
-	ft_strsfree(tab);
-	putexit(message);
+	if (tab)
+		ft_strsfree(tab);
 	if (close(fd) == -1)
 		putexit("Can't close file");
+	putexit(message);
 }
 
 
@@ -120,11 +121,11 @@ int	parse(t_data *data, char *filename)
 	if (!(fd = open(filename, O_RDONLY)))
 		putexit("Can't open file");
 	reading(fd, data);
-	if (close(fd) == -1)
-		putexit("Can't close file");
 	if (data->parse_res_doublon == 0 || data->parse_amb_doublon == 0)
 		corrupted(data, NULL, "Il faut une résolution et une lumière amb", fd);
 	if (camera_count(data) == 0)
 		corrupted(data, NULL, "Il faut au moins 1 camera", fd);
+	if (close(fd) == -1)
+		putexit("Can't close file");
 	return (0);
 }

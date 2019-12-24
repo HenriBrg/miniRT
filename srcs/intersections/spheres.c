@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/15 14:59:54 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/24 15:58:13 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ double	intersphere(t_sphere *sphere, t_camera *cam, t_vector3 ray)
 			subvec(cam->pos, sphere->center)) -
 			(sphere->radius * (sphere->radius / 4));
 	solvequadratic(abc, &t0, &t1);
-	return (t0);
+	return ((t0 > 0) ? t0 : -1);
 }
 
 /*
@@ -58,17 +58,14 @@ void try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 	while (sphere != NULL)
 	{
 		tmp = intersphere(sphere, cam, ray);
-		//if (tmp != -1 && ((inter != -1 && tmp < inter) || (inter == -1)))
 		if (tmp != -1 && ((tmp < obj->distance) || (obj->inter == 0)))
 		{
 			inter = tmp;
 			obj->inter = TRUE;
-			obj->ray = ray;
-			obj->origin = cam->pos;
-			obj->ptr = (t_sphere*)sphere;
+			obj->type = SPHERE;
 			obj->distance = tmp;
+			obj->ptr = (t_sphere*)sphere;
 			obj->colour = sphere->colour;
-			//printf("Sphere intersection = %lf\n", tmp);
 		}
 		sphere = sphere->next;
 	}

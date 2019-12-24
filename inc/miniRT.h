@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/23 19:46:39 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/24 17:42:29 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@
 
 # define TRUE 1
 # define FALSE 0
+
+# define SPHERE 1
+# define PLANE 2
+# define SQUARE 3
+# define TRIANGLE 4
+# define CYLINDER 5
 
 # define KEY_SPACE 49
 # define KEY_ESC 53
@@ -130,10 +136,7 @@ typedef struct s_interobject
 	int			type;
 	int			inter;
 	int			colour;
-	int			intercount;
 	double		distance;
-	t_vector3	ray;
-	t_vector3	origin;
 }				t_interobject;
 
 typedef struct	s_data
@@ -211,7 +214,7 @@ void 			try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *ob
 void 			try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
 void 			try_triangles(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
 void 			try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
-t_interobject 	intersearch(t_data *data, t_camera *cam, t_vector3 ray);
+t_interobject 	intersearch(t_data *data, t_camera *camera, t_vector3 ray);
 
 
 /*

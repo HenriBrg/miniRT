@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 23:19:39 by henri             #+#    #+#             */
-/*   Updated: 2019/12/10 12:30:59 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/24 15:55:53 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,9 @@ void try_triangles(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *ob
 		{
 			inter = tmp;
 			obj->inter = TRUE;
-			obj->ray = ray;
-			obj->origin = cam->pos;
-			obj->ptr = (t_triangle*)triangle;
 			obj->distance = tmp;
+			obj->type = TRIANGLE;
+			obj->ptr = (t_triangle*)triangle;
 			obj->colour = triangle->colour;
 		}
 		triangle = triangle->next;

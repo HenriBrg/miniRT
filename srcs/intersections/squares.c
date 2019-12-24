@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/10 12:17:31 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/24 15:55:38 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,10 @@ void try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 		{
 			inter = tmp;
 			obj->inter = TRUE;
-			obj->ray = ray;
-			obj->origin = cam->pos;
-			obj->ptr = (t_square*)square;
 			obj->distance = tmp;
+			obj->type = SQUARE;
+			obj->ptr = (t_square*)square;
 			obj->colour = square->colour;
-			//printf("Square intersection = %lf\n", tmp);
 		}
 		square = square->next;
 	}

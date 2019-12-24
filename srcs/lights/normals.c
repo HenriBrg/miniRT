@@ -1,30 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersection.c                                     :+:      :+:    :+:   */
+/*   normals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/24 23:01:44 by henri             #+#    #+#             */
-/*   Updated: 2019/12/24 17:42:20 by henri            ###   ########.fr       */
+/*   Created: 2019/12/24 16:01:45 by henri             #+#    #+#             */
+/*   Updated: 2019/12/24 16:01:50 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
-
-t_interobject intersearch(t_data *data, t_camera *camera, t_vector3 ray)
-{
-	t_interobject	object;
-
-	object.inter = FALSE;
-	object.distance = 0;
-	object.ptr = 0;
-	object.colour = 0;
-
-	try_spheres(data, camera, ray, &object);
-	try_planes(data, camera, ray, &object);
-	try_squares(data, camera, ray, &object);
-	try_triangles(data, camera, ray, &object);
-	try_cylinders(data, camera, ray, &object);
-	return (object);
-}

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 23:18:22 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/24 15:54:15 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,9 @@ void			try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *
 		{
 			inter = tmp;
 			obj->inter = TRUE;
-			obj->ray = ray;
-			obj->origin = cam->pos;
-			obj->ptr = (t_cylinder*)cylinder;
 			obj->distance = tmp;
+			obj->type = CYLINDER;
+			obj->ptr = (t_cylinder*)cylinder;
 			obj->colour = cylinder->colour;
 		}
 		cylinder = cylinder->next;

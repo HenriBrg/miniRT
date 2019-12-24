@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/16 17:42:37 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/24 15:54:32 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ void try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 		{
 			inter = tmp;
 			obj->inter = TRUE;
-			obj->ray = ray;
-			obj->origin = cam->pos;
-			obj->ptr = (t_plane*)plane;
 			obj->distance = tmp;
+			obj->type = PLANE;
+			obj->ptr = (t_plane*)plane;
 			obj->colour = plane->colour;
 		}
 		plane = plane->next;

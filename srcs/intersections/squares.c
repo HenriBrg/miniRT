@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/24 15:55:38 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/24 18:08:09 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 //printf("Point(%lf, %lf, %lf)\n",point.x, point.y, point.z);
 */
 
-static int	squarebounds(t_square *square, t_camera *cam, t_vector3 ray, double t)
+static int	squarebounds(t_square *square, t_vector3 pov, t_vector3 ray, double t)
 {
 	double x;
 	double z;
 	t_vector3 point;
 
-	point = getpointfromray(cam->pos, ray, t);
+	point = getpointfromray(pov, ray, t);
 	point = subvec(square->center, point);
 	x = dot(point, square->x) / square->height;
 	z = dot(point, square->z) / square->height;
@@ -38,22 +38,22 @@ static int	squarebounds(t_square *square, t_camera *cam, t_vector3 ray, double t
 	return (0);
 }
 
-static double intersquares(t_square *square, t_camera *cam, t_vector3 ray)
+static double intersquares(t_square *square, t_vector3 pov, t_vector3 ray)
 {
 	double 	t;
 	double	denom;
 
-	t = dot(subvec(square->center, cam->pos), square->normal);
+	t = dot(subvec(square->center, pov), square->normal);
 	denom = dot(ray, square->normal);
 	if (denom < 1e-8 && denom > -1 * (1e-8))
 		return (-1);
 	t = t / denom;
-	if (t > 0 && (squarebounds(square, cam, ray, t) == 1))
+	if (t > 0 && (squarebounds(square, pov, ray, t) == 1))
 		return (t);
 	return (-1);
 }
 
-void try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
+void try_squares(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj)
 {
 	double tmp;
 	double inter;
@@ -64,7 +64,7 @@ void try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 	square = data->squares;
 	while (square != NULL)
 	{
-		tmp = intersquares(square, cam, ray);
+		tmp = intersquares(square, pov, ray);
 		if (tmp != -1 && ((tmp < obj->distance) || (obj->inter == 0)))
 		{
 			inter = tmp;

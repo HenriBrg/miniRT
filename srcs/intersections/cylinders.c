@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/24 15:54:15 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/24 18:06:53 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** http://www.iquilezles.org/www/articles/intersectors/intersectors.htm
 */
 
-static double		intercylinder(t_cylinder *cyl, t_camera *cam, t_vector3 ray)
+static double		intercylinder(t_cylinder *cyl, t_vector3 pov, t_vector3 ray)
 {
 	t_vector3		ca;
 	t_vector3		oc;
@@ -25,7 +25,7 @@ static double		intercylinder(t_cylinder *cyl, t_camera *cam, t_vector3 ray)
 	t_vector3		cardoc;
 
 	ca = subvec(cyl->pb, cyl->center);
-	oc = subvec(cam->pos, cyl->center);
+	oc = subvec(pov, cyl->center);
 	cardoc.x = dotsame(ca);
 	cardoc.y = dot(ca, ray);
 	cardoc.z = dot(ca, oc);
@@ -46,7 +46,7 @@ static double		intercylinder(t_cylinder *cyl, t_camera *cam, t_vector3 ray)
 }
 
 
-void			try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
+void			try_cylinders(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj)
 {
 	double 		tmp;
 	double 		inter;
@@ -57,7 +57,7 @@ void			try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *
 	cylinder = data->cylinders;
 	while (cylinder != NULL)
 	{
-		tmp = intercylinder(cylinder, cam, ray);
+		tmp = intercylinder(cylinder, pov, ray);
 		if (tmp != -1 && ((tmp < obj->distance) || (obj->inter == 0)))
 		{
 			inter = tmp;

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/24 15:54:32 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/24 18:07:20 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 ** https://stackoverflow.com/questions/23975555/how-to-do-ray-plane-intersection
 */
 
-double interplanes(t_plane *plane, t_camera *cam, t_vector3 ray)
+double interplanes(t_plane *plane, t_vector3 pov, t_vector3 ray)
 {
 	double t;
 	double denom;
 
-	t = dot(subvec(plane->center, cam->pos), plane->normal);
+	t = dot(subvec(plane->center, pov), plane->normal);
 	denom = dot(ray, plane->normal);
 	if (denom < 1e-8 && denom > -1 * (1e-8))
 		return (-1);
@@ -34,7 +34,7 @@ double interplanes(t_plane *plane, t_camera *cam, t_vector3 ray)
 	return (-1);
 }
 
-void try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
+void try_planes(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj)
 {
 	double tmp;
 	double inter;
@@ -45,7 +45,7 @@ void try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 	plane = data->planes;
 	while (plane != NULL)
 	{
-		tmp = interplanes(plane, cam, ray);
+		tmp = interplanes(plane, pov, ray);
 		if (tmp != -1 && ((tmp < obj->distance) || (obj->inter == 0)))
 		{
 			inter = tmp;

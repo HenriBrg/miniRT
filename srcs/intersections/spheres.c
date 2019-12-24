@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/24 15:58:13 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/24 18:07:42 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 ** NB : Comment faire si x1 = 0 ou quasiment ?
 */
 
-double	intersphere(t_sphere *sphere, t_camera *cam, t_vector3 ray)
+double	intersphere(t_sphere *sphere, t_vector3 pov, t_vector3 ray)
 {
 	double		t0;
 	double		t1;
@@ -33,9 +33,9 @@ double	intersphere(t_sphere *sphere, t_camera *cam, t_vector3 ray)
 
 	t0 = -1;
 	abc.x = dot(ray, ray);
-	abc.y = 2 * dot(ray, subvec(cam->pos, sphere->center));
-	abc.z = dot(subvec(cam->pos, sphere->center),
-			subvec(cam->pos, sphere->center)) -
+	abc.y = 2 * dot(ray, subvec(pov, sphere->center));
+	abc.z = dot(subvec(pov, sphere->center),
+			subvec(pov, sphere->center)) -
 			(sphere->radius * (sphere->radius / 4));
 	solvequadratic(abc, &t0, &t1);
 	return ((t0 > 0) ? t0 : -1);
@@ -46,7 +46,7 @@ double	intersphere(t_sphere *sphere, t_camera *cam, t_vector3 ray)
 ** les pixels se chevauchent incorrectement !
 */
 
-void try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
+void try_spheres(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj)
 {
 	double tmp;
 	double inter;
@@ -57,7 +57,7 @@ void try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj)
 	sphere = data->spheres;
 	while (sphere != NULL)
 	{
-		tmp = intersphere(sphere, cam, ray);
+		tmp = intersphere(sphere, pov, ray);
 		if (tmp != -1 && ((tmp < obj->distance) || (obj->inter == 0)))
 		{
 			inter = tmp;

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/23 16:35:23 by henri             #+#    #+#             */
-/*   Updated: 2019/12/24 17:57:17 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/24 19:39:29 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,19 @@ int	apply_ambient(t_ambiant_light *ambient, int colour)
 }
 
 /*
-double	incidence(t_light *light, t_vector3 point)
+double	incidence(t_light *light, t_interobject *obstacle, t_vector3 photon)
 {
+
 
 }
 */
 
 /*
-t_interobject		obstaclesearch(t_data *data, t_light *light, t_interobject *obj, t_vector3 photon)
-{
-	t_interobject	obstacle;
-
-	obstacle.inter = FALSE;
-	obstacle.distance = 0;
-	obstacle.ptr = 0;
-	obstacle.colour = 0;
-
-	return (obstacle);
-}
+** Description
+** Si obstacle.inter = FALSE alors la lumière ne rencontre donc aucun obstacle
+** et elle impact la couleur du pixel / de l'objet issu de la fonction raytrace()
+** Dans ce cas on calcul l'incidence, mais le calcul varie selon l'objet
+*/
 
 void 	lighting(t_data *data, t_interobject *obj, t_camera *cam, t_vector3 ray)
 {
@@ -57,9 +52,9 @@ void 	lighting(t_data *data, t_interobject *obj, t_camera *cam, t_vector3 ray)
 	{
 		hit = getpointfromray(cam, ray, obj->distance);
 		photon = norm(subvec(light->pos, hit));
-		obstacle = obstaclesearch(data, light, obj, photon))
-		// if (obstacle.inter = TRUE)
-		// 		compute light incidence and then change colour
+		obstacle = intersearch(data, light->pos, photon);
+		if (obstacle.inter = FALSE)
+			incidence(light, obstacle, photon);
 		light = light->next;
 	}
 }

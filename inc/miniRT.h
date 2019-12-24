@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/24 17:42:29 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/24 18:09:06 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,12 +209,12 @@ int			rgbtoi(int red, int green, int blue);
 ** srcs/intersections/
 */
 
-void 			try_spheres(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
-void 			try_planes(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
-void 			try_squares(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
-void 			try_triangles(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
-void 			try_cylinders(t_data *data, t_camera *cam, t_vector3 ray, t_interobject *obj);
-t_interobject 	intersearch(t_data *data, t_camera *camera, t_vector3 ray);
+void 			try_spheres(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj);
+void 			try_planes(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj);
+void 			try_squares(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj);
+void 			try_triangles(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj);
+void 			try_cylinders(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj);
+t_interobject 	intersearch(t_data *data, t_vector3 pov, t_vector3 ray);
 
 
 /*

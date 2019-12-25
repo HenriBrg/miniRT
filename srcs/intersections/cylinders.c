@@ -6,11 +6,34 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/24 18:06:53 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/25 16:51:14 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
+/*
+** https://mrl.nyu.edu/~dzorin/intro-graphics-f01/lectures/normals.pdf
+**
+** Explication car un peu inintuitive cette fonction :
+** 1) height --> On calcul "en combien de longueur du vecteur orientation"
+** le point d'intersection se trouve
+** 2) On trace le vecteur qui va de la base jusqu'au niveau (en hauteur)
+** du point d'intersection le long de l'axe d'orientation (variable tmp)
+** On soustrait le point trouvé (tmp) au point d'intersection et hop on
+** obtient la normale
+*/
+
+t_vector3		getnormalcylinder(t_cylinder *cylinder, t_vector3 point)
+{
+	double		height;
+	t_vector3	tmp;
+
+	height = dot(subvec(point, cylinder->center), cylinder->orientation);
+	tmp = getpointfromray(cylinder->center, cylinder->orientation, height);
+	tmp = subvec(point, tmp);
+	retur (tmp);
+}
+
 
 /*
 ** http://www.iquilezles.org/www/articles/intersectors/intersectors.htm

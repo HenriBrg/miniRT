@@ -6,11 +6,17 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/24 18:07:42 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/25 11:42:16 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
+
+t_vector3		getnormalsphere(t_sphere *sphere, t_vector3 point)
+{
+	return (subvec(point, sphere->center));
+}
+
 
 /*
 ** On pose l'équation suivante : ax^2 + bx + c avec x correspondant à t période

@@ -6,11 +6,17 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/24 18:07:20 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/25 01:01:19 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
+
+// t_vector3		getnormalplane(t_plane *plane)
+// {
+// 	return (plane->normal);
+// }
+
 
 /*
 ** Une normale correspond à un vecteur perpendiculaire à une surface

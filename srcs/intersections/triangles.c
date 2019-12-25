@@ -6,19 +6,19 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 23:19:39 by henri             #+#    #+#             */
-/*   Updated: 2019/12/24 18:08:39 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/24 20:14:36 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
 
-t_vector3		getnormaltriangle(t_vector3 p1, t_vector3 p2, t_vector3 p3)
+t_vector3		getnormaltriangle(t_triangle *triangle)
 {
 	t_vector3 ab;
 	t_vector3 ac;
 
-	ab = subvec(p2, p1);
-	ac = subvec(p3, p1);
+	ab = subvec(triangle->p2, triangle->p1);
+	ac = subvec(triangle->p3, triangle->p1);
 	return (norm(cross(ac, ab)));
 }
 
@@ -34,7 +34,7 @@ static int		trianglebounds(t_triangle *triangle, t_vector3 pov, t_vector3 ray, d
 	t_vector3	insidevec;
 
 	inter = getpointfromray(pov, ray, t);
-	normal = getnormaltriangle(triangle->p1, triangle->p2, triangle->p3);
+	normal = getnormaltriangle(triangle);
 	insidevec = subvec(inter, triangle->p1);
 	edge = subvec(triangle->p2, triangle->p1);
 	if (dot(normal, cross(edge, insidevec)) > 0)
@@ -56,7 +56,7 @@ static double	intertriangle(t_triangle *triangle, t_vector3 pov, t_vector3 ray)
 	double		denom;
 	t_vector3	normal;
 
-	normal = getnormaltriangle(triangle->p1, triangle->p2, triangle->p3);
+	normal = getnormaltriangle(triangle);
 	t = dot(subvec(triangle->p1, pov), normal);
 	denom = dot(ray, normal);
 	if (denom < 1e-8 && denom > -1 * (1e-8))

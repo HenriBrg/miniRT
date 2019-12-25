@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 23:22:07 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/23 18:55:12 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/25 17:21:37 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,3 @@ void 	decode_rgb(int colour, int *r, int *g, int *b)
 	*g = (colour & 0xFF00) >> 8;
 	*b = (colour & 0xFF0000) >> 16;
 }
-
-
-// int apply_ambiant(t_ambiant_light *ambiant, int obj_colour)
-// {
-// 	int	r;
-// 	int g;
-// 	int b;
-//
-// 	r = (obj_colour & 0xFF);
-// 	g = ((obj_colour & 0xFF00) >> 8);
-// 	b = ((obj_colour & 0xFF0000) >> 16);
-// }

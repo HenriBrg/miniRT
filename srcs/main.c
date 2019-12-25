@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/24 18:05:48 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/25 17:36:49 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ void	raytrace(t_data *data)
 			object = intersearch(data, get_current_camera(data)->pos, ray);
 			if (object.inter == TRUE)
 			{
-				colorize(pixels, apply_ambient(data->amb, object.colour), y);
-				// lighting(data, object, get_current_camera(data), ray);
+				objet.colour = apply_ambient(data->amb, object.colour);
+				// lighting(data, &object, get_current_camera(data), ray);
+				colorize(pixels, object.colour, y);
 			}
 			else
 				colorize(pixels, apply_ambient(data->amb, BACKGCOLOUR), y);

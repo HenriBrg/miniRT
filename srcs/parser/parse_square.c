@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:22 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 22:32:01 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/25 01:37:44 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ t_square	*parse_square(t_data *data, char **tab, int fd)
 	square->colour = str_to_rgb(tab[4]);
 	square->next = NULL;
 	finish_square(square, orient);
+	// printf("Orient : (%lf, %lf, %lf)\n", orient.x, orient.y, orient.z);
+	// printf("Normale : (%lf, %lf, %lf)\n", square->normal.x, square->normal.y, square->normal.z);
+	// printf("Vecx : (%lf, %lf, %lf) et len : %lf\n", square->x.x, square->x.y, square->x.z, veclen(square->x));
+	// printf("Vecz : (%lf, %lf, %lf) et len : %lf\n", square->z.x, square->z.y, square->z.z, veclen(square->z));
 	return (square);
 }
 

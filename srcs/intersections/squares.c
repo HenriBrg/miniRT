@@ -6,11 +6,16 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/24 18:08:09 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/25 01:01:15 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
+
+// t_vector3	getnormalsquare(t_square *square)
+// {
+// 	return (square->normal);
+// }
 
 /*
 ** Point représente le vecteur qui depuis la caméra, touche le point

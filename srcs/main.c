@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/25 17:36:49 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/26 18:56:54 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	raytrace(t_data *data)
 			object = intersearch(data, get_current_camera(data)->pos, ray);
 			if (object.inter == TRUE)
 			{
-				objet.colour = apply_ambient(data->amb, object.colour);
-				// lighting(data, &object, get_current_camera(data), ray);
+				object.colour = apply_ambient(data->amb, object.colour);
+				lighting(data, &object, get_current_camera(data), ray);
 				colorize(pixels, object.colour, y);
 			}
 			else
-				colorize(pixels, apply_ambient(data->amb, BACKGCOLOUR), y);
+				colorize(pixels, BACKGCOLOUR, y);
 		}
 		pixels += data->pixsizeline;
 	}
@@ -106,7 +106,16 @@ int main(int ac, char **av)
 	data = NULL;
 	data = malloc(sizeof(t_data));
 	init(data, av);
-	compute(data);
+	if (0)
+		compute(data);
 	clear(data);
     return (0);
 }
+
+/*
+** __attribute__((destructor)) static void myDestructor() {
+** 	printf("Destructor Loop ... \n");
+** 	while (1)
+**   		;
+** }
+*/

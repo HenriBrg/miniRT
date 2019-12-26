@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/25 23:27:34 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/26 19:40:41 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@
 # include "libft.h"
 # include "mlx.h"
 
-# define BACKGCOLOUR 0x003399
+# define BACKGCOLOUR 0x323232
 
 # define TRUE 1
 # define FALSE 0
 
+# define UNDEFINED 0
 # define SPHERE 1
 # define PLANE 2
 # define SQUARE 3
@@ -178,7 +179,8 @@ void		raytrace(t_data *data);
 ** light/
 */
 
-int	apply_ambient(t_ambiant_light *ambient, int colour);
+int		apply_ambient(t_ambiant_light *ambient, int colour);
+void 	lighting(t_data *data, t_interobject *object, t_camera *cam, t_vector3 ray);
 
 
 /*
@@ -210,6 +212,9 @@ int			rgbtoi(int red, int green, int blue);
 ** srcs/intersections/
 */
 
+t_vector3		getnormaltriangle(t_triangle *triangle);
+t_vector3		getnormalsphere(t_sphere *sphere, t_vector3 point);
+t_vector3		getnormalcylinder(t_cylinder *cylinder, t_vector3 point);
 void 			try_spheres(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj);
 void 			try_planes(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj);
 void 			try_squares(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj);
@@ -265,6 +270,7 @@ int			rgb_format(char *s);
 int			check_range_vec3_orient(t_vector3 *vec);
 int			vec3_format(char *s, t_vector3 *vec);
 int			skip_double(char *s, int i);
+int			check_not_only_space_tabs(char *line);
 void 		corrupted(t_data *data, char **tab, char *message, int fd);
 void 		putexit(char *msg);
 

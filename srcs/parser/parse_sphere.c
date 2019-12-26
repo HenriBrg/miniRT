@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:19 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 22:32:59 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/26 19:19:34 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_sphere	*parse_sphere(t_data *data, char **tab, int fd)
 		corrupted(data, tab, "Bad sphere format (too many args)", fd);
 	if (vec3_format(tab[1], &center) == -1)
 		corrupted(data, tab, "Bad sphere position format", fd);
-	if (double_format(tab[2]) == -1)
+	if (double_format(tab[2]) == -1 || ft_atod(tab[2]) <= 0)
 		corrupted(data, tab, "Bad sphere radius format", fd);
 	if (rgb_format(tab[3]) == -1)
 		corrupted(data, tab, "Bad sphere rgb format", fd);

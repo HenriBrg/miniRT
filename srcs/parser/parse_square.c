@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:22 by henri             #+#    #+#             */
-/*   Updated: 2019/12/25 01:37:44 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/26 19:19:38 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,15 @@ void 		finish_square(t_square	*square, t_vector3 orient)
 	square->x = mult1vec(square->x, square->height);
 	square->z = reorientate(newvec(0, 0, 1), orient);
 	square->z = mult1vec(square->z, square->height);
+	square->next = NULL;
 }
+
+/*
+** printf("Orient : (%lf, %lf, %lf)\n", orient.x, orient.y, orient.z);
+** printf("Normale : (%lf, %lf, %lf)\n", square->normal.x, square->normal.y, square->normal.z);
+** printf("Vecx : (%lf, %lf, %lf) et len : %lf\n", square->x.x, square->x.y, square->x.z, veclen(square->x));
+** printf("Vecz : (%lf, %lf, %lf) et len : %lf\n", square->z.x, square->z.y, square->z.z, veclen(square->z));
+*/
 
 t_square	*parse_square(t_data *data, char **tab, int fd)
 {
@@ -48,7 +56,7 @@ t_square	*parse_square(t_data *data, char **tab, int fd)
 		corrupted(data, tab, "Bad cylinder orient format", fd);
 	if (check_range_vec3_orient(&orient) == -1)
 		corrupted(data, tab, "cylinder orient not in range [-1;1]", fd);
-	if (double_format(tab[3]) == -1)
+	if (double_format(tab[3]) == -1 || ft_atod(tab[3]) <= 0)
 		corrupted(data, tab, "Bad square height format", fd);
 	if (rgb_format(tab[4]) == -1)
 		corrupted(data, tab, "Bad square rgb format", fd);
@@ -58,12 +66,7 @@ t_square	*parse_square(t_data *data, char **tab, int fd)
 	square->normal = reorientate(newvec(0, 1, 0), orient);
 	square->height = ft_atod(tab[3]);
 	square->colour = str_to_rgb(tab[4]);
-	square->next = NULL;
 	finish_square(square, orient);
-	// printf("Orient : (%lf, %lf, %lf)\n", orient.x, orient.y, orient.z);
-	// printf("Normale : (%lf, %lf, %lf)\n", square->normal.x, square->normal.y, square->normal.z);
-	// printf("Vecx : (%lf, %lf, %lf) et len : %lf\n", square->x.x, square->x.y, square->x.z, veclen(square->x));
-	// printf("Vecz : (%lf, %lf, %lf) et len : %lf\n", square->z.x, square->z.y, square->z.z, veclen(square->z));
 	return (square);
 }
 

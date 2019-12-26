@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:10 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 22:30:24 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/26 19:07:29 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ t_light	*parse_light(t_data *data, char **tab, int fd)
 		corrupted(data, tab, "Bad light position format", fd);
 	if (double_format(tab[2]) == -1)
 		corrupted(data, tab, "Bad light intensity format", fd);
+	if (ft_atod(tab[2]) < 0 || ft_atod(tab[2]) > 1)
+		corrupted(data, tab, "Light intensity not in range [-1;1]", fd);
 	if (rgb_format(tab[3]) == -1)
 		corrupted(data, tab, "Bad light rgb format", fd);
 	if (!(light = malloc(sizeof(t_light))))

@@ -6,11 +6,22 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:21:23 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 23:10:28 by hberger          ###   ########.fr       */
+/*   Updated: 2019/12/26 19:38:58 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
+
+int		check_not_only_space_tabs(char *line)
+{
+	int	i;
+
+	i = -1;
+	while (line[++i] != 0)
+		if (line[i] != '\t' && line[i] != ' ')
+			return (1);
+	return (0);
+}
 
 void putexit(char *msg)
 {

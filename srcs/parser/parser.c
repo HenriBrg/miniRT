@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/23 23:30:02 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/26 19:45:14 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** vecteur d'orientation de la camera
 */
 
-t_vector3 reorientate(t_vector3 base, t_vector3 orientation)
+t_vector3		reorientate(t_vector3 base, t_vector3 orientation)
 {
 	t_vector3	new;
 	double		tmp;
@@ -40,7 +40,7 @@ t_vector3 reorientate(t_vector3 base, t_vector3 orientation)
 	return (new);
 }
 
-void corrupted(t_data *data, char **tab, char *message, int fd)
+void			corrupted(t_data *data, char **tab, char *message, int fd)
 {
 	free(data->res);
 	free(data->amb);
@@ -60,7 +60,7 @@ void corrupted(t_data *data, char **tab, char *message, int fd)
 }
 
 
-void	store(t_data *data, char **tab, int fd)
+void			store(t_data *data, char **tab, int fd)
 {
 	if (ft_strcmp(tab[0], "R") == 0)
 		parse_resolution(data, tab, fd);
@@ -86,13 +86,13 @@ void	store(t_data *data, char **tab, int fd)
 		corrupted(data, tab, "Unknow keyword", fd);
 }
 
-void reading(int fd, t_data *data)
+void			reading(int fd, t_data *data)
 {
-	char	*line;
-	char	**tab;
+	char		*line;
+	char		**tab;
 
 	while (get_next_line(fd, &line) > 0)
-		if (ft_strlen(line) > 0)
+		if (ft_strlen(line) > 0 && check_not_only_space_tabs(line) == 1)
 		{
 			tab = ft_strsplit(line, " \t");
 			free(line);
@@ -101,7 +101,7 @@ void reading(int fd, t_data *data)
 		}
 		else
 			free(line);
-	if (ft_strlen(line) > 0)
+	if (ft_strlen(line) > 0 && check_not_only_space_tabs(line) == 1)
 	{
 		tab = ft_strsplit(line, " \t");
 		free(line);
@@ -112,13 +112,13 @@ void reading(int fd, t_data *data)
 		free(line);
 }
 
-int	parse(t_data *data, char *filename)
+int				parse(t_data *data, char *filename)
 {
-	int 	fd;
+	int 		fd;
 
 	if (ft_strcmp(ft_strchr(filename, '.'), ".rt") != 0)
 		putexit("Filename must ends with .rt");
-	if (!(fd = open(filename, O_RDONLY)))
+	if ((fd = open(filename, O_RDONLY)) == -1)
 		putexit("Can't open file");
 	reading(fd, data);
 	if (data->parse_res_doublon == 0 || data->parse_amb_doublon == 0)
@@ -126,6 +126,6 @@ int	parse(t_data *data, char *filename)
 	if (camera_count(data) == 0)
 		corrupted(data, NULL, "Il faut au moins 1 camera", fd);
 	if (close(fd) == -1)
-		putexit("Can't close file");
+		corrupted(data, NULL, "", fd);
 	return (0);
 }

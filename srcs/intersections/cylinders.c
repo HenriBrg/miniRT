@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/25 16:51:14 by henri            ###   ########.fr       */
+/*   Updated: 2019/12/26 12:34:13 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_vector3		getnormalcylinder(t_cylinder *cylinder, t_vector3 point)
 	height = dot(subvec(point, cylinder->center), cylinder->orientation);
 	tmp = getpointfromray(cylinder->center, cylinder->orientation, height);
 	tmp = subvec(point, tmp);
-	retur (tmp);
+	return (tmp);
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/13 22:17:49 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/13 23:52:36 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,11 @@ void 	init(t_data *data, char **av)
 	data->img = mlx_new_image(data->ptr, data->res->width, data->res->height);
 	data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
 }
+
+// TODO : gérer la croix rouge qui doit terminer le programme
+// BMP image trop petite - code de César testé mais ne fonctionne pas
+// Lights
+// et ... Push
 
 int main(int ac, char **av)
 {

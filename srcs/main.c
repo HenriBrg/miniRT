@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/13 23:52:36 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/14 00:04:32 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ void 	init(t_data *data, char **av)
 // TODO : gérer la croix rouge qui doit terminer le programme
 // BMP image trop petite - code de César testé mais ne fonctionne pas
 // Lights
+// Si la taille déclarée dans la scène est plus grand que le display, la taille de la fenêtre doit être celle du display actuel.
+// "Error\n" suivi d’un message explicite de votre choix.
 // et ... Push
 
 int main(int ac, char **av)

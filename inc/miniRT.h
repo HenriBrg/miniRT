@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/26 19:40:41 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/13 20:18:22 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,26 @@ typedef struct	s_data
 	t_cylinder		*cylinders;
 	t_triangle		*triangles;
 }				t_data;
+
+typedef struct		s_bmp
+{
+	char			type[2];
+	int				size;
+	int				reserve;
+	int				offset;
+
+	int				dib_size;
+	int				width;
+	int				height;
+	short			plane;
+	short			bpp;
+	int				copmression;
+	int				array_size;
+	int				x_res;
+	int				y_res;
+	int				colour;
+	int				imp_colour;
+}					t_bmp;
 
 /*
 ** Divers

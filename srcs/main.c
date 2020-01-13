@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2019/12/26 18:56:54 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/13 22:17:49 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void 	init(t_data *data, char **av)
 	data->parse_amb_doublon = 0;
 	data->camera_num = 1;
 	parse(data, av[1]);
-	data->save_bmp = (av[2] != 0 && ft_strcmp(av[2], "--save") == 0) ? 1 : 0;
+	data->save_bmp = (av[2] != 0 && ft_strcmp(av[2], "-save") == 0) ? 1 : 0;
 	data->ptr = mlx_init();
 	data->win = mlx_new_window(data->ptr, data->res->width, data->res->height, "miniRT");
 	data->img = mlx_new_image(data->ptr, data->res->width, data->res->height);
@@ -106,8 +106,7 @@ int main(int ac, char **av)
 	data = NULL;
 	data = malloc(sizeof(t_data));
 	init(data, av);
-	if (0)
-		compute(data);
+	compute(data);
 	clear(data);
     return (0);
 }

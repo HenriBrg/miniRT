@@ -6,13 +6,13 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 22:58:45 by henri             #+#    #+#             */
-/*   Updated: 2019/12/23 19:46:26 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/13 23:05:50 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
 
-/*
+/* Description
 ** Code inspiration : https://stackoverflow.com/a/55504419
 ** http://www.machaon.fr/isn/representation/Les%20fichiers%20images%20BMP.htm
 **
@@ -37,20 +37,6 @@
 ** not have any padding at all.
 */
 
-/*
-int				i;
-unsigned char	fileheader[14];
-i = -1;
-while (++i < 14)
-	fileheader[i] = (unsigned char)0;
-
-int				i;
-unsigned char	bmpheader[40];
-
-i = -1;
-while (++i < 40)
-	bmpheader[i] = (unsigned char)0;
-*/
 
 void	writefileheader(int fd, int width, int height)
 {
@@ -63,7 +49,7 @@ void	writefileheader(int fd, int width, int height)
 	while (++i < 14)
 		fileheader[i] = (unsigned char)0;
 	padding = (4 - (width * 3) % 4) % 4;
-	bytes = 14 + 40 + (3 * width + padding) * height;
+	bytes = 14 + 40 + ((3 * width + padding) * height);
 	fileheader[0] = (unsigned char)('B');
 	fileheader[1] = (unsigned char)('M');
 	fileheader[2] = (unsigned char)(bytes);
@@ -73,18 +59,6 @@ void	writefileheader(int fd, int width, int height)
 	fileheader[10] = (unsigned char)(54);
 	write(fd, fileheader, 14);
 }
-
-/* Pas forcément nécessaire ?
-
-bmpheader[24] = (unsigned char)(3780);
-bmpheader[25] = (unsigned char)(3780 >> 8);
-bmpheader[26] = (unsigned char)(3780 >> 16);
-bmpheader[27] = (unsigned char)(3780 >> 24);
-bmpheader[28] = (unsigned char)(3780);
-bmpheader[29] = (unsigned char)(3780 >> 8);
-bmpheader[30] = (unsigned char)(3780 >> 16);
-bmpheader[31] = (unsigned char)(3780 >> 24);
- */
 
 void	writebmpheader(int fd, int width, int height)
 {
@@ -112,8 +86,30 @@ void	writebmpheader(int fd, int width, int height)
 	bmpheader[21] = (unsigned char)(size >> 8);
 	bmpheader[22] = (unsigned char)(size >> 16);
 	bmpheader[23] = (unsigned char)(size >> 24);
+	// Optionnel
+	bmpheader[24] = (unsigned char)(2835);
+	bmpheader[25] = (unsigned char)(2835 >> 8);
+	bmpheader[26] = (unsigned char)(2835 >> 16);
+	bmpheader[27] = (unsigned char)(2835 >> 24);
+	bmpheader[28] = (unsigned char)(2835);
+	bmpheader[29] = (unsigned char)(2835 >> 8);
+	bmpheader[30] = (unsigned char)(2835 >> 16);
+	bmpheader[31] = (unsigned char)(2835 >> 24);
 	write(fd, bmpheader, 40);
 }
+
+/*
+		while (y >= 0)
+		{
+			x = 0;
+			while (x < data->res.x)
+			{
+				write(fd, &(add[(y * data->res.x + x) * 4]), 3);
+				x++;
+			}
+			y--;
+		}
+*/
 
 void 	writepixels(int fd, t_data *data)
 {
@@ -127,17 +123,20 @@ void 	writepixels(int fd, t_data *data)
 	{
 		x = -1;
 		while (++x < data->res->width)
-			write(fd, &(pixtab[(y * data->res->width + x) * 4]), 3);
+			write(fd, &(pixtab[((y * data->pixsizeline + x)) * 4]), 3);
 		y--;
 	}
 }
+
+// Marrant xD : write(fd, &(pixtab[(y * data->pixsizeline + (x * 4)) * 4]), 3);
+
 
 void 	save_to_bmp(t_data *data)
 {
 	int				fd;
 
 	ft_putendl_fd("ScreenShot en cours ...", 1);
-	if ((fd = open("ScreenShot.bmp", O_WRONLY | O_CREAT | O_TRUNC)) == -1)
+	if ((fd = open("ScreenShot.bmp", O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1)
 	{
 		clear(data);
 		putexit("Erreur d'ouverture BMP");

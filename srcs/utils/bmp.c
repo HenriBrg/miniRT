@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 22:58:45 by henri             #+#    #+#             */
-/*   Updated: 2020/01/13 23:05:50 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/16 14:31:30 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	writebmpheader(int fd, int width, int height)
 	bmpheader[21] = (unsigned char)(size >> 8);
 	bmpheader[22] = (unsigned char)(size >> 16);
 	bmpheader[23] = (unsigned char)(size >> 24);
-	// Optionnel
 	bmpheader[24] = (unsigned char)(2835);
 	bmpheader[25] = (unsigned char)(2835 >> 8);
 	bmpheader[26] = (unsigned char)(2835 >> 16);
@@ -97,19 +96,6 @@ void	writebmpheader(int fd, int width, int height)
 	bmpheader[31] = (unsigned char)(2835 >> 24);
 	write(fd, bmpheader, 40);
 }
-
-/*
-		while (y >= 0)
-		{
-			x = 0;
-			while (x < data->res.x)
-			{
-				write(fd, &(add[(y * data->res.x + x) * 4]), 3);
-				x++;
-			}
-			y--;
-		}
-*/
 
 void 	writepixels(int fd, t_data *data)
 {
@@ -123,13 +109,10 @@ void 	writepixels(int fd, t_data *data)
 	{
 		x = -1;
 		while (++x < data->res->width)
-			write(fd, &(pixtab[((y * data->pixsizeline + x)) * 4]), 3);
+			write(fd, &(pixtab[((y * data->res->width + x)) * 4]), 3);
 		y--;
 	}
 }
-
-// Marrant xD : write(fd, &(pixtab[(y * data->pixsizeline + (x * 4)) * 4]), 3);
-
 
 void 	save_to_bmp(t_data *data)
 {

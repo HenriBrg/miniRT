@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/16 10:59:48 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/16 14:31:00 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	raytrace(t_data *data)
 			object = intersearch(data, get_current_camera(data)->pos, ray);
 			if (object.inter == TRUE)
 			{
-				// Ambiant avant ou après les lights classiques ?
 				object.colour = apply_ambient(data->amb, object.colour);
 				lighting(data, &object, get_current_camera(data), ray);
 				colorize(pixels, object.colour, y);
@@ -46,7 +45,11 @@ void	raytrace(t_data *data)
 static int compute(t_data *data)
 {
 	raytrace(data);
-	data->save_bmp == 1 ? save_to_bmp(data) : 0;
+	if (data->save_bmp == 1)
+	{
+		save_to_bmp(data);
+		return (0);
+	}
 	mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
 	mlx_key_hook(data->win, keys, data);
 	mlx_loop(data->ptr);
@@ -94,11 +97,7 @@ void 	init(t_data *data, char **av)
 }
 
 // TODO : gérer la croix rouge qui doit quitter le programme
-// BMP image trop petite
-// Lights
 // Si la taille déclarée dans la scène est plus grand que le display, la taille de la fenêtre doit être celle du display actuel.
-// "Error\n" suivi d’un message explicite de votre choix.
-// et ... Push
 
 int main(int ac, char **av)
 {

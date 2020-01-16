@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/16 14:31:00 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/16 18:10:30 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,6 @@ void	raytrace(t_data *data)
 	}
 }
 
-static int compute(t_data *data)
-{
-	raytrace(data);
-	if (data->save_bmp == 1)
-	{
-		save_to_bmp(data);
-		return (0);
-	}
-	mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
-	mlx_key_hook(data->win, keys, data);
-	mlx_loop(data->ptr);
-	return (0);
-}
-
 void clear(t_data *data)
 {
 	if (data->img != 0)
@@ -73,6 +59,31 @@ void clear(t_data *data)
 	free_cylinder(data);
 	free(data);
 }
+
+int clearbis(t_data *data)
+{
+	clear(data);
+	exit(EXIT_SUCCESS);
+	return (0);
+}
+
+static int compute(t_data *data)
+{
+	raytrace(data);
+	if (data->save_bmp == 1)
+	{
+		save_to_bmp(data);
+		return (0);
+	}
+	mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
+	mlx_key_hook(data->win, keys, data);
+	mlx_hook(data->win, 17, (1L << 17), clearbis, data);
+	mlx_loop(data->ptr);
+	return (0);
+}
+
+
+
 
 void 	init(t_data *data, char **av)
 {
@@ -96,8 +107,29 @@ void 	init(t_data *data, char **av)
 	data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
 }
 
-// TODO : gérer la croix rouge qui doit quitter le programme
-// Si la taille déclarée dans la scène est plus grand que le display, la taille de la fenêtre doit être celle du display actuel.
+/*
+void printnormal(t_data *data)
+{
+	//t_cylinder *cyl;
+	//t_plane *pl;
+	t_square *sq;
+	//t_triangle *tri;
+	t_sphere *sp;
+
+	sq = data->squares;
+	while (sq)
+	{
+		printf("SQ : %lf %lf %lf \n", sq->normal.x, sq->normal.y, sq->normal.z);
+		sq = sq->next;
+	}
+	sp = data->squares;
+	while (sp)
+	{
+		printf("SQ : %lf %lf %lf \n", sp->normal.x, sp->normal.y, sp->normal.z);
+		sp = sp->next;
+	}
+}
+*/
 
 int main(int ac, char **av)
 {

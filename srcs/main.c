@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/14 00:04:32 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/16 10:59:48 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	raytrace(t_data *data)
 			object = intersearch(data, get_current_camera(data)->pos, ray);
 			if (object.inter == TRUE)
 			{
+				// Ambiant avant ou après les lights classiques ?
 				object.colour = apply_ambient(data->amb, object.colour);
 				lighting(data, &object, get_current_camera(data), ray);
 				colorize(pixels, object.colour, y);
@@ -70,11 +71,6 @@ void clear(t_data *data)
 	free(data);
 }
 
-// TODO : ambiant - keys echap puis ensuite leaks et finir par lights shadow
-// erreur : on voit la sphere alors qu'on ne devrait pas :
-// c	20,0,0			0,0,0			70
-// sp	8.0,0,0		2.75				255,0,255
-
 void 	init(t_data *data, char **av)
 {
 	data->res = 0;
@@ -97,8 +93,8 @@ void 	init(t_data *data, char **av)
 	data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
 }
 
-// TODO : gérer la croix rouge qui doit terminer le programme
-// BMP image trop petite - code de César testé mais ne fonctionne pas
+// TODO : gérer la croix rouge qui doit quitter le programme
+// BMP image trop petite
 // Lights
 // Si la taille déclarée dans la scène est plus grand que le display, la taille de la fenêtre doit être celle du display actuel.
 // "Error\n" suivi d’un message explicite de votre choix.

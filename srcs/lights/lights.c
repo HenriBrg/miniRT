@@ -1,14 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   neolights.c                                        :+:      :+:    :+:   */
+/*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 10:04:06 by henri             #+#    #+#             */
-/*   Updated: 2020/01/16 12:28:14 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/16 18:26:49 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../../inc/miniRT.h"
 
 int		intensity(t_light *light, double ratio)
 {
@@ -66,6 +68,7 @@ double	getincidence(t_interobject *object, t_vector3 camray, t_vector3 photon, t
 
 void 	lighting(t_data *data, t_interobject *object, t_camera *cam, t_vector3 ray)
 {
+	int				tmplightcolor;
 	int				lightcolor;
 	double			incidence;
 	t_light			*light;
@@ -83,11 +86,13 @@ void 	lighting(t_data *data, t_interobject *object, t_camera *cam, t_vector3 ray
 		{
 			incidence = getincidence(object, ray, photon, hit);
 			if (incidence < M_PI_2 && incidence > -M_PI_2)
-				lightcolor =  mergecolors(0,
-							  intensity(light, sin(M_PI_2 - incidence)));
+			{
+				tmplightcolor = intensity(light, sin(M_PI_2 - incidence));
+				lightcolor = mergecolors(lightcolor, tmplightcolor);
+			}
 		}
 		light = light->next;
 	}
-	lightcolor = apply_ambient();
-	object.color = lightcolor;
+	// Ajouter les fonction finales sur couleurs
+	object->colour = lightcolor;
 }

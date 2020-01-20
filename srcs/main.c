@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/20 19:46:42 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/20 20:44:23 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	raytrace(t_data *data)
 		y = -1;
 		while (++y < data->res->width)
 		{
-			printf("En i = %d et j = %d\n", x, y);
+			//printf("En i = %d et j = %d\n", x, y);
 			ray = getray(data, get_current_camera(data), x, y);
 			object = intersearch(data, get_current_camera(data)->pos, ray);
 			if (object.inter == TRUE)

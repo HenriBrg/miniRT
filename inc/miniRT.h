@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/20 13:56:22 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/20 20:35:22 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 
 # define SCREENSIZE 10
 # define RAD(degree)	(degree * M_PI / 180)
-# define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
 
 typedef struct	s_rgb
 {

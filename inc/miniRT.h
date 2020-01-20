@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/16 15:09:59 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/20 13:56:22 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ double		veclen(t_vector3 vec);
 double		rad(double degree);
 double		dot(t_vector3 vec1, t_vector3 vec2);
 double		dotsame(t_vector3 vec1);
+double		distance(t_vector3 a, t_vector3 b);
 t_vector3	newvec(double x, double y, double z);
 t_vector3	addvec(t_vector3 vec1, t_vector3 vec2);
 t_vector3	norm(t_vector3 vec);

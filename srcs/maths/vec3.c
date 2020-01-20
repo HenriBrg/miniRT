@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 23:12:15 by henri             #+#    #+#             */
-/*   Updated: 2019/12/16 22:11:05 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/20 13:55:51 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,9 @@ t_vector3 getpointfromray(t_vector3 origin, t_vector3 ray, double t)
 double absd(double n)
 {
 	return ((n < 0) ? -n : n);
+}
+
+double		distance(t_vector3 a, t_vector3 b)
+{
+	return (sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2) + pow(b.z - a.z, 2)));
 }

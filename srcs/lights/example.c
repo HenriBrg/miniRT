@@ -87,6 +87,11 @@ t_vector3	get_normal_vector(t_vector3 point, t_geo *geo, t_data *d)
 	return (normalise_vector(normal));
 }
 
+double		distance(t_vector3 a, t_vector3 b)
+{
+	return (sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2) + pow(b.z - a.z, 2)));
+}
+
 double		magnitude(t_vector3 a)
 {
 	return (distance(a, create_vector(0, 0, 0)));

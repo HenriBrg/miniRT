@@ -6,7 +6,7 @@
 #    By: henri <henri@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/28 00:56:29 by henri             #+#    #+#              #
-#    Updated: 2019/12/23 23:48:56 by henri            ###   ########.fr        #
+#    Updated: 2020/01/20 12:58:45 by henri            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ $(NAME): $(OBJS)
 	gcc $(FLAGS) $(SRCS) -o $(NAME) -L. libft/libft.a -L /usr/local/lib/ -lmlx -framework OpenGL -framework AppKit
 
 run: $(NAME)
-	./miniRT scenes/scene.rt
+	./miniRT scenes/squares.rt
 
 clean:
 	make clean -C libft

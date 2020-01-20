@@ -6,11 +6,26 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/16 18:27:06 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/20 15:10:19 by henri            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
+
+// int	light_count(t_data *data)
+// {
+// 	int i;
+// 	t_light *tmp;
+//
+// 	i = 0;
+// 	tmp = data->lights;
+// 	while (tmp != NULL)
+// 	{
+// 		tmp = tmp->next;
+// 		i++;
+// 	}
+// 	return (i);
+// }
 
 void	raytrace(t_data *data)
 {
@@ -27,11 +42,11 @@ void	raytrace(t_data *data)
 		y = -1;
 		while (++y < data->res->width)
 		{
+			printf("En i = %d et j = %d\n", x, y);
 			ray = getray(data, get_current_camera(data), x, y);
 			object = intersearch(data, get_current_camera(data)->pos, ray);
 			if (object.inter == TRUE)
 			{
-				// object.colour = apply_ambient(data->amb, object.colour);
 				lighting(data, &object, get_current_camera(data), ray);
 				colorize(pixels, object.colour, y);
 			}
@@ -62,9 +77,19 @@ void clear(t_data *data)
 
 int clearbis(t_data *data)
 {
-	clear(data);
-	exit(EXIT_SUCCESS);
-	return (0);
+	if (data->img != 0)
+		mlx_destroy_image(data->ptr, data->img);
+	free(data->res);
+	free(data->amb);
+	free_camera(data);
+	free_light(data);
+	free_sphere(data);
+	free_plane(data);
+	free_square(data);
+	free_triangle(data);
+	free_cylinder(data);
+	free(data);
+	exit(0);
 }
 
 static int compute(t_data *data)
@@ -81,9 +106,6 @@ static int compute(t_data *data)
 	mlx_loop(data->ptr);
 	return (0);
 }
-
-
-
 
 void 	init(t_data *data, char **av)
 {

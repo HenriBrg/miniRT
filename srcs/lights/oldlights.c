@@ -5,38 +5,62 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/23 16:35:23 by henri             #+#    #+#             */
-/*   Updated: 2019/12/26 15:49:53 by henri            ###   ########.fr       */
+/*   Created: 2020/01/16 10:04:06 by henri             #+#    #+#             */
+/*   Updated: 2020/01/20 18:43:34 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
 
-int	apply_ambient(t_ambiant_light *ambient, int colour)
+int		intensity(t_light *light, double ratio)
 {
-	t_rgb	obj_rgb;
-	t_rgb	amb_rgb;
-	t_rgb	output;
+	int	r;
+	int	g;
+	int	b;
 
-	decode_rgb(colour, &obj_rgb.r, &obj_rgb.g, &obj_rgb.b);
-	decode_rgb(ambient->colour, &amb_rgb.r, &amb_rgb.g, &amb_rgb.b);
-	output.r = obj_rgb.r * ((amb_rgb.r / 255) * ambient->ratio);
-	output.g = obj_rgb.g * ((amb_rgb.g / 255) * ambient->ratio);
-	output.b = obj_rgb.b * ((amb_rgb.b / 255) * ambient->ratio);
-	return ((((output.r << 8) + output.g) << 8) + output.b);
+	decode_rgb(light->colour, &r, &g, &b);
+	r = (double)r * ratio;
+	g = (double)g * ratio;
+	b = (double)b * ratio;
+	return ((((r << 8) + g) << 8) + b);
 }
 
-/*
-** Peu importe le point d'intersection pour le plane / square / triangle,
-** la normale sera toujours la même
-** https://www.scratchapixel.com/lessons/3d-basic-rendering/
-** introduction-to-shading/shading-normals
-*/
-
-double	getincidence(t_interobject *object, t_vector3 dirphoton, t_vector3 hit)
+int		addlights(int a, int b)
 {
-	double		incidence;
+	t_rgb	col1;
+	t_rgb	col2;
+
+	decode_rgb(a, &(col1.r), &(col1.g), &(col1.b));
+	decode_rgb(b, &(col2.r), &(col2.g), &(col2.b));
+	col1.r += col2.r;
+	col1.g += col2.g;
+	col1.b += col2.b;
+	col1.r = (col1.r > 255) ? 255 : col1.r;
+	col1.g = (col1.g > 255) ? 255 : col1.g;
+	col1.b = (col1.b > 255) ? 255 : col1.b;
+	return ((((col1.r << 8) + col1.g) << 8) + col1.b);
+}
+
+int		filtercolors(int a, int b)
+{
+	t_rgb	col1;
+	t_rgb	col2;
+
+	decode_rgb(a, &(col1.r), &(col1.g), &(col1.b));
+	decode_rgb(b, &(col2.r), &(col2.g), &(col2.b));
+	col1.r = (col1.r > 255) ? 255 : col1.r;
+	col1.g = (col1.g > 255) ? 255 : col1.g;
+	col1.b = (col1.b > 255) ? 255 : col1.b;
+	return ((((col1.r << 8) + col1.g) << 8) + col1.b);
+}
+
+
+
+
+double	getincidence(t_interobject *object, t_vector3 camray, t_vector3 photon, t_vector3 hit)
+{
 	t_vector3	normal;
+	double		incidence;
 
 	if (object->type == SPHERE)
 		normal = getnormalsphere((t_sphere*)(object->ptr), hit);
@@ -46,58 +70,95 @@ double	getincidence(t_interobject *object, t_vector3 dirphoton, t_vector3 hit)
 		normal = ((t_square*)(object->ptr))->normal;
 	else if (object->type == TRIANGLE)
 		normal = getnormaltriangle((t_triangle*)(object->ptr));
-	else if (object->type == CYLINDER)
-		normal = getnormalcylinder((t_cylinder*)(object->ptr), hit);
 	else
-		return (-1);
-	incidence = dot(norm(normal), dirphoton);
+		normal = getnormalcylinder((t_cylinder*)(object->ptr), hit);
+	if (dot(normal, camray) > 0)
+		normal = mult1vec(normal, -1.0);
+	normal = norm(normal);
+	incidence = dot(normal, photon) / (veclen(normal) * veclen(photon));
+	incidence = acos(incidence);
 	return (incidence);
 }
 
-int		illuminate(t_light *light, double incidence, int colour)
+int		checkdistance(t_interobject *obstacle, t_light *light, t_vector3 photon)
 {
-	t_rgb	obj_rgb;
-	t_rgb	light_rgb;
-	t_rgb	output;
+	t_vector3	obstacleray;
+	double		dist_from_light_to_object_hit;
+	double		dist_from_light_to_obstacle_hit;
 
-	decode_rgb(colour, &obj_rgb.r, &obj_rgb.g, &obj_rgb.b);
-	decode_rgb(light->colour, &light_rgb.r, &light_rgb.g, &light_rgb.b);
-	output.r = obj_rgb.r + (incidence * ((light_rgb.r / 255) * light->ratio));
-	output.g = obj_rgb.g + (incidence * ((light_rgb.g / 255) * light->ratio));
-	output.b = obj_rgb.b + (incidence * ((light_rgb.b / 255) * light->ratio));
-	// output.r = (output.r > 255) ? 255 : output.r;
-	// output.g = (output.g > 255) ? 255 : output.g;
-	// output.b = (output.b > 255) ? 255 : output.b;
-	return ((((output.r << 8) + output.g) << 8) + output.b);
+	if (obstacle->inter == FALSE)
+		return (FALSE);
+	dist_from_light_to_object_hit = veclen(photon);
+	obstacleray = getpointfromray(light->pos, norm(photon), obstacle->distance);
+	dist_from_light_to_obstacle_hit = veclen(obstacleray);
+	if (dist_from_light_to_obstacle_hit > dist_from_light_to_object_hit)
+		return (TRUE);
+	return (FALSE);
 }
 
-/*
-** Description
-** Si obstacle.inter = FALSE alors la lumière ne rencontre donc aucun obstacle
-** et elle impact la couleur du pixel / de l'objet issu de la fonction raytrace()
-** Dans ce cas on calcul l'incidence, mais le calcul varie selon l'objet
-*/
+int			is_light_obstructed(t_data *data, t_interobject *object, t_light *light, t_vector3 campos)
+{
+	t_vector3	start;
+	t_vector3	light_ray;
+	t_list		*ele;
+	t_rt_param	param;
+	double		valid_t;
+
+	start = point_from_ray(data.ray_origin, data.ray, data.t);
+	light_ray = normalise_vector(direction_vector(start, light->pos));
+	start = add_vect(start,
+			scalar_vect(get_normal_vector(start, rt_obj, &data), 0.01));
+	ele = data.objects;
+	while (ele)
+	{
+		param = set_param(start, light_ray, -1, 0);
+		if (raytrace(ele->content, &param))
+		{
+			valid_t = get_valid_t(param);
+			if (valid_t > 0)
+				if (distance(start, light->pos) >
+					distance(start, point_from_ray(start, light_ray, valid_t)))
+					{
+						printf("ddd\n");
+						return (1);
+
+					}
+		}
+		ele = ele->next;
+	}
+	return (0);
+}
 
 void 	lighting(t_data *data, t_interobject *object, t_camera *cam, t_vector3 ray)
 {
+	int				tmplightcolor;
+	int				lightcolor;
 	double			incidence;
 	t_light			*light;
 	t_vector3		hit;
-	t_vector3		dirphoton;
+	t_vector3		photon;
 	t_interobject	obstacle;
 
 	light = data->lights;
 	hit = getpointfromray(cam->pos, ray, object->distance);
 	while (light != NULL)
 	{
-		dirphoton = norm(subvec(light->pos, hit));
-		obstacle = intersearch(data, light->pos, dirphoton);
-		if (obstacle.inter == FALSE)
+		photon = subvec(light->pos, hit);
+		obstacle = intersearch(data, light->pos, norm(photon));
+		//if (obstacle.inter == FALSE || checkdistance(&obstacle, light, photon) == TRUE)
+		if (checkdistance(&obstacle, light, photon) == TRUE)
 		{
-			incidence = getincidence(object, dirphoton, hit);
-			if (incidence >= 0 && incidence <= 1)
-				object->colour = illuminate(light, incidence, object->colour);
+			printf("true\n");
+			incidence = getincidence(object, ray, photon, hit);
+			if (incidence < M_PI_2 && incidence > -M_PI_2)
+			{
+				tmplightcolor = intensity(light, sin(M_PI_2 - incidence));
+				lightcolor = addlights(lightcolor, tmplightcolor);
+			}
 		}
 		light = light->next;
 	}
+	// final_light = addlights(final_light, data->amb->colour);
+	// final_light = filtercolors(final_light, object->colour));
+	object->colour = lightcolor;
 }

@@ -6,24 +6,11 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2019/12/25 01:01:19 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/20 17:05:24 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
-
-// t_vector3		getnormalplane(t_plane *plane)
-// {
-// 	return (plane->normal);
-// }
-
-
-/*
-** Une normale correspond à un vecteur perpendiculaire à une surface
-** En l'occurence, la normale d'un plan signifie le vecteur pour lequel l'angle
-** formé par le vecteur et le plan est de 90°
-** https://stackoverflow.com/questions/23975555/how-to-do-ray-plane-intersection
-*/
 
 double interplanes(t_plane *plane, t_vector3 pov, t_vector3 ray)
 {

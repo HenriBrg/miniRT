@@ -180,6 +180,7 @@ int			calc_colour_from_light(t_data data, t_geo *rt_obj)
 		if (!is_light_obstructed(data, rt_obj, light))
 		{
 			ang = get_light_angle(data, light, data.t, rt_obj);
+			printf("ang = %d\n", ang);
 			if (ang < M_PI_2 && ang > -M_PI_2)
 			{
 				l_val = apply_intensity_rgb(light->colour, sin(M_PI_2 - ang));
@@ -188,7 +189,8 @@ int			calc_colour_from_light(t_data data, t_geo *rt_obj)
 		}
 		first = first->next;
 	}
-	final_light = add_lights(final_light,
-					!data.render_mode ? data.no_render_amb : data.amb.colour);
-	return (filter_colours_rgb(final_light, rt_obj, data.ref_lvl));
+	// final_light = add_lights(final_light,
+	//				!data.render_mode ? data.no_render_amb : data.amb.colour);
+	// return (filter_colours_rgb(final_light, rt_obj, data.ref_lvl));
+	return (final_light);
 }

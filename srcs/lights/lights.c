@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lights.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/16 10:04:06 by henri             #+#    #+#             */
-/*   Updated: 2020/01/20 15:17:54 by henri            ###   ########.fr       */
+/*   Created: 2020/01/20 18:26:10 by hberger           #+#    #+#             */
+/*   Updated: 2020/01/20 19:47:56 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,30 @@ int		filtercolors(int a, int b)
 	return ((((col1.r << 8) + col1.g) << 8) + col1.b);
 }
 
-
-
-double	getincidence(t_interobject *object, t_vector3 camray, t_vector3 photon, t_vector3 hit)
+double		magnitude(t_vector3 a)
 {
-	t_vector3	normal;
-	double		incidence;
+	t_vector3 tmp;
+
+	tmp.x = 0;
+	tmp.y = 0;
+	tmp.z = 0;
+	return (distance(a, tmp));
+}
+
+double		angle_between_vectors(t_vector3 a, t_vector3 b)
+{
+	double	d;
+	double	angle;
+
+	d = dot(a, b) / (magnitude(a) * magnitude(b));
+	angle = acos(d);
+	return (angle);
+}
+
+
+t_vector3	getnormalvector(t_interobject *object, t_vector3 hit, t_vector3 ray)
+{
+	t_vector3 normal;
 
 	if (object->type == SPHERE)
 		normal = getnormalsphere((t_sphere*)(object->ptr), hit);
@@ -71,60 +89,64 @@ double	getincidence(t_interobject *object, t_vector3 camray, t_vector3 photon, t
 		normal = getnormaltriangle((t_triangle*)(object->ptr));
 	else
 		normal = getnormalcylinder((t_cylinder*)(object->ptr), hit);
-	if (dot(normal, camray) > 0)
+	if (dot(normal, ray) > 0)
 		normal = mult1vec(normal, -1.0);
-	normal = norm(normal);
-	incidence = dot(normal, photon) / (veclen(normal) * veclen(photon));
-	incidence = acos(incidence);
-	return (incidence);
+	return (norm(normal));
 }
 
-// TODO : gérer l'évolution de la light à mesure que les autres lights passent dessus
-
-int	checkdistance(t_interobject *obstacle, t_light *light, t_vector3 photon)
+double		get_light_angle(t_light *light, t_interobject *object, t_camera *cam, t_vector3 ray)
 {
-	t_vector3	obstacleray;
-	double		dist_from_light_to_object_hit;
-	double		dist_from_light_to_obstacle_hit;
+	t_vector3	inter_point;
+	t_vector3	norm_vect;
 
-	if (obstacle->inter == FALSE)
-		return (FALSE);
-	dist_from_light_to_object_hit = veclen(photon);
-	obstacleray = getpointfromray(light->pos, norm(photon), obstacle->distance);
-	dist_from_light_to_obstacle_hit = veclen(subvec(light->pos, obstacleray));
-	if (dist_from_light_to_obstacle_hit > dist_from_light_to_object_hit)
-		return (TRUE);
-	return (FALSE);
+	inter_point = getpointfromray(cam->pos, ray, object->distance);
+	norm_vect = getnormalvector(object, inter_point, ray);
+	return (angle_between_vectors(norm_vect, subvec(light->pos, inter_point)));
+}
+
+int			obstruction(t_data *data, t_interobject *object, t_light *light, t_camera *cam, t_vector3 ray)
+{
+	t_vector3		start;
+	t_vector3		light_ray;
+	t_interobject	obstacle;
+
+	start = getpointfromray(cam->pos, ray, object->distance);
+	light_ray = norm(subvec(light->pos, start));
+	start = addvec(start, mult1vec(getnormalvector(object, start, ray), 0.01));
+	obstacle = intersearch(data, start, light_ray);
+	if (obstacle.inter == TRUE)
+	{
+		if (obstacle.distance > 0)
+			if (distance(start, light->pos) > distance(start, getpointfromray(start, light_ray, obstacle.distance)))
+				return (1);
+	}
+	return (0);
 }
 
 void 	lighting(t_data *data, t_interobject *object, t_camera *cam, t_vector3 ray)
 {
-	int				tmplightcolor;
-	int				lightcolor;
-	double			incidence;
-	t_light			*light;
-	t_vector3		hit;
-	t_vector3		photon;
-	t_interobject	obstacle;
+	t_light	*light;
+	int		final_light;
+	int		l_val;
+	double	ang;
 
+	final_light = 0;
 	light = data->lights;
-	hit = getpointfromray(cam->pos, ray, object->distance);
-	while (light != NULL)
+	while (light)
 	{
-		photon = subvec(light->pos, hit);
-		obstacle = intersearch(data, light->pos, norm(photon));
-		if (obstacle.inter == FALSE || checkdistance(&obstacle, light, photon) == TRUE)
+		if (obstruction(data, object, light, cam, ray) == 0)
 		{
-			incidence = getincidence(object, ray, photon, hit);
-			if (incidence < M_PI_2 && incidence > -M_PI_2)
+			ang = get_light_angle(light, object, cam, ray);
+			printf("ang = %lf et data.t = %lf\n", ang, object->distance);
+			if (ang < M_PI_2 && ang > -M_PI_2)
 			{
-				tmplightcolor = intensity(light, sin(M_PI_2 - incidence));
-				lightcolor = addlights(lightcolor, tmplightcolor);
+				l_val = intensity(light, sin(M_PI_2 - ang));
+				final_light = addlights(final_light, l_val);
 			}
 		}
 		light = light->next;
 	}
 	// final_light = addlights(final_light, data->amb->colour);
-	// final_light = filtercolors(final_light, object->colour));
-	object->colour = lightcolor;
+	// final_light = filtercolors(final_light, object->colour);
+	object->colour = final_light;
 }

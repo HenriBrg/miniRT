@@ -6,26 +6,11 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/20 15:10:19 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/20 19:46:42 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
-
-// int	light_count(t_data *data)
-// {
-// 	int i;
-// 	t_light *tmp;
-//
-// 	i = 0;
-// 	tmp = data->lights;
-// 	while (tmp != NULL)
-// 	{
-// 		tmp = tmp->next;
-// 		i++;
-// 	}
-// 	return (i);
-// }
 
 void	raytrace(t_data *data)
 {

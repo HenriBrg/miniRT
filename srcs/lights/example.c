@@ -180,7 +180,6 @@ int			calc_colour_from_light(t_data data, t_geo *rt_obj)
 		if (!is_light_obstructed(data, rt_obj, light))
 		{
 			ang = get_light_angle(data, light, data.t, rt_obj);
-			printf("ang = %d\n", ang);
 			if (ang < M_PI_2 && ang > -M_PI_2)
 			{
 				l_val = apply_intensity_rgb(light->colour, sin(M_PI_2 - ang));

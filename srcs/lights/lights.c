@@ -6,19 +6,19 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 18:26:10 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/22 16:56:36 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/22 19:55:52 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/miniRT.h"
 
-int		intensity(t_light *light, double ratio)
+int		intensity(int colour, double ratio)
 {
 	int	r;
 	int	g;
 	int	b;
 
-	decode_rgb(light->colour, &r, &g, &b);
+	decode_rgb(colour, &r, &g, &b);
 	r = (double)r * ratio;
 	g = (double)g * ratio;
 	b = (double)b * ratio;
@@ -48,10 +48,10 @@ int		filtercolors(int a, int b)
 
 	decode_rgb(a, &(col1.r), &(col1.g), &(col1.b));
 	decode_rgb(b, &(col2.r), &(col2.g), &(col2.b));
-	col1.r = (col1.r > 255) ? 255 : col1.r;
-	col1.g = (col1.g > 255) ? 255 : col1.g;
-	col1.b = (col1.b > 255) ? 255 : col1.b;
-	return ((((col1.r << 8) + col1.g) << 8) + col1.b);
+	col2.r = (col2.r > col1.r) ?  col1.r : col2.r;
+	col2.g = (col2.g > col1.g) ?  col1.g : col2.r;
+	col2.b = (col2.b > col1.b) ?  col1.b : col2.r;
+	return ((((col2.r << 8) + col2.g) << 8) + col2.b);
 }
 
 double		magnitude(t_vector3 a)
@@ -116,38 +116,56 @@ int			obstruction(t_data *data, t_interobject *object, t_light *light, t_camera 
 	obstacle = intersearch(data, start, light_ray);
 	if (obstacle.inter == TRUE)
 	{
-		if (obstacle.distance > 0)
+		if (obstacle.distance >= 0)
 			if (distance(start, light->pos) > distance(start, getpointfromray(start, light_ray, obstacle.distance)))
 				return (1);
 	}
 	return (0);
 }
 
-void 	lighting(t_data *data, t_interobject *object, t_camera *cam, t_vector3 ray)
+void 	lighting(t_data *data, t_interobject *object, t_camera *cam, t_vector3 ray, int x, int y)
 {
 	t_light	*light;
 	int		final_light;
 	int		l_val;
 	double	ang;
+	int count = 0;
+
 
 	final_light = 0;
 	light = data->lights;
 	while (light != NULL)
 	{
+
 		if (obstruction(data, object, light, cam, ray) == 0)
 		{
-			buggss++;
+			//printf("OBSTRUCTION RETURNED 0\n");
+
 			ang = get_light_angle(light, object, cam, ray);
+
 			if (ang < M_PI_2 && ang > -M_PI_2)
 			{
-				l_val = intensity(light, sin(M_PI_2 - ang));
+				l_val = intensity(light->colour, sin(M_PI_2 - ang));
+				if (x == 500 && y == 500)
+				{
+					printf("\n\n------------------------------------\n");
+					printf("\n\n I = %d et J = %d\n", x, y);
+					printf("count = %d\n", count);
+					printf("l_val = %d\n", l_val);
+					printf("light color = %d\n", light->colour);
+
+					printf("final_light = %d\n", final_light);
+					printf("angle = %lf\n", ang);
+					count++;
+				}
+
 				final_light = addlights(final_light, l_val);
 			}
 		}
 		light = light->next;
 	}
-	// final_light = addlights(final_light, data->amb->colour);
-	// final_light = filtercolors(final_light, object->colour);
+	final_light = addlights(final_light, data->amb->colour);
+	final_light = filtercolors(final_light, object->colour);
 	object->colour = final_light;
 	//printf("final_light = %d\n et intervention = %d", final_light, intervention);
 

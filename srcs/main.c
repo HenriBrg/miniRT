@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/22 15:13:36 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/22 19:55:40 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	raytrace(t_data *data)
 			object = intersearch(data, get_current_camera(data)->pos, ray);
 			if (object.inter == TRUE)
 			{
-				lighting(data, &object, get_current_camera(data), ray);
+				lighting(data, &object, get_current_camera(data), ray, x, y);
 				colorize(pixels, object.colour, y);
 			}
 			else
@@ -149,6 +149,15 @@ int main(int ac, char **av)
 	data = NULL;
 	data = malloc(sizeof(t_data));
 	init(data, av);
+/*
+	t_light *l;
+	l = data->lights;
+	while (l)
+	{
+		printf("--------->%d\n", l->colour);
+		l = l->next;
+	}
+*/
 	compute(data);
 	clear(data);
     return (0);

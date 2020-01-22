@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:10 by henri             #+#    #+#             */
-/*   Updated: 2019/12/26 19:07:29 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/22 19:37:01 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_light	*parse_light(t_data *data, char **tab, int fd)
 		corrupted(data, tab, "Can't malloc light", fd);
 	light->pos = pos;
 	light->ratio = ft_atod(tab[2]);
-	light->colour = str_to_rgb(tab[3]);
+	light->colour = intensity(str_to_rgb(tab[3]), light->ratio);
 	light->next = NULL;
 	return (light);
 }

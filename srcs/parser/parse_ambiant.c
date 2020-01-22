@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:31:55 by henri             #+#    #+#             */
-/*   Updated: 2019/12/26 19:06:35 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/22 19:37:22 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ void	parse_ambiant(t_data *data, char **tab, int fd)
 	if (!(data->amb = malloc(sizeof(t_ambiant_light))))
 		corrupted(data, tab, "Can't malloc ambiant light", fd);
 	data->amb->ratio = ft_atod(tab[1]);
-	data->amb->colour = str_to_rgb(tab[2]);
+	data->amb->colour = intensity(str_to_rgb(tab[2]), data->amb->ratio);
 }

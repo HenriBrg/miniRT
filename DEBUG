@@ -1,3 +1,19 @@
 VAR GLOBALE DANS HEADER
 
 DIFF PROBABLE DANS OBSTRUCTION
+
+DIFF :
+
+Juste au dessus de obstruction() : (moi)2042928 vs 2042928
+
+Juste en dessous de obstruction() : (moi)1895435 vs 1921432 --> DIFF !!!
+
+-----
+
+EN i = 500 et j = 500
+2 ostruction = 0 pour moi
+
+3 pour cesar
+
+La light du haut dans squares.rt rencontre un obtacle pour mon rt
+si on la remonte pour le coup elle rencontre pas d'obtacle

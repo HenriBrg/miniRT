@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 18:26:10 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/20 20:46:54 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/22 16:56:36 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,19 +132,17 @@ void 	lighting(t_data *data, t_interobject *object, t_camera *cam, t_vector3 ray
 
 	final_light = 0;
 	light = data->lights;
-	while (light)
+	while (light != NULL)
 	{
 		if (obstruction(data, object, light, cam, ray) == 0)
 		{
-			intervention++;
+			buggss++;
 			ang = get_light_angle(light, object, cam, ray);
-			//printf("ang = %lf et data.t = %lf\n", ang, object->distance);
 			if (ang < M_PI_2 && ang > -M_PI_2)
 			{
 				l_val = intensity(light, sin(M_PI_2 - ang));
 				final_light = addlights(final_light, l_val);
 			}
-
 		}
 		light = light->next;
 	}

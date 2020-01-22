@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/20 20:44:23 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/22 15:13:36 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	raytrace(t_data *data)
 		}
 		pixels += data->pixsizeline;
 	}
+	printf("obs = %d\n", buggss);
 }
 
 void clear(t_data *data)
@@ -144,6 +145,7 @@ int main(int ac, char **av)
 
 	if (ac < 2)
 		return (-1);
+	buggss = 0;
 	data = NULL;
 	data = malloc(sizeof(t_data));
 	init(data, av);

@@ -6,7 +6,7 @@
 #    By: henri <henri@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/28 00:56:29 by henri             #+#    #+#              #
-#    Updated: 2020/01/20 12:58:45 by henri            ###   ########.fr        #
+#    Updated: 2020/01/25 19:41:28 by hberger          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,8 @@ SRCS = srcs/main.c srcs/maths/vec1.c srcs/maths/vec2.c srcs/maths/vec3.c	   \
 	   srcs/parser/parse_utils2.c											   \
 	   srcs/parser/parse_plane.c      srcs/parser/parser.c					   \
 	   srcs/parser/parse_resolution.c										   \
-	   srcs/utils/keys.c srcs/utils/colour.c srcs/utils/bmp.c				   \
-	   srcs/lights/lights.c
+	   srcs/utils/keys.c srcs/utils/bmp.c					    			   \
+	   srcs/lights/lights.c srcs/lights/filters.c srcs/lights/mergecolors.c
 
 OBJS = ${SRCS:.c=.o}
 

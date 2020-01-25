@@ -17,3 +17,11 @@ EN i = 500 et j = 500
 
 La light du haut dans squares.rt rencontre un obtacle pour mon rt
 si on la remonte pour le coup elle rencontre pas d'obtacle
+
+if (i > 400 && j > 400 && i < 500 && j < 500)
+{
+	printf("POS(%d ; %d) with angle = %lf\n", i, j, ang);
+	printf("RAY(%lf ; %lf ; %lf)\n", ray.x, ray.y, ray.z);
+	printf("LIGHT COLOUR = %d\n", light->colour);
+	printf("final_light  = %d\n\n\n", final_light);
+}

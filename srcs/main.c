@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 17:09:05 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 19:52:16 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,8 @@ void	raytrace(t_data *data)
 			ray = getray(data, get_current_camera(data), x, y);
 			object = intersearch(data, get_current_camera(data)->pos, ray);
 			if (object.inter == TRUE)
-			{
-				lighting(data, &object, get_current_camera(data), ray, x, y);
-				pixels[y] = object.colour;
+				pixels[y] = lighting(data, &object, get_current_camera(data), ray);
 				// printf("Colour in (i = %d et j = %d) = %d\n", x, y, object.colour);
-			}
 			else
 				pixels[y] = BACKGCOLOUR;
 		}
@@ -139,6 +136,8 @@ void printnormal(t_data *data)
 	}
 }
 */
+
+// TODO : fenetre nom du fichier
 
 int main(int ac, char **av)
 {

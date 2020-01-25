@@ -6,78 +6,28 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 18:26:10 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/25 15:20:57 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 20:15:03 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/mini_rt.h"
 
-int		intensity(int colour, double ratio)
+double				vecangles(t_vector3 a, t_vector3 b)
 {
-	int	r;
-	int	g;
-	int	b;
+	double			d;
+	double			angle;
+	t_vector3		tmp;
 
-	decode_rgb(colour, &r, &g, &b);
-	r = (double)r * ratio;
-	g = (double)g * ratio;
-	b = (double)b * ratio;
-	return ((((r << 8) + g) << 8) + b);
-}
-
-int		addlights(int a, int b)
-{
-	t_rgb	col1;
-	t_rgb	col2;
-
-	decode_rgb(a, &(col1.r), &(col1.g), &(col1.b));
-	decode_rgb(b, &(col2.r), &(col2.g), &(col2.b));
-	col1.r += col2.r;
-	col1.g += col2.g;
-	col1.b += col2.b;
-	col1.r = (col1.r > 255) ? 255 : col1.r;
-	col1.g = (col1.g > 255) ? 255 : col1.g;
-	col1.b = (col1.b > 255) ? 255 : col1.b;
-	return ((((col1.r << 8) + col1.g) << 8) + col1.b);
-}
-
-int		filtercolors(int a, int b)
-{
-	t_rgb	col1;
-	t_rgb	col2;
-
-	decode_rgb(a, &(col1.r), &(col1.g), &(col1.b));
-	decode_rgb(b, &(col2.r), &(col2.g), &(col2.b));
-	col2.r = (col2.r > col1.r) ?  col1.r : col2.r;
-	col2.g = (col2.g > col1.g) ?  col1.g : col2.r;
-	col2.b = (col2.b > col1.b) ?  col1.b : col2.r;
-	return ((((col2.r << 8) + col2.g) << 8) + col2.b);
-}
-
-double		magnitude(t_vector3 a)
-{
-	t_vector3 tmp;
-
-	tmp.x = 0;
-	tmp.y = 0;
-	tmp.z = 0;
-	return (distance(a, tmp));
-}
-
-double		angle_between_vectors(t_vector3 a, t_vector3 b)
-{
-	double	d;
-	double	angle;
-
-	d = dot(a, b) / (magnitude(a) * magnitude(b));
+	tmp = newvec(0, 0, 0);
+	d = dot(a, b) / (distance(a, tmp) * distance(b, tmp));
 	angle = acos(d);
 	return (angle);
 }
 
-
-t_vector3	getnormalvector(t_interobject *object, t_vector3 hit, t_vector3 ray)
+t_vector3			getnormalvector(t_interobject *object, t_vector3 hit,
+	t_vector3 ray)
 {
-	t_vector3 normal;
+	t_vector3		normal;
 
 	if (object->type == SPHERE)
 		normal = getnormalsphere((t_sphere*)(object->ptr), hit);
@@ -94,79 +44,67 @@ t_vector3	getnormalvector(t_interobject *object, t_vector3 hit, t_vector3 ray)
 	return (norm(normal));
 }
 
-double		get_light_angle(t_light *light, t_interobject *object, t_camera *cam, t_vector3 ray)
+double				getincidence(t_light *light, t_interobject *object,
+	t_camera *cam, t_vector3 ray)
 {
-	t_vector3	inter_point;
-	t_vector3	norm_vect;
+	t_vector3		hit;
+	t_vector3		normal;
+	t_vector3		tmp;
+	t_vector3		photon;
+	double			incidence;
 
-	inter_point = getpointfromray(cam->pos, ray, object->distance);
-	norm_vect = getnormalvector(object, inter_point, ray);
-	return (angle_between_vectors(norm_vect, subvec(light->pos, inter_point)));
+	tmp = newvec(0, 0, 0);
+	hit = getpointfromray(cam->pos, ray, object->distance);
+	normal = getnormalvector(object, hit, ray);
+	photon = subvec(light->pos, hit);
+	incidence = dot(normal, photon);
+	incidence /= (distance(normal, tmp) * distance(photon, tmp));
+	incidence = acos(incidence);
+	return (incidence);
 }
 
-int			obstruction(t_data *data, t_interobject *object, t_light *light, t_camera *cam, t_vector3 ray)
+int					obstruction(t_data *data, t_interobject *object,
+	t_light *light, t_vector3 ray)
 {
-	t_vector3		start;
-	t_vector3		light_ray;
+	t_vector3		hit;
+	t_vector3		photon;
 	t_interobject	obstacle;
 
-	start = getpointfromray(cam->pos, ray, object->distance);
-	light_ray = norm(subvec(light->pos, start));
-	start = addvec(start, mult1vec(getnormalvector(object, start, ray), 0.01));
-	obstacle = intersearch(data, start, light_ray);
-	if (obstacle.inter == TRUE)
-	{
-		if (obstacle.distance >= 0)
-			if (distance(start, light->pos) > distance(start, getpointfromray(start, light_ray, obstacle.distance)))
-				return (1);
-	}
+	hit = getpointfromray(get_current_camera(data)->pos, ray, object->distance);
+	photon = norm(subvec(light->pos, hit));
+	hit = addvec(hit, mult1vec(getnormalvector(object, hit, ray), 0.001));
+	obstacle = intersearch(data, hit, photon);
+	if (obstacle.inter && obstacle.distance >= 0)
+		if (distance(hit, light->pos) > distance(hit,
+			getpointfromray(hit, photon, obstacle.distance)))
+			return (1);
 	return (0);
 }
 
-void 	lighting(t_data *data, t_interobject *object, t_camera *cam, t_vector3 ray, int x, int y)
+int					lighting(t_data *data, t_interobject *object, t_camera *cam,
+	t_vector3 ray)
 {
-	t_light	*light;
-	int		final_light;
-	int		l_val;
-	double	ang;
-	int count = 0;
+	t_light			*light;
+	int				finalcolor;
+	int				tmpcolor;
+	double			incidence;
 
-
-	final_light = 0;
+	finalcolor = 0;
 	light = data->lights;
 	while (light != NULL)
 	{
-
-		if (obstruction(data, object, light, cam, ray) == 0)
+		if (obstruction(data, object, light, ray) == 0)
 		{
-			//printf("OBSTRUCTION RETURNED 0\n");
-
-			ang = get_light_angle(light, object, cam, ray);
-
-			if (ang < M_PI_2 && ang > -M_PI_2)
+			incidence = getincidence(light, object, cam, ray);
+			if (incidence < M_PI_2 && incidence > -M_PI_2)
 			{
-				l_val = intensity(light->colour, sin(M_PI_2 - ang));
-				if (x == 500 && y == 500)
-				{
-					printf("\n\n------------------------------------\n");
-					printf("\n\n I = %d et J = %d\n", x, y);
-					printf("count = %d\n", count);
-					printf("l_val = %d\n", l_val);
-					printf("light color = %d\n", light->colour);
-
-					printf("final_light = %d\n", final_light);
-					printf("angle = %lf\n", ang);
-					count++;
-				}
-
-				final_light = addlights(final_light, l_val);
+				tmpcolor = intensity(light->colour, sin(M_PI_2 - incidence));
+				finalcolor = addlights(finalcolor, tmpcolor);
 			}
 		}
 		light = light->next;
 	}
-	final_light = addlights(final_light, data->amb->colour);
-	final_light = filtercolors(final_light, object->colour);
-	object->colour = final_light;
-	//printf("final_light = %d\n et intervention = %d", final_light, intervention);
-
+	finalcolor = addlights(finalcolor, data->amb->colour);
+	finalcolor = filtercolors(finalcolor, object->colour);
+	return (finalcolor);
 }

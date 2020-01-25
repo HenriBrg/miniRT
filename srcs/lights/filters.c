@@ -1,27 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colour.c                                           :+:      :+:    :+:   */
+/*   filters.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/19 23:22:07 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/25 16:59:08 by hberger          ###   ########.fr       */
+/*   Created: 2020/01/25 19:34:31 by hberger           #+#    #+#             */
+/*   Updated: 2020/01/25 20:13:17 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/mini_rt.h"
 
-void	colorize(char *pixels, int colour, int position_on_line)
+int		getblue(int colour)
 {
-	pixels[0 + position_on_line * 4] = (char)((colour & 0xFF));
-	pixels[1 + position_on_line * 4] = (char)((colour & 0xFF00) >> 8);
-	pixels[2 + position_on_line * 4] = (char)((colour & 0xFF0000) >> 16);
+	return (colour & 0xFF);
 }
 
-void	decode_rgb(int colour, int *r, int *g, int *b)
+int		getgreen(int colour)
 {
-	*r = (colour & 0xFF);
-	*g = (colour & 0xFF00) >> 8;
-	*b = (colour & 0xFF0000) >> 16;
+	return ((colour & 0xFF00) >> 8);
+}
+
+int		getred(int colour)
+{
+	return ((colour & 0xFF0000) >> 16);
+}
+
+int		encodergb(int red, int green, int blue)
+{
+	return ((((red << 8) + green) << 8) + blue);
+}
+
+void	decodergb(int colour, int *red, int *green, int *blue)
+{
+	*red = getred(colour);
+	*green = getgreen(colour);
+	*blue = getblue(colour);
 }

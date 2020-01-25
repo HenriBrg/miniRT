@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/25 16:58:22 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 20:00:33 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,11 +176,17 @@ void						raytrace(t_data *data);
 ** light/
 */
 
+int							lighting(t_data *data, t_interobject *object,
+	t_camera *cam, t_vector3 ray);
+int							getblue(int colour);
+int							getgreen(int colour);
+int							getred(int colour);
+int							encodergb(int red, int green, int blue);
+void						decodergb(int colour, int *red, int *green,
+	int *blue);
 int							intensity(int colour, double ratio);
-int							apply_ambient(t_ambiant_light *ambient, int colour);
-void						lighting(t_data *data, t_interobject *object,
-	t_camera *cam, t_vector3 ray, int x, int y);
-
+int							addlights(int a, int b);
+int							filtercolors(int source, int colour);
 /*
 ** maths/
 */

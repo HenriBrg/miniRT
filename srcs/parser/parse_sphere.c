@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:19 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 15:20:34 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 16:27:23 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_sphere		*parse_sphere(t_data *data, char **tab, int fd)
 	sphere->next = NULL;
 	sphere->radius = ft_atod(tab[2]);
 	sphere->colour = str_to_rgb(tab[3]);
+	//printf("Sphere colour : %d\n", sphere->colour);
 	return (sphere);
 }
 

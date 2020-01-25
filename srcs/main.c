@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 15:26:10 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 16:49:24 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	raytrace(t_data *data)
 			{
 				lighting(data, &object, get_current_camera(data), ray, x, y);
 				colorize(pixels, object.colour, y);
+				printf("Colour in (i = %d et j = %d) = %d\n", x, y, object.colour);
 			}
 			else
 				colorize(pixels, BACKGCOLOUR, y);

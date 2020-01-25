@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:22 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 15:20:36 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 16:27:27 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_square		*parse_square(t_data *data, char **tab, int fd)
 	square->height = ft_atod(tab[3]);
 	square->colour = str_to_rgb(tab[4]);
 	finish_square(square, orient);
+	//printf("Square colour : %d\n", square->colour);
 	return (square);
 }
 

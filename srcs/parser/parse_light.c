@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:10 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 15:20:29 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 16:27:19 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_light			*parse_light(t_data *data, char **tab, int fd)
 	light->ratio = ft_atod(tab[2]);
 	light->colour = intensity(str_to_rgb(tab[3]), light->ratio);
 	light->next = NULL;
+	//printf("Light Colour : %d\n", light->colour);
 	return (light);
 }
 

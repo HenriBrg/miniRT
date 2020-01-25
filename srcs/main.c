@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 16:49:24 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 17:09:05 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	raytrace(t_data *data)
 {
 	int				x;
 	int				y;
-	char			*pixels;
+	int				*pixels;
 	t_vector3		ray;
 	t_interobject	object;
 
@@ -24,6 +24,8 @@ void	raytrace(t_data *data)
 	pixels = data->pixtab;
 	while (++x < data->res->height)
 	{
+		if (x)
+			pixels += data->pixsizeline / 4;
 		y = -1;
 		while (++y < data->res->width)
 		{
@@ -33,13 +35,12 @@ void	raytrace(t_data *data)
 			if (object.inter == TRUE)
 			{
 				lighting(data, &object, get_current_camera(data), ray, x, y);
-				colorize(pixels, object.colour, y);
-				printf("Colour in (i = %d et j = %d) = %d\n", x, y, object.colour);
+				pixels[y] = object.colour;
+				// printf("Colour in (i = %d et j = %d) = %d\n", x, y, object.colour);
 			}
 			else
-				colorize(pixels, BACKGCOLOUR, y);
+				pixels[y] = BACKGCOLOUR;
 		}
-		pixels += data->pixsizeline;
 	}
 }
 
@@ -112,7 +113,7 @@ void 	init(t_data *data, char **av)
 	data->ptr = mlx_init();
 	data->win = mlx_new_window(data->ptr, data->res->width, data->res->height, "miniRT");
 	data->img = mlx_new_image(data->ptr, data->res->width, data->res->height);
-	data->pixtab = mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian);
+	data->pixtab = (int*)(mlx_get_data_addr(data->img, &data->pixsize, &data->pixsizeline, &data->endian));
 }
 
 /*

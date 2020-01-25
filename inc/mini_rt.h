@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/25 15:43:40 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 16:58:22 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ typedef struct				s_data
 	int						pixsize;
 	int						pixsizeline;
 	int						endian;
-	char					*pixtab;
+	int						*pixtab;
 	int						parse_res_doublon;
 	int						parse_amb_doublon;
 	int						camera_num;

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 22:58:45 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 15:20:48 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 17:11:17 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void				writepixels(int fd, t_data *data)
 	int				y;
 	char			*pixtab;
 
-	pixtab = data->pixtab;
+	pixtab = (char*)data->pixtab;
 	y = data->res->height - 1;
 	while (y >= 0)
 	{

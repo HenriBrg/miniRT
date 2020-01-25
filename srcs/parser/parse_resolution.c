@@ -6,11 +6,11 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:08:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 22:31:18 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:32 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
 void	parse_resolution(t_data *data, char **tab, int fd)
 {

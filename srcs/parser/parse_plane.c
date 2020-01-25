@@ -6,27 +6,17 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:13 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 22:30:47 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:30 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
-/*
-pl 		0.0,0.0,-10.0 		0.0,1.0,0.0 	0,0,225
-typedef struct	s_plane
-{
-	t_vector3				center;
-	t_vector3				normal;
-	int						colour;
-	struct 		s_plane		*next;
-}				t_plane;*/
-
-t_plane	*parse_plane(t_data *data, char **tab, int fd)
+t_plane			*parse_plane(t_data *data, char **tab, int fd)
 {
 	t_vector3	pos;
 	t_vector3	normal;
-	t_plane	*plane;
+	t_plane		*plane;
 
 	if (ft_strslen(tab) != 4)
 		corrupted(data, tab, "Bad plane format (too many args)", fd);
@@ -47,10 +37,10 @@ t_plane	*parse_plane(t_data *data, char **tab, int fd)
 	return (plane);
 }
 
-void	free_plane(t_data *data)
+void			free_plane(t_data *data)
 {
-	t_plane 	*tmp;
-	t_plane 	*next;
+	t_plane		*tmp;
+	t_plane		*next;
 
 	tmp = data->planes;
 	while (tmp)
@@ -61,9 +51,9 @@ void	free_plane(t_data *data)
 	}
 }
 
-void	add_plane(t_data *data, char **tab, int fd)
+void			add_plane(t_data *data, char **tab, int fd)
 {
-	t_plane *tmp;
+	t_plane		*tmp;
 
 	if (data->planes == 0)
 		data->planes = parse_plane(data, tab, fd);

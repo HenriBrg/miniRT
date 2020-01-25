@@ -6,24 +6,13 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:10 by henri             #+#    #+#             */
-/*   Updated: 2020/01/22 19:37:01 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:29 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
-/*
-l -40.0,50.0,0.0 0.6 10,0,255
-typedef struct	s_light
-{
-	t_vector3	pos;
-	double		ratio;
-	int			colour;
-	struct 		s_light		*next;
-}				t_light;
-*/
-
-t_light	*parse_light(t_data *data, char **tab, int fd)
+t_light			*parse_light(t_data *data, char **tab, int fd)
 {
 	t_vector3	pos;
 	t_light		*light;
@@ -47,10 +36,10 @@ t_light	*parse_light(t_data *data, char **tab, int fd)
 	return (light);
 }
 
-void	free_light(t_data *data)
+void			free_light(t_data *data)
 {
-	t_light 	*tmp;
-	t_light 	*next;
+	t_light		*tmp;
+	t_light		*next;
 
 	tmp = data->lights;
 	if (tmp == NULL)
@@ -63,9 +52,9 @@ void	free_light(t_data *data)
 	}
 }
 
-void	add_light(t_data *data, char **tab, int fd)
+void			add_light(t_data *data, char **tab, int fd)
 {
-	t_light *tmp;
+	t_light		*tmp;
 
 	if (data->lights == 0)
 		data->lights = parse_light(data, tab, fd);

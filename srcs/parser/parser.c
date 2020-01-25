@@ -6,18 +6,11 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2019/12/26 19:45:14 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:44 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
-
-
-/* -------------------- Description --------------------
-**
-** Applique une rotation sur l'axe x, y et z au
-** vecteur d'orientation de la camera
-*/
+#include "../../inc/mini_rt.h"
 
 t_vector3		reorientate(t_vector3 base, t_vector3 orientation)
 {
@@ -58,7 +51,6 @@ void			corrupted(t_data *data, char **tab, char *message, int fd)
 		putexit("Can't close file");
 	putexit(message);
 }
-
 
 void			store(t_data *data, char **tab, int fd)
 {
@@ -114,7 +106,7 @@ void			reading(int fd, t_data *data)
 
 int				parse(t_data *data, char *filename)
 {
-	int 		fd;
+	int			fd;
 
 	if (ft_strcmp(ft_strchr(filename, '.'), ".rt") != 0)
 		putexit("Filename must ends with .rt");

@@ -6,28 +6,13 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:25 by henri             #+#    #+#             */
-/*   Updated: 2019/12/19 22:32:16 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:38 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
-/*
-tr 	10.0,20.0,10.0 	10.0,10.0,20.0 	20.0,10.0,10.0 	0,0,255
-
-typedef struct	s_triangle
-{
-	t_vector3				p1;
-	t_vector3				p2;
-	t_vector3				p3;
-	t_vector3				normal;
-	int						colour;
-	struct 		s_triangle	*next;
-}				t_triangle;
-
-*/
-
-t_triangle	*parse_triangle(t_data *data, char **tab, int fd)
+t_triangle		*parse_triangle(t_data *data, char **tab, int fd)
 {
 	t_vector3	pos1;
 	t_vector3	pos2;
@@ -54,10 +39,10 @@ t_triangle	*parse_triangle(t_data *data, char **tab, int fd)
 	return (triangle);
 }
 
-void	free_triangle(t_data *data)
+void			free_triangle(t_data *data)
 {
-	t_triangle 	*tmp;
-	t_triangle 	*next;
+	t_triangle	*tmp;
+	t_triangle	*next;
 
 	tmp = data->triangles;
 	while (tmp)
@@ -68,9 +53,9 @@ void	free_triangle(t_data *data)
 	}
 }
 
-void	add_triangle(t_data *data, char **tab, int fd)
+void			add_triangle(t_data *data, char **tab, int fd)
 {
-	t_triangle *tmp;
+	t_triangle	*tmp;
 
 	if (data->triangles == 0)
 		data->triangles = parse_triangle(data, tab, fd);

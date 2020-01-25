@@ -6,21 +6,26 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 14:14:50 by henri             #+#    #+#             */
-/*   Updated: 2019/12/23 16:33:32 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/25 15:25:36 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
-t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
+double			radian(double degree)
 {
-	double 		w;
-	double 		pixshift;
+	return (degree * M_PI / 180.0);
+}
+
+t_vector3		getray(t_data *data, t_camera *cam, double x, double y)
+{
+	double		w;
+	double		pixshift;
 	t_vector3	basedir;
 	t_vector3	ray;
 
 	basedir = mult1vec(cam->vecx, (double)SCREENSIZE);
-	w = (double)SCREENSIZE * tan(RAD(cam->fov / 2)) * 2;
+	w = (double)SCREENSIZE * tan(radian(cam->fov / 2)) * 2;
 	pixshift = w / ((double)data->res->width - 1);
 	ray = addvec(basedir, mult1vec(cam->vecz,
 				((2 * (y + 0.5) - data->res->width) / 2) * pixshift));
@@ -30,10 +35,10 @@ t_vector3 getray(t_data *data, t_camera *cam, double x, double y)
 	return (ray);
 }
 
-int	solvequadratic(t_vector3 abc, double *t0, double *t1)
+int				solvequadratic(t_vector3 abc, double *t0, double *t1)
 {
-	double	tmp;
-	double	delta;
+	double		tmp;
+	double		delta;
 
 	if ((delta = pow(abc.y, 2) - 4 * abc.x * abc.z) < 0)
 		return (-1);

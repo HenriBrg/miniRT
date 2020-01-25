@@ -6,13 +6,13 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 22:58:45 by henri             #+#    #+#             */
-/*   Updated: 2020/01/16 14:31:30 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:48 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
-/* Description
+/*
 ** Code inspiration : https://stackoverflow.com/a/55504419
 ** http://www.machaon.fr/isn/representation/Les%20fichiers%20images%20BMP.htm
 **
@@ -37,8 +37,7 @@
 ** not have any padding at all.
 */
 
-
-void	writefileheader(int fd, int width, int height)
+void				writefileheader(int fd, int width, int height)
 {
 	int				i;
 	int				bytes;
@@ -60,9 +59,9 @@ void	writefileheader(int fd, int width, int height)
 	write(fd, fileheader, 14);
 }
 
-void	writebmpheader(int fd, int width, int height)
+void				writebmpheader(int fd, int width, int height)
 {
-	int	size;
+	int				size;
 	int				i;
 	unsigned char	bmpheader[40];
 
@@ -70,38 +69,30 @@ void	writebmpheader(int fd, int width, int height)
 	while (++i < 40)
 		bmpheader[i] = (unsigned char)0;
 	size = width * height * 3;
-    bmpheader[0] = (unsigned char)(40);
-    bmpheader[4] = (unsigned char)(width);
-    bmpheader[5] = (unsigned char)(width >> 8);
-    bmpheader[6] = (unsigned char)(width >> 16);
-    bmpheader[7] = (unsigned char)(width >> 24);
-    bmpheader[8] = (unsigned char)(height);
-    bmpheader[9] = (unsigned char)(height >> 8);
-    bmpheader[10] = (unsigned char)(height >> 16);
-    bmpheader[11] = (unsigned char)(height >> 24);
-    bmpheader[12] = (unsigned char)(1);
-    bmpheader[14] = (unsigned char)(3 * 8);
+	bmpheader[0] = (unsigned char)(40);
+	bmpheader[4] = (unsigned char)(width);
+	bmpheader[5] = (unsigned char)(width >> 8);
+	bmpheader[6] = (unsigned char)(width >> 16);
+	bmpheader[7] = (unsigned char)(width >> 24);
+	bmpheader[8] = (unsigned char)(height);
+	bmpheader[9] = (unsigned char)(height >> 8);
+	bmpheader[10] = (unsigned char)(height >> 16);
+	bmpheader[11] = (unsigned char)(height >> 24);
+	bmpheader[12] = (unsigned char)(1);
+	bmpheader[14] = (unsigned char)(3 * 8);
 	bmpheader[16] = (unsigned char)(0);
 	bmpheader[20] = (unsigned char)(size);
 	bmpheader[21] = (unsigned char)(size >> 8);
 	bmpheader[22] = (unsigned char)(size >> 16);
 	bmpheader[23] = (unsigned char)(size >> 24);
-	bmpheader[24] = (unsigned char)(2835);
-	bmpheader[25] = (unsigned char)(2835 >> 8);
-	bmpheader[26] = (unsigned char)(2835 >> 16);
-	bmpheader[27] = (unsigned char)(2835 >> 24);
-	bmpheader[28] = (unsigned char)(2835);
-	bmpheader[29] = (unsigned char)(2835 >> 8);
-	bmpheader[30] = (unsigned char)(2835 >> 16);
-	bmpheader[31] = (unsigned char)(2835 >> 24);
 	write(fd, bmpheader, 40);
 }
 
-void 	writepixels(int fd, t_data *data)
+void				writepixels(int fd, t_data *data)
 {
-	int	x;
-	int	y;
-	char	*pixtab;
+	int				x;
+	int				y;
+	char			*pixtab;
 
 	pixtab = data->pixtab;
 	y = data->res->height - 1;
@@ -114,7 +105,7 @@ void 	writepixels(int fd, t_data *data)
 	}
 }
 
-void 	save_to_bmp(t_data *data)
+void				save_to_bmp(t_data *data)
 {
 	int				fd;
 

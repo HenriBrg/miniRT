@@ -6,19 +6,19 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 23:10:22 by hberger           #+#    #+#             */
-/*   Updated: 2019/12/19 23:11:04 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:42 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
 int			str_to_rgb(char *s)
 {
-	int 	i;
-	int 	r;
-	int 	g;
-	int 	b;
-	int 	colour;
+	int		i;
+	int		r;
+	int		g;
+	int		b;
+	int		colour;
 
 	i = 0;
 	r = ft_atoi(s + i);
@@ -36,7 +36,7 @@ int			str_to_rgb(char *s)
 
 int			rgb_format(char *s)
 {
-	int 	i;
+	int		i;
 
 	if (ft_stroccurs(s, ',') != 2)
 		return (-1);
@@ -73,8 +73,8 @@ int			check_range_vec3_orient(t_vector3 *vec)
 
 int			skip_double(char *s, int i)
 {
-	while (s[i] != '\0' && (ft_isdigit(s[i]) == 1 || s[i] == '.' || s[i] == '-'))
-			i++;
+	while (s[i] != 0 && (ft_isdigit(s[i]) == 1 || s[i] == '.' || s[i] == '-'))
+		i++;
 	return (i);
 }
 

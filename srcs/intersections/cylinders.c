@@ -6,11 +6,12 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/15 13:09:38 by henri             #+#    #+#             */
-/*   Updated: 2019/12/26 12:34:13 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/25 15:19:52 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
+
 /*
 ** https://mrl.nyu.edu/~dzorin/intro-graphics-f01/lectures/normals.pdf
 **
@@ -34,18 +35,17 @@ t_vector3		getnormalcylinder(t_cylinder *cylinder, t_vector3 point)
 	return (tmp);
 }
 
-
 /*
 ** http://www.iquilezles.org/www/articles/intersectors/intersectors.htm
 */
 
-static double		intercylinder(t_cylinder *cyl, t_vector3 pov, t_vector3 ray)
+double			intercylinder(t_cylinder *cyl, t_vector3 pov, t_vector3 ray)
 {
-	t_vector3		ca;
-	t_vector3		oc;
-	t_vector3		abc;
-	t_vector3		hty;
-	t_vector3		cardoc;
+	t_vector3	ca;
+	t_vector3	oc;
+	t_vector3	abc;
+	t_vector3	hty;
+	t_vector3	cardoc;
 
 	ca = subvec(cyl->pb, cyl->center);
 	oc = subvec(pov, cyl->center);
@@ -61,19 +61,19 @@ static double		intercylinder(t_cylinder *cyl, t_vector3 pov, t_vector3 ray)
 		return (-1);
 	hty.x = sqrt(hty.x);
 	hty.y = (-abc.y - hty.x) / abc.x;
-	hty.z = cardoc.z + (hty.y * cardoc.y);
-	if (hty.z > 0 && hty.z < cardoc.x)
+	if ((hty.z = cardoc.z + (hty.y * cardoc.y)) > 0 && hty.z < cardoc.x)
 		return (hty.y);
 	hty.y = (((hty.z < 0) ? 0 : cardoc.x) - cardoc.z) / cardoc.y;
-	return ((((fabs(abc.y + (abc.x * hty.y)) < hty.x) && hty.y > 0)) ? hty.y : -1);
+	return ((((fabs(abc.y + (abc.x * hty.y)) < hty.x) && hty.y > 0)) ?
+	hty.y : -1);
 }
 
-
-void			try_cylinders(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj)
+void			try_cylinders(t_data *data, t_vector3 pov, t_vector3 ray,
+	t_interobject *obj)
 {
-	double 		tmp;
-	double 		inter;
-	t_cylinder 	*cylinder;
+	double		tmp;
+	double		inter;
+	t_cylinder	*cylinder;
 
 	tmp = -1;
 	inter = -1;

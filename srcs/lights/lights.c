@@ -6,11 +6,11 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 18:26:10 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/22 19:55:52 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:57 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
 int		intensity(int colour, double ratio)
 {

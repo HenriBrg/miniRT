@@ -6,16 +6,16 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 17:18:22 by henri             #+#    #+#             */
-/*   Updated: 2019/12/23 23:41:57 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:24 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
-void	free_camera(t_data *data)
+void			free_camera(t_data *data)
 {
-	t_camera 	*tmp;
-	t_camera 	*next;
+	t_camera	*tmp;
+	t_camera	*next;
 
 	tmp = data->cameras;
 	while (tmp != NULL)
@@ -26,7 +26,7 @@ void	free_camera(t_data *data)
 	}
 }
 
-t_camera	*parse_camera(t_data *data, char **tab, int fd)
+t_camera		*parse_camera(t_data *data, char **tab, int fd)
 {
 	t_vector3	pos;
 	t_vector3	orient;
@@ -34,10 +34,8 @@ t_camera	*parse_camera(t_data *data, char **tab, int fd)
 
 	if (ft_strslen(tab) != 4)
 		corrupted(data, tab, "Bad camera format (too many args)", fd);
-	if (vec3_format(tab[1], &pos) == -1)
-		corrupted(data, tab, "Bad camera position format", fd);
-	if (vec3_format(tab[2], &orient) == -1)
-		corrupted(data, tab, "Bad camera orient format", fd);
+	if (vec3_format(tab[1], &pos) == -1 || vec3_format(tab[2], &orient) == -1)
+		corrupted(data, tab, "Bad camera position/orient format", fd);
 	if (check_range_vec3_orient(&orient) == -1)
 		corrupted(data, tab, "Camera orient not in range [-1;1]", fd);
 	if (double_format(tab[3]) == -1)
@@ -56,9 +54,9 @@ t_camera	*parse_camera(t_data *data, char **tab, int fd)
 	return (camera);
 }
 
-void	add_camera(t_data *data, char **tab, int fd)
+void			add_camera(t_data *data, char **tab, int fd)
 {
-	t_camera *tmp;
+	t_camera	*tmp;
 
 	if (data->cameras != NULL)
 	{

@@ -6,16 +6,16 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2020/01/20 17:05:24 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 15:19:56 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
-double interplanes(t_plane *plane, t_vector3 pov, t_vector3 ray)
+double		interplanes(t_plane *plane, t_vector3 pov, t_vector3 ray)
 {
-	double t;
-	double denom;
+	double	t;
+	double	denom;
 
 	t = dot(subvec(plane->center, pov), plane->normal);
 	denom = dot(ray, plane->normal);
@@ -27,11 +27,12 @@ double interplanes(t_plane *plane, t_vector3 pov, t_vector3 ray)
 	return (-1);
 }
 
-void try_planes(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj)
+void		try_planes(t_data *data, t_vector3 pov, t_vector3 ray,
+	t_interobject *obj)
 {
-	double tmp;
-	double inter;
-	t_plane *plane;
+	double	tmp;
+	double	inter;
+	t_plane	*plane;
 
 	tmp = -1;
 	inter = -1;

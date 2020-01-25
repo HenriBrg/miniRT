@@ -6,16 +6,16 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 23:19:39 by henri             #+#    #+#             */
-/*   Updated: 2020/01/22 17:02:09 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:01 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
 t_vector3		getnormaltriangle(t_triangle *triangle)
 {
-	t_vector3 ab;
-	t_vector3 ac;
+	t_vector3	ab;
+	t_vector3	ac;
 
 	ab = subvec(triangle->p2, triangle->p1);
 	ac = subvec(triangle->p3, triangle->p1);
@@ -23,10 +23,13 @@ t_vector3		getnormaltriangle(t_triangle *triangle)
 }
 
 /*
-** Following this tutorial : https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-geometric-solution
+** Following this tutorial : https://www.scratchapixel.com/lessons/3d-basic-
+** rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-
+** geometric-solution
 */
 
-static int		trianglebounds(t_triangle *triangle, t_vector3 pov, t_vector3 ray, double t)
+int				trianglebounds(t_triangle *triangle, t_vector3 pov,
+	t_vector3 ray, double t)
 {
 	t_vector3	edge;
 	t_vector3	inter;
@@ -50,7 +53,8 @@ static int		trianglebounds(t_triangle *triangle, t_vector3 pov, t_vector3 ray, d
 	return (1);
 }
 
-static double	intertriangle(t_triangle *triangle, t_vector3 pov, t_vector3 ray)
+double			intertriangle(t_triangle *triangle, t_vector3 pov,
+	t_vector3 ray)
 {
 	double		t;
 	double		denom;
@@ -67,11 +71,12 @@ static double	intertriangle(t_triangle *triangle, t_vector3 pov, t_vector3 ray)
 	return (-1);
 }
 
-void try_triangles(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj)
+void			try_triangles(t_data *data, t_vector3 pov, t_vector3 ray,
+	t_interobject *obj)
 {
-	double tmp;
-	double inter;
-	t_triangle *triangle;
+	double		tmp;
+	double		inter;
+	t_triangle	*triangle;
 
 	tmp = -1;
 	inter = -1;

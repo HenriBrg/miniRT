@@ -6,24 +6,13 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:19 by henri             #+#    #+#             */
-/*   Updated: 2019/12/26 19:19:34 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:34 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
-/*
-sp 0.0,0.0,20.6 12.6 10,0,255
-typedef struct	s_sphere
-{
-	t_vector3				center;
-	double					radius;
-	int						colour;
-	struct 		s_sphere	*next;
-}				t_sphere;
-*/
-
-t_sphere	*parse_sphere(t_data *data, char **tab, int fd)
+t_sphere		*parse_sphere(t_data *data, char **tab, int fd)
 {
 	t_vector3	center;
 	t_sphere	*sphere;
@@ -45,10 +34,10 @@ t_sphere	*parse_sphere(t_data *data, char **tab, int fd)
 	return (sphere);
 }
 
-void	free_sphere(t_data *data)
+void			free_sphere(t_data *data)
 {
-	t_sphere 	*tmp;
-	t_sphere 	*next;
+	t_sphere	*tmp;
+	t_sphere	*next;
 
 	tmp = data->spheres;
 	while (tmp)
@@ -59,9 +48,9 @@ void	free_sphere(t_data *data)
 	}
 }
 
-void	add_sphere(t_data *data, char **tab, int fd)
+void			add_sphere(t_data *data, char **tab, int fd)
 {
-	t_sphere *tmp;
+	t_sphere	*tmp;
 
 	if (data->spheres == 0)
 		data->spheres = parse_sphere(data, tab, fd);

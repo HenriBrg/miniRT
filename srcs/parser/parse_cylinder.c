@@ -6,14 +6,13 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:07 by henri             #+#    #+#             */
-/*   Updated: 2019/12/26 19:29:43 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:27 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
-
-void 			finish_cylinder(t_cylinder	*cyl, char **tab, t_vector3 center)
+void			finish_cylinder(t_cylinder *cyl, char **tab, t_vector3 center)
 {
 	cyl->next = NULL;
 	cyl->radius = ft_atod(tab[3]) / 2;
@@ -21,7 +20,6 @@ void 			finish_cylinder(t_cylinder	*cyl, char **tab, t_vector3 center)
 	cyl->colour = str_to_rgb(tab[5]);
 	cyl->pb = addvec(center, mult1vec(cyl->orientation, cyl->height));
 }
-
 
 t_cylinder		*parse_cylinder(t_data *data, char **tab, int fd)
 {
@@ -46,7 +44,7 @@ t_cylinder		*parse_cylinder(t_data *data, char **tab, int fd)
 	if (!(cylinder = malloc(sizeof(t_cylinder))))
 		corrupted(data, tab, "Can't malloc cylinder", fd);
 	cylinder->center = center;
-	cylinder->orientation = reorientate(newvec(0,1,0), orient);
+	cylinder->orientation = reorientate(newvec(0, 1, 0), orient);
 	finish_cylinder(cylinder, tab, center);
 	return (cylinder);
 }

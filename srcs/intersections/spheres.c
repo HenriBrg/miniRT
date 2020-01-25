@@ -6,17 +6,16 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2020/01/22 17:03:41 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 15:19:58 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
 t_vector3		getnormalsphere(t_sphere *sphere, t_vector3 point)
 {
 	return (subvec(point, sphere->center));
 }
-
 
 /*
 ** On pose l'équation suivante : ax^2 + bx + c avec x correspondant à t période
@@ -25,13 +24,11 @@ t_vector3		getnormalsphere(t_sphere *sphere, t_vector3 point)
 ** Ces points désigne la surface de la sphère, centrée à l'origine et rayon R
 ** Soit P cette combinaison de point, alors on aura P^2 - R^2 = 0
 ** Tout est très bien expliqué sur ce lien :
-** https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
-**
-**
-** NB : Comment faire si x1 = 0 ou quasiment ?
+** https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-
+** ray-tracer-rendering-simple-shapes/ray-sphere-intersection
 */
 
-double	intersphere(t_sphere *sphere, t_vector3 pov, t_vector3 ray)
+double			intersphere(t_sphere *sphere, t_vector3 pov, t_vector3 ray)
 {
 	double		t0;
 	double		t1;
@@ -48,15 +45,17 @@ double	intersphere(t_sphere *sphere, t_vector3 pov, t_vector3 ray)
 }
 
 /*
-** ATTENTION : problème lorsque deux sphères se trouvent à la même distance de la caméra (c.a.d que le x du vecteur est identique)
+** ATTENTION : problème lorsque deux sphères se trouvent à la même distance
+** de la caméra (c.a.d que le x du vecteur est identique)
 ** les pixels se chevauchent incorrectement !
 */
 
-void try_spheres(t_data *data, t_vector3 pov, t_vector3 ray, t_interobject *obj)
+void			try_spheres(t_data *data, t_vector3 pov, t_vector3 ray,
+	t_interobject *obj)
 {
-	double tmp;
-	double inter;
-	t_sphere *sphere;
+	double		tmp;
+	double		inter;
+	t_sphere	*sphere;
 
 	tmp = -1;
 	inter = -1;

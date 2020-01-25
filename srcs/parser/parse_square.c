@@ -6,27 +6,13 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:22 by henri             #+#    #+#             */
-/*   Updated: 2019/12/26 19:19:38 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:36 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
-/*
-sq 	0.0,0.0,20.6 	1.0,0.0,0.0 	12.6 	255,0,255
-typedef struct	s_square
-{
-	t_vector3				x;
-	t_vector3				z;
-	t_vector3				center;
-	t_vector3				normal;
-	double					height;
-	int						colour;
-	struct 		s_square	*next;
-}				t_square;
-*/
-
-void 		finish_square(t_square	*square, t_vector3 orient)
+void			finish_square(t_square *square, t_vector3 orient)
 {
 	square->x = reorientate(newvec(1, 0, 0), orient);
 	square->x = mult1vec(square->x, square->height);
@@ -35,14 +21,7 @@ void 		finish_square(t_square	*square, t_vector3 orient)
 	square->next = NULL;
 }
 
-/*
-** printf("Orient : (%lf, %lf, %lf)\n", orient.x, orient.y, orient.z);
-** printf("Normale : (%lf, %lf, %lf)\n", square->normal.x, square->normal.y, square->normal.z);
-** printf("Vecx : (%lf, %lf, %lf) et len : %lf\n", square->x.x, square->x.y, square->x.z, veclen(square->x));
-** printf("Vecz : (%lf, %lf, %lf) et len : %lf\n", square->z.x, square->z.y, square->z.z, veclen(square->z));
-*/
-
-t_square	*parse_square(t_data *data, char **tab, int fd)
+t_square		*parse_square(t_data *data, char **tab, int fd)
 {
 	t_vector3	center;
 	t_vector3	orient;
@@ -70,10 +49,10 @@ t_square	*parse_square(t_data *data, char **tab, int fd)
 	return (square);
 }
 
-void	free_square(t_data *data)
+void			free_square(t_data *data)
 {
-	t_square 	*tmp;
-	t_square 	*next;
+	t_square	*tmp;
+	t_square	*next;
 
 	tmp = data->squares;
 	while (tmp)
@@ -84,9 +63,9 @@ void	free_square(t_data *data)
 	}
 }
 
-void	add_square(t_data *data, char **tab, int fd)
+void			add_square(t_data *data, char **tab, int fd)
 {
-	t_square *tmp;
+	t_square	*tmp;
 
 	if (data->squares == 0)
 		data->squares = parse_square(data, tab, fd);

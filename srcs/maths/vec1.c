@@ -6,19 +6,19 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 17:53:39 by henri             #+#    #+#             */
-/*   Updated: 2019/12/02 19:17:13 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:11 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
 /*
 ** Retourne un nouveau vecteur 3D
 */
 
-t_vector3 newvec(double x, double y, double z)
+t_vector3		newvec(double x, double y, double z)
 {
-	t_vector3 new;
+	t_vector3	new;
 
 	new.x = x;
 	new.y = y;
@@ -30,9 +30,9 @@ t_vector3 newvec(double x, double y, double z)
 ** Retourne un nouveau vecteur 3D résultant de la soustraction de vec1 et vec2
 */
 
-t_vector3 subvec(t_vector3 vec1, t_vector3 vec2)
+t_vector3		subvec(t_vector3 vec1, t_vector3 vec2)
 {
-	t_vector3 new;
+	t_vector3	new;
 
 	new.x = vec1.x - vec2.x;
 	new.y = vec1.y - vec2.y;
@@ -44,7 +44,7 @@ t_vector3 subvec(t_vector3 vec1, t_vector3 vec2)
 ** Multiplie le vecteur par le second paramètre et retourne un nouveau vecteur
 */
 
-t_vector3 mult1vec(t_vector3 vec, double x)
+t_vector3		mult1vec(t_vector3 vec, double x)
 {
 	vec.x *= x;
 	vec.y *= x;
@@ -56,9 +56,9 @@ t_vector3 mult1vec(t_vector3 vec, double x)
 ** Multiplie deux vecteurs et retourne un nouveau vecteur
 */
 
-t_vector3 mult2vec(t_vector3 vec1, t_vector3 vec2)
+t_vector3		mult2vec(t_vector3 vec1, t_vector3 vec2)
 {
-	t_vector3 new;
+	t_vector3	new;
 
 	new.x = vec1.x * vec2.x;
 	new.y = vec1.y * vec2.y;
@@ -71,9 +71,9 @@ t_vector3 mult2vec(t_vector3 vec1, t_vector3 vec2)
 ** du vecteur. On obtiendra un vecteur de longueur 1
 */
 
-t_vector3 norm(t_vector3 vec)
+t_vector3		norm(t_vector3 vec)
 {
-	double len;
+	double		len;
 
 	len = veclen(vec);
 	vec.x /= len;

@@ -6,11 +6,11 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:31:55 by henri             #+#    #+#             */
-/*   Updated: 2020/01/22 19:37:22 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:23 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
 void	parse_ambiant(t_data *data, char **tab, int fd)
 {

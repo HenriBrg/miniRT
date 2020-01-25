@@ -6,11 +6,11 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:21:23 by henri             #+#    #+#             */
-/*   Updated: 2019/12/26 19:38:58 by henri            ###   ########.fr       */
+/*   Updated: 2020/01/25 15:20:40 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/miniRT.h"
+#include "../../inc/mini_rt.h"
 
 int		check_not_only_space_tabs(char *line)
 {
@@ -23,15 +23,15 @@ int		check_not_only_space_tabs(char *line)
 	return (0);
 }
 
-void putexit(char *msg)
+void	putexit(char *msg)
 {
 	ft_putendl_fd(msg, 1);
 	exit(1);
 }
 
-int	uint_format(char *s)
+int		uint_format(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i] != 0)
@@ -45,7 +45,7 @@ int	uint_format(char *s)
 
 int		ft_strtablen(char **strs)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (strs[i] != NULL)
@@ -53,9 +53,9 @@ int		ft_strtablen(char **strs)
 	return (i);
 }
 
-int	double_format(char *s)
+int		double_format(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (s[i] == '.')
@@ -66,7 +66,7 @@ int	double_format(char *s)
 			return (-1);
 		i++;
 	}
-	 if (s[--i] == '.')
-	 	return (-1);
+	if (s[--i] == '.')
+		return (-1);
 	return (0);
 }

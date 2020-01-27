@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:21:23 by henri             #+#    #+#             */
-/*   Updated: 2020/01/27 17:05:30 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/27 20:45:26 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		double_format(char *s)
 {
 	int	i;
 
-	if (checkintminus(s) == 0)
+	if (checkintminus(s) == 0 || checktwodots(s) == 0)
 		return (-1);
 	i = 0;
 	if (s[i] == '.')

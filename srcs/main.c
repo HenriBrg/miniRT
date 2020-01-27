@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 00:56:43 by henri             #+#    #+#             */
-/*   Updated: 2020/01/27 15:01:02 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/27 20:30:29 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void				raytrace(t_data *data)
 				pixels[y] = lighting(data, &object, get_current_camera(data),
 									ray);
 			else
-				pixels[y] = BACKGCOLOUR;
+				pixels[y] = encodergb(177, 177, 177);
 		}
 	}
 }
@@ -102,7 +102,10 @@ int					main(int ac, char **av)
 	t_data			*data;
 
 	if (ac < 2)
+	{
+		ft_putstr("Argument missing\n");
 		return (-1);
+	}
 	data = NULL;
 	data = malloc(sizeof(t_data));
 	init(data, av);

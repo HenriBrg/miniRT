@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/27 17:02:53 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/27 20:44:48 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "libft.h"
 # include "mlx.h"
 
-# define BACKGCOLOUR 0x323232
+# define BACKGCOLOUR 0x404040
 
 # define TRUE 1
 # define FALSE 0
@@ -288,5 +288,6 @@ int							vec3_format(char *s, t_vector3 *vec);
 int							skip_double(char *s, int i);
 int							check_not_only_space_tabs(char *line);
 int							checkintminus(char *str);
+int							checktwodots(char *str);
 
 #endif

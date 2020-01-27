@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 21:40:02 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 15:20:44 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/27 19:24:06 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,11 @@ void			reading(int fd, t_data *data)
 int				parse(t_data *data, char *filename)
 {
 	int			fd;
+	char		*tmp;
 
-	if (ft_strcmp(ft_strchr(filename, '.'), ".rt") != 0)
+	if ((tmp = ft_strchr(filename, '.')) == NULL)
+		putexit("Filename must ends with .rt");
+	if (ft_strcmp(tmp, ".rt") != 0)
 		putexit("Filename must ends with .rt");
 	if ((fd = open(filename, O_RDONLY)) == -1)
 		putexit("Can't open file");

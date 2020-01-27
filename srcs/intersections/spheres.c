@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/03 19:17:47 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 15:19:58 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/27 19:00:22 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,6 @@ double			intersphere(t_sphere *sphere, t_vector3 pov, t_vector3 ray)
 	solvequadratic(abc, &t0, &t1);
 	return ((t0 > 0) ? t0 : -1);
 }
-
-/*
-** ATTENTION : problème lorsque deux sphères se trouvent à la même distance
-** de la caméra (c.a.d que le x du vecteur est identique)
-** les pixels se chevauchent incorrectement !
-*/
 
 void			try_spheres(t_data *data, t_vector3 pov, t_vector3 ray,
 	t_interobject *obj)

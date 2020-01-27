@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:08:38 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 15:20:32 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/27 18:49:47 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	parse_resolution(t_data *data, char **tab, int fd)
 		corrupted(data, tab, "Can't malloc", fd);
 	data->res->width = ft_atoi(tab[1]);
 	data->res->height = ft_atoi(tab[2]);
-	if (data->res->width <= 0 || data->res->height <= 0)
+	if (data->res->width <= 0 || data->res->height <= 0 || data->res->width >
+		2560 || data->res->height > 1440)
 		corrupted(data, tab, "Resolution too small", fd);
 }

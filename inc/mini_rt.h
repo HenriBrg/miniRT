@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 12:46:24 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/25 20:00:33 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/27 17:02:53 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ void						save_to_bmp(t_data *data);
 void						colorize(char *pixels, int colour,
 	int position_on_line);
 void						decode_rgb(int colour, int *r, int *g, int *b);
+int							clearbis(t_data *data);
 
 /*
 ** parser
@@ -256,6 +257,7 @@ void						decode_rgb(int colour, int *r, int *g, int *b);
 void						parse_ambiant(t_data *data, char **tab, int fd);
 void						parse_resolution(t_data *data, char **tab, int fd);
 void						add_sphere(t_data *data, char **tab, int fd);
+void						addcylsphere(t_data *data, t_sphere *sphere);
 void						add_plane(t_data *data, char **tab, int fd);
 void						add_square(t_data *data, char **tab, int fd);
 void						add_triangle(t_data *data, char **tab, int fd);
@@ -285,5 +287,6 @@ int							check_range_vec3_orient(t_vector3 *vec);
 int							vec3_format(char *s, t_vector3 *vec);
 int							skip_double(char *s, int i);
 int							check_not_only_space_tabs(char *line);
+int							checkintminus(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 22:58:48 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 15:20:51 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/27 14:24:27 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,21 @@ int				keys(int key, void *ptr)
 		mlx_put_image_to_window(data->ptr, data->win, data->img, 0, 0);
 	}
 	return (0);
+}
+
+int				clearbis(t_data *data)
+{
+	if (data->img != 0)
+		mlx_destroy_image(data->ptr, data->img);
+	free(data->res);
+	free(data->amb);
+	free_camera(data);
+	free_light(data);
+	free_sphere(data);
+	free_plane(data);
+	free_square(data);
+	free_triangle(data);
+	free_cylinder(data);
+	free(data);
+	exit(0);
 }

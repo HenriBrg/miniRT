@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 23:10:22 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/25 15:20:42 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/27 18:02:59 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ int			rgb_format(char *s)
 {
 	int		i;
 
+	if ((i = -1) && checkintminus(s) == 0)
+		return (-1);
 	if (ft_stroccurs(s, ',') != 2)
 		return (-1);
-	i = -1;
 	while (s[++i] != '\0')
 		if (ft_isdigit(s[i]) == 0 && s[i] != ',')
 			return (-1);
@@ -82,6 +83,8 @@ int			vec3_format(char *s, t_vector3 *vec)
 {
 	int		i;
 
+	if (checkintminus(s) == 0)
+		return (-1);
 	if ((i = -1) && ft_stroccurs(s, ',') != 2)
 		return (-1);
 	while (s[++i] != '\0')

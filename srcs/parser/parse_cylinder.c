@@ -6,11 +6,36 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:07 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 15:20:27 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/27 16:42:29 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/mini_rt.h"
+
+void			generatespheres(t_data *data, char **tab, int fd, t_cylinder *c)
+{
+	t_sphere	*tmp1;
+	t_sphere	*tmp2;
+
+	if (!(tmp1 = malloc(sizeof(t_sphere))))
+		corrupted(data, tab, "Can't malloc sphere", fd);
+	tmp1->center = c->center;
+	tmp1->next = NULL;
+	tmp1->radius = (c->radius * 2);
+	tmp1->colour = c->colour;
+	if (!(tmp2 = malloc(sizeof(t_sphere))))
+		corrupted(data, tab, "Can't malloc sphere", fd);
+	tmp2->center = c->pb;
+	tmp2->next = NULL;
+	tmp2->radius = (c->radius * 2);
+	tmp2->colour = c->colour;
+	addcylsphere(data, tmp1);
+	addcylsphere(data, tmp2);
+}
+
+/*
+** PB is the top base center
+*/
 
 void			finish_cylinder(t_cylinder *cyl, char **tab, t_vector3 center)
 {
@@ -46,6 +71,7 @@ t_cylinder		*parse_cylinder(t_data *data, char **tab, int fd)
 	cylinder->center = center;
 	cylinder->orientation = reorientate(newvec(0, 1, 0), orient);
 	finish_cylinder(cylinder, tab, center);
+	generatespheres(data, tab, fd, cylinder);
 	return (cylinder);
 }
 

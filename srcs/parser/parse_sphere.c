@@ -6,11 +6,26 @@
 /*   By: henri <henri@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:09:19 by henri             #+#    #+#             */
-/*   Updated: 2020/01/25 16:27:23 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/27 16:42:37 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/mini_rt.h"
+
+void			addcylsphere(t_data *data, t_sphere *sphere)
+{
+	t_sphere	*tmp;
+
+	if (data->spheres == 0)
+		data->spheres = sphere;
+	else
+	{
+		tmp = data->spheres;
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = sphere;
+	}
+}
 
 t_sphere		*parse_sphere(t_data *data, char **tab, int fd)
 {
@@ -31,7 +46,6 @@ t_sphere		*parse_sphere(t_data *data, char **tab, int fd)
 	sphere->next = NULL;
 	sphere->radius = ft_atod(tab[2]);
 	sphere->colour = str_to_rgb(tab[3]);
-	//printf("Sphere colour : %d\n", sphere->colour);
 	return (sphere);
 }
 

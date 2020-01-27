@@ -6,7 +6,7 @@
 /*   By: hberger <hberger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 19:40:00 by hberger           #+#    #+#             */
-/*   Updated: 2020/01/25 19:50:29 by hberger          ###   ########.fr       */
+/*   Updated: 2020/01/27 14:24:50 by hberger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int			addlights(int a, int b)
 	return (encodergb(l_a.r, l_a.g, l_a.b));
 }
 
-int		filtercolors(int source, int colour)
+int			filtercolors(int source, int colour)
 {
 	t_rgb	src;
 	t_rgb	surf;
@@ -57,6 +57,5 @@ int		filtercolors(int source, int colour)
 		surf.g = src.g;
 	if (surf.b > src.b)
 		surf.b = src.b;
-
 	return (encodergb(surf.r, surf.g, surf.b));
 }
